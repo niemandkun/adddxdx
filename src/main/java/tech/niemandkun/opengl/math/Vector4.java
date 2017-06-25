@@ -5,26 +5,47 @@ import com.sun.istack.internal.NotNull;
 import java.util.Arrays;
 
 public class Vector4 implements Vector<Vector4> {
-    private final float[] vec;
+    public static final Vector4 ORT_X = new Vector4(1, 0, 0, 0);
+    public static final Vector4 ORT_Y = new Vector4(0, 1, 0, 0);
+    public static final Vector4 ORT_Z = new Vector4(0, 0, 1, 0);
+    public static final Vector4 ORT_W = new Vector4(0, 0, 0, 1);
+    public static final Vector4 ZERO = new Vector4(0, 0, 0, 0);
+    public static final Vector4 ONE = new Vector4(1, 1, 1, 1);
+
+    public static final Vector4 LEFT = ORT_X;
+    public static final Vector4 RIGHT = LEFT.negate();
+
+    public static final Vector4 UP = ORT_Y;
+    public static final Vector4 DOWN = UP.negate();
+
+    public static final Vector4 FORWARD = ORT_Z;
+    public static final Vector4 BACKWARD = FORWARD.negate();
+
+    private final float[] mVector;
 
     public Vector4(float x, float y, float z, float w) {
-        this.vec = new float[] {x, y, z, w};
+        this.mVector = new float[] {x, y, z, w};
     }
 
-    public Vector4(@NotNull float[] vec) {
-        if (vec.length != 4) throw new IllegalArgumentException();
-        this.vec = vec;
+    public Vector4(@NotNull float[] vector) {
+        if (vector.length != 4) throw new IllegalArgumentException();
+        this.mVector = vector;
     }
 
-    float[] toFloatArray() {
-        return vec;
+    @Override
+    public @NotNull float[] toFloatArray() {
+        return Arrays.copyOf(mVector, mVector.length);
+    }
+
+    public static @NotNull Vector4 fromFloatArray(@NotNull float[] vector) {
+        return new Vector4(vector[0], vector[1], vector[2], vector[3]);
     }
 
     public @NotNull Vector4 homogenize() {
         return new Vector4(new float[] {
-                vec[0] / vec[3],
-                vec[1] / vec[3],
-                vec[2] / vec[3],
+                mVector[0] / mVector[3],
+                mVector[1] / mVector[3],
+                mVector[2] / mVector[3],
                 1
         });
     }
@@ -32,40 +53,40 @@ public class Vector4 implements Vector<Vector4> {
     @Override
     public @NotNull Vector4 div(float value) {
         return new Vector4(new float[] {
-                vec[0] / value,
-                vec[1] / value,
-                vec[2] / value,
-                vec[3] / value
+                mVector[0] / value,
+                mVector[1] / value,
+                mVector[2] / value,
+                mVector[3] / value
         });
     }
 
     @Override
     public @NotNull Vector4 mul(float value) {
         return new Vector4(new float[] {
-                vec[0] * value,
-                vec[1] * value,
-                vec[2] * value,
-                vec[3] * value
+                mVector[0] * value,
+                mVector[1] * value,
+                mVector[2] * value,
+                mVector[3] * value
         });
     }
 
     @Override
     public @NotNull Vector4 add(@NotNull Vector4 other) {
         return new Vector4(new float[] {
-                this.vec[0] + other.vec[0],
-                this.vec[1] + other.vec[1],
-                this.vec[2] + other.vec[2],
-                this.vec[3] + other.vec[3],
+                this.mVector[0] + other.mVector[0],
+                this.mVector[1] + other.mVector[1],
+                this.mVector[2] + other.mVector[2],
+                this.mVector[3] + other.mVector[3],
         });
     }
 
     @Override
     public @NotNull Vector4 sub(@NotNull Vector4 other) {
         return new Vector4(new float[] {
-                this.vec[0] - other.vec[0],
-                this.vec[1] - other.vec[1],
-                this.vec[2] - other.vec[2],
-                this.vec[3] - other.vec[3],
+                this.mVector[0] - other.mVector[0],
+                this.mVector[1] - other.mVector[1],
+                this.mVector[2] - other.mVector[2],
+                this.mVector[3] - other.mVector[3],
         });
     }
 
@@ -75,11 +96,11 @@ public class Vector4 implements Vector<Vector4> {
     }
 
     public @NotNull Vector3 clipToVec3() {
-        return new Vector3(vec[0], vec[1], vec[2]);
+        return new Vector3(mVector[0], mVector[1], mVector[2]);
     }
 
     public @NotNull Vector2 clipToVec2() {
-        return new Vector2(vec[0], vec[1]);
+        return new Vector2(mVector[0], mVector[1]);
     }
 
     @Override
@@ -89,29 +110,29 @@ public class Vector4 implements Vector<Vector4> {
 
         Vector4 vector4 = (Vector4) other;
 
-        return Arrays.equals(vec, vector4.vec);
+        return Arrays.equals(mVector, vector4.mVector);
     }
 
     @Override
     public int hashCode() {
-        return Arrays.hashCode(vec);
+        return Arrays.hashCode(mVector);
     }
 
     @Override
     public String toString() {
-        return "(" + vec[0] + ", "
-                   + vec[1] + ", "
-                   + vec[2] + ", "
-                   + vec[3] + ")";
+        return "(" + mVector[0] + ", "
+                   + mVector[1] + ", "
+                   + mVector[2] + ", "
+                   + mVector[3] + ")";
     }
 
-    public float getX() { return vec[0]; }
-    public float getY() { return vec[1]; }
-    public float getZ() { return vec[2]; }
-    public float getW() { return vec[3]; }
+    public float getX() { return mVector[0]; }
+    public float getY() { return mVector[1]; }
+    public float getZ() { return mVector[2]; }
+    public float getW() { return mVector[3]; }
 
-    public Vector4 setX(float x) { return new Vector4(new float[] {x, vec[1], vec[2], vec[3]}); }
-    public Vector4 setY(float y) { return new Vector4(new float[] {vec[0], y, vec[2], vec[3]}); }
-    public Vector4 setZ(float z) { return new Vector4(new float[] {vec[0], vec[1], z, vec[3]}); }
-    public Vector4 setW(float w) { return new Vector4(new float[] {vec[0], vec[1], vec[2], w}); }
+    public Vector4 setX(float x) { return new Vector4(new float[] {x, mVector[1], mVector[2], mVector[3]}); }
+    public Vector4 setY(float y) { return new Vector4(new float[] {mVector[0], y, mVector[2], mVector[3]}); }
+    public Vector4 setZ(float z) { return new Vector4(new float[] {mVector[0], mVector[1], z, mVector[3]}); }
+    public Vector4 setW(float w) { return new Vector4(new float[] {mVector[0], mVector[1], mVector[2], w}); }
 }

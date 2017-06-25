@@ -15,6 +15,9 @@ import static org.lwjgl.system.MemoryStack.stackPush;
 import static org.lwjgl.system.MemoryUtil.NULL;
 
 class Render {
+    private static final int TARGET_CONTEXT_VERSION_MAJOR = 3;
+    private static final int TARGET_CONTEXT_VERSION_MINOR = 3;
+
     private long mWindowHandle;
 
     void run() {
@@ -39,14 +42,14 @@ class Render {
 
         glfwDefaultWindowHints();
         glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
-        glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
-        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+        glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, TARGET_CONTEXT_VERSION_MAJOR);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, TARGET_CONTEXT_VERSION_MINOR);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
         System.out.println("OpenGL version: " + glfwGetVersionString());
 
-        mWindowHandle = glfwCreateWindow(300, 300, "Hello World!", NULL, NULL);
+        mWindowHandle = glfwCreateWindow(600, 600, "Hello World!", NULL, NULL);
 
         if (mWindowHandle == NULL) throw new RuntimeException("Failed to create the GLFW mWindowHandle");
 

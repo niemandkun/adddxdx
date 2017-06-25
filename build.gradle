@@ -37,4 +37,5 @@ dependencies {
     runtime "org.lwjgl:lwjgl-stb:${lwjglVersion}:${lwjglNatives}"
 
     testCompile group: 'junit', name: 'junit', version: '4.12'
+    testCompile 'org.assertj:assertj-core:3.8.0'
 }

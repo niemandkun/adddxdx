@@ -3,12 +3,16 @@ package tech.niemandkun.opengl.math;
 import com.sun.istack.internal.NotNull;
 
 public class Vector2 implements Vector<Vector2> {
-    public static Vector2 ZERO = new Vector2(0, 0);
-    public static Vector2 UP = new Vector2(0, -1);
-    public static Vector2 DOWN = new Vector2(0, 1);
-    public static Vector2 LEFT = new Vector2(-1, 0);
-    public static Vector2 RIGHT = new Vector2(1, 0);
-    public static Vector2 ONE = new Vector2(1, 1);
+    public static final Vector2 ORT_X = new Vector2(1, 0);
+    public static final Vector2 ORT_Y = new Vector2(0, 1);
+    public static final Vector2 ZERO = new Vector2(0, 0);
+    public static final Vector2 ONE = new Vector2(1, 1);
+
+    public static final Vector2 LEFT = ORT_X;
+    public static final Vector2 RIGHT = LEFT.negate();
+
+    public static final Vector2 UP = ORT_Y;
+    public static final Vector2 DOWN = UP.negate();
 
     private float x;
     private float y;
@@ -18,7 +22,16 @@ public class Vector2 implements Vector<Vector2> {
         this.y = y;
     }
 
-    public float chessboardDistanceTo(@NotNull Vector2 other) {
+    @Override
+    public @NotNull float[] toFloatArray() {
+        return new float[] {x, y};
+    }
+
+    public static @NotNull Vector2 fromFloatArray(@NotNull float[] vector) {
+        return new Vector2(vector[0], vector[1]);
+    }
+
+    public float chessboardDistance(@NotNull Vector2 other) {
         return Math.max(Math.abs(x - other.x), Math.abs(y - other.y));
     }
 

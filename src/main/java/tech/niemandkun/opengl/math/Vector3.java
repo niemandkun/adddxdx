@@ -3,11 +3,20 @@ package tech.niemandkun.opengl.math;
 import com.sun.istack.internal.NotNull;
 
 public class Vector3 implements Vector<Vector3> {
-    public static final Vector3 ZERO = new Vector3(0, 0, 0);
     public static final Vector3 ORT_X = new Vector3(1, 0, 0);
     public static final Vector3 ORT_Y = new Vector3(0, 1, 0);
     public static final Vector3 ORT_Z = new Vector3(0, 0, 1);
+    public static final Vector3 ZERO = new Vector3(0, 0, 0);
     public static final Vector3 ONE = new Vector3(1, 1, 1);
+
+    public static final Vector3 LEFT = ORT_X;
+    public static final Vector3 RIGHT = LEFT.negate();
+
+    public static final Vector3 UP = ORT_Y;
+    public static final Vector3 DOWN = UP.negate();
+
+    public static final Vector3 FORWARD = ORT_Z;
+    public static final Vector3 BACKWARD = FORWARD.negate();
 
     private final float x;
     private final float y;
@@ -17,6 +26,15 @@ public class Vector3 implements Vector<Vector3> {
         this.x = x;
         this.y = y;
         this.z = z;
+    }
+
+    @Override
+    public @NotNull float[] toFloatArray() {
+        return new float[] {x, y, z};
+    }
+
+    public static @NotNull Vector3 fromFloatArray(@NotNull float[] vector) {
+        return new Vector3(vector[0], vector[1], vector[2]);
     }
 
     @Override

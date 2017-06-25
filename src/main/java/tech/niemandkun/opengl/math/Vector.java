@@ -10,6 +10,8 @@ public interface Vector<TVector extends Vector<TVector>> {
 
     float dot(@NotNull TVector other);
 
+    @NotNull float[] toFloatArray();
+
     default float length() {
         return (float) Math.sqrt(length2());
     }
@@ -32,5 +34,9 @@ public interface Vector<TVector extends Vector<TVector>> {
 
     default @NotNull TVector normalize() {
         return div(length());
+    }
+
+    default @NotNull TVector negate() {
+        return mul(-1);
     }
 }
