@@ -16,6 +16,10 @@ public class Projection {
         );
     }
 
+    public static @NotNull Matrix4 ortho2d(float left, float right, float bottom, float top) {
+        return ortho(left, right, bottom, top, -1, 1);
+    }
+
     public static @NotNull Matrix4 perspective(float fovY, float aspect, float zNear, float zFar) {
         float f = 1.0f / (float) Math.tan(fovY / 2);
 
