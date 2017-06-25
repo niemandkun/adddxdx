@@ -30,10 +30,10 @@ public class Matrix4 {
     }
 
     public @NotNull Matrix4 cross(@NotNull Matrix4 other) {
-        return new Matrix4(fastMultiplyMatrix(this.mMatrix, other.mMatrix));
+        return new Matrix4(fastMatrixMultiply(this.mMatrix, other.mMatrix));
     }
 
-    private static float[] fastMultiplyMatrix(@NotNull float[] a, @NotNull float[] b) {
+    private static float[] fastMatrixMultiply(@NotNull float[] a, @NotNull float[] b) {
         float[] mat = new float[16];
 
         for (int i = 0; i < 16; i += 4)
@@ -48,20 +48,57 @@ public class Matrix4 {
     }
 
     public @NotNull Vector4 cross(@NotNull Vector4 vector) {
-        return new Vector4(fastMultiplyVector(this.mMatrix, vector.toFloatArray()));
+        return new Vector4(fastVectorMultiply(this.mMatrix, vector.toFloatArray()));
     }
 
-    private static @NotNull float[] fastMultiplyVector(@NotNull float[] a, @NotNull float[] v) {
+    private static @NotNull float[] fastVectorMultiply(@NotNull float[] a, @NotNull float[] v) {
         float[] vec = new float[4];
 
-        for (int i = 0; i < 16; i += 4)
-            vec[i] =
-                      a[i    ] * v[0]
-                    + a[i + 1] * v[1]
-                    + a[i + 2] * v[2]
-                    + a[i + 3] * v[3];
+        vec[0] = a[0]*v[0] + a[1]*v[1] + a[2]*v[2] + a[3]*v[3];
+        vec[1] = a[4]*v[0] + a[5]*v[1] + a[6]*v[2] + a[7]*v[3];
+        vec[2] = a[8]*v[0] + a[9]*v[1] + a[10]*v[2] + a[11]*v[3];
+        vec[3] = a[12]*v[0] + a[13]*v[1] + a[14]*v[2] + a[15]*v[3];
 
         return vec;
+    }
+
+    public @NotNull Matrix4 inverse() {
+        return new Matrix4(fastMatrixInverse(mMatrix));
+    }
+
+    private static @NotNull float[] fastMatrixInverse(@NotNull float[] m) {
+        float[] inv = new float[16];
+
+        inv[0] = m[5]*m[10]*m[15]-m[5]*m[11]*m[14]-m[9]*m[6]*m[15]+m[9]*m[7]*m[14]+m[13]*m[6]*m[11]-m[13]*m[7]*m[10];
+        inv[4] = -m[4]*m[10]*m[15]+m[4]*m[11]*m[14]+m[8]*m[6]*m[15]-m[8]*m[7]*m[14]-m[12]*m[6]*m[11]+m[12]*m[7]*m[10];
+        inv[8] = m[4]*m[9]*m[15]-m[4]*m[11]*m[13]-m[8]*m[5]*m[15]+m[8]*m[7]*m[13]+m[12]*m[5]*m[11]-m[12]*m[7]*m[9];
+        inv[12] = -m[4]*m[9]*m[14]+m[4]*m[10]*m[13]+m[8]*m[5]*m[14]-m[8]*m[6]*m[13]-m[12]*m[5]*m[10]+m[12]*m[6]*m[9];
+
+        inv[1] = -m[1]*m[10]*m[15]+m[1]*m[11]*m[14]+m[9]*m[2]*m[15]-m[9]*m[3]*m[14]-m[13]*m[2]*m[11]+m[13]*m[3]*m[10];
+        inv[5] = m[0]*m[10]*m[15]-m[0]*m[11]*m[14]-m[8]*m[2]*m[15]+m[8]*m[3]*m[14]+m[12]*m[2]*m[11]-m[12]*m[3]*m[10];
+        inv[9] = -m[0]*m[9]*m[15]+m[0]*m[11]*m[13]+m[8]*m[1]*m[15]-m[8]*m[3]*m[13]-m[12]*m[1]*m[11]+m[12]*m[3]*m[9];
+        inv[13] = m[0]*m[9]*m[14]-m[0]*m[10]*m[13]-m[8]*m[1]*m[14]+m[8]*m[2]*m[13]+m[12]*m[1]*m[10]-m[12]*m[2]*m[9];
+
+        inv[2] = m[1]*m[6]*m[15]-m[1]*m[7]*m[14]-m[5]*m[2]*m[15]+m[5]*m[3]*m[14]+m[13]*m[2]*m[7]-m[13]*m[3]*m[6];
+        inv[6] = -m[0]*m[6]*m[15]+m[0]*m[7]*m[14]+m[4]*m[2]*m[15]-m[4]*m[3]*m[14]-m[12]*m[2]*m[7]+m[12]*m[3]*m[6];
+        inv[10] = m[0]*m[5]*m[15]-m[0]*m[7]*m[13]-m[4]*m[1]*m[15]+m[4]*m[3]*m[13]+m[12]*m[1]*m[7]-m[12]*m[3]*m[5];
+        inv[14] = -m[0]*m[5]*m[14]+m[0]*m[6]*m[13]+m[4]*m[1]*m[14]-m[4]*m[2]*m[13]-m[12]*m[1]*m[6]+m[12]*m[2]*m[5];
+
+        inv[3] = -m[1]*m[6]*m[11]+m[1]*m[7]*m[10]+m[5]*m[2]*m[11]-m[5]*m[3]*m[10]-m[9]*m[2]*m[7]+m[9]*m[3]*m[6];
+        inv[7] = m[0]*m[6]*m[11]-m[0]*m[7]*m[10]-m[4]*m[2]*m[11]+m[4]*m[3]*m[10]+m[8]*m[2]*m[7]-m[8]*m[3]*m[6];
+        inv[11] = -m[0]*m[5]*m[11]+m[0]*m[7]*m[9]+m[4]*m[1]*m[11]-m[4]*m[3]*m[9]-m[8]*m[1]*m[7]+m[8]*m[3]*m[5];
+        inv[15] = m[0]*m[5]*m[10]-m[0]*m[6]*m[9]-m[4]*m[1]*m[10]+m[4]*m[2]*m[9]+m[8]*m[1]*m[6]-m[8]*m[2]*m[5];
+
+        float det = m[0] * inv[0] + m[1] * inv[4] + m[2] * inv[8] + m[3] * inv[12];
+
+        if (det == 0) throw new IllegalArgumentException("Matrix has no inverse (determinant is zero).");
+
+        det = 1 / det;
+
+        for (int i = 0; i < inv.length; i++)
+            inv[i] *= det;
+
+        return inv;
     }
 
     public static @NotNull Matrix4 getTranslationMatrix(float x, float y, float z) {
