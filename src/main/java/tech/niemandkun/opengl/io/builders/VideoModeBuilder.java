@@ -1,6 +1,7 @@
 package tech.niemandkun.opengl.io.builders;
 
 import tech.niemandkun.opengl.io.VideoMode;
+import tech.niemandkun.opengl.io.Window;
 
 import static org.lwjgl.glfw.GLFW.GLFW_DONT_CARE;
 
@@ -15,9 +16,10 @@ public class VideoModeBuilder {
         mBuilder = builder;
     }
 
-    public WindowBuilder and() {
-        return mBuilder;
-    }
+    public WindowSettingsBuilder onWindow() { return mBuilder.onWindow(); }
+    public FramebufferSettingsBuilder onFramebuffer() { return mBuilder.onFramebuffer(); }
+    public ContextSettingsBuilder onContext() { return mBuilder.onContext(); }
+    public Window build() { return mBuilder.build(); }
 
     VideoMode getVideoMode() {
         return new VideoMode(mWidth, mHeight, mRefreshRate);

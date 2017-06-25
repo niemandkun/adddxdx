@@ -5,8 +5,8 @@ import tech.niemandkun.opengl.io.Window;
 public class Main {
     public static void main(String[] args) {
         Window window = Window.builder()
-                .onContext().setMajorVersion(3).setMinorVersion(3).and()
-                .onFramebuffer().setMultiSampling(4).and()
+                .onContext().setMajorVersion(3).setMinorVersion(3)
+                .onFramebuffer().setMultiSampling(4)
                 .build();
 
         Triangles triangles = new Triangles();

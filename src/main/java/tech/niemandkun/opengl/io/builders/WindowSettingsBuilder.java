@@ -1,5 +1,6 @@
 package tech.niemandkun.opengl.io.builders;
 
+import tech.niemandkun.opengl.io.Window;
 import tech.niemandkun.opengl.io.WindowSettings;
 
 public class WindowSettingsBuilder {
@@ -20,9 +21,10 @@ public class WindowSettingsBuilder {
         mBuilder = builder;
     }
 
-    public WindowBuilder and() {
-        return mBuilder;
-    }
+    public VideoModeBuilder onVideoMode() { return mBuilder.onVideoMode(); }
+    public FramebufferSettingsBuilder onFramebuffer() { return mBuilder.onFramebuffer(); }
+    public ContextSettingsBuilder onContext() { return mBuilder.onContext(); }
+    public Window build() { return mBuilder.build(); }
 
     String getTitle() {
         return title;

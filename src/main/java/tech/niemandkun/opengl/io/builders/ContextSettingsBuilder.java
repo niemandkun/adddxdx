@@ -1,6 +1,7 @@
 package tech.niemandkun.opengl.io.builders;
 
 import tech.niemandkun.opengl.io.ContextSettings;
+import tech.niemandkun.opengl.io.Window;
 
 public class ContextSettingsBuilder {
     private int mMajorVersion = 3;
@@ -13,9 +14,10 @@ public class ContextSettingsBuilder {
         mBuilder = builder;
     }
 
-    public WindowBuilder and() {
-        return mBuilder;
-    }
+    public VideoModeBuilder onVideoMode() { return mBuilder.onVideoMode(); }
+    public WindowSettingsBuilder onWindow() { return mBuilder.onWindow(); }
+    public FramebufferSettingsBuilder onFramebuffer() { return mBuilder.onFramebuffer(); }
+    public Window build() { return mBuilder.build(); }
 
     ContextSettings getContextSettings() {
         return new ContextSettings(mMajorVersion, mMinorVersion, mProfile.getProfile());

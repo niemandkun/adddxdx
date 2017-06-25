@@ -1,6 +1,7 @@
 package tech.niemandkun.opengl.io.builders;
 
 import tech.niemandkun.opengl.io.FramebufferSettings;
+import tech.niemandkun.opengl.io.Window;
 
 public class FramebufferSettingsBuilder {
     private int mRedBits = 8;
@@ -17,9 +18,10 @@ public class FramebufferSettingsBuilder {
         mBuilder = builder;
     }
 
-    public WindowBuilder and() {
-        return mBuilder;
-    }
+    public VideoModeBuilder onVideoMode() { return mBuilder.onVideoMode(); }
+    public WindowSettingsBuilder onWindow() { return mBuilder.onWindow(); }
+    public ContextSettingsBuilder onContext() { return mBuilder.onContext(); }
+    public Window build() { return mBuilder.build(); }
 
     FramebufferSettings getFramebufferSettings() {
         return new FramebufferSettings(mRedBits, mGreenBits, mBlueBits, mAlphaBits,
