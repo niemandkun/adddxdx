@@ -28,7 +28,7 @@ class GlProgram implements Shader {
 
     @Override
     public void setUniform(String uniformName, Matrix4 matrix) {
-        setUniform(uniformName, matrix, false);
+        setUniform(uniformName, matrix, true);
     }
 
     @Override
