@@ -14,9 +14,8 @@ public class GlfwWindow implements Window {
 
     private long mHandle;
 
-    public GlfwWindow(@NotNull String title, @NotNull VideoMode videoMode,
-                      @Nullable WindowSettings windowSettings,
-                      @Nullable ContextSettings contextSettings) {
+    public GlfwWindow(@NotNull String title, @NotNull VideoMode videoMode, @Nullable WindowSettings windowSettings,
+                      @Nullable ContextSettings contextSettings, @Nullable FramebufferSettings framebufferSettings) {
 
         GLFWErrorCallback.createPrint(System.err).set();
 
@@ -39,6 +38,16 @@ public class GlfwWindow implements Window {
             glfwWindowHint(GLFW_MAXIMIZED, glfwBool(windowSettings.isMaximized()));
         }
 
+        if (framebufferSettings != null) {
+            glfwWindowHint(GLFW_RED_BITS, framebufferSettings.getRedBits());
+            glfwWindowHint(GLFW_GREEN_BITS, framebufferSettings.getGreenBits());
+            glfwWindowHint(GLFW_BLUE_BITS, framebufferSettings.getBlueBits());
+            glfwWindowHint(GLFW_ALPHA_BITS, framebufferSettings.getAlphaBits());
+            glfwWindowHint(GLFW_STENCIL_BITS, framebufferSettings.getStencilBits());
+            glfwWindowHint(GLFW_DEPTH_BITS, framebufferSettings.getDepthBits());
+            glfwWindowHint(GLFW_SAMPLES, framebufferSettings.getMultiSampling());
+        }
+
         glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
 
         mHandle = glfwCreateWindow(videoMode.getWidth(), videoMode.getHeight(), title, NULL, NULL);
@@ -52,20 +61,6 @@ public class GlfwWindow implements Window {
             glfwSetWindowMonitor(mHandle, monitorHandle, 0, 0,
                     videoMode.getWidth(), videoMode.getHeight(), videoMode.getRefreshRate());
         }
-
-//        try (MemoryStack stack = stackPush()) {
-//            IntBuffer widthPtr = stack.mallocInt(1);
-//            IntBuffer heightPtr = stack.mallocInt(1);
-//
-//            glfwGetWindowSize(mHandle, widthPtr, heightPtr);
-//            GLFWVidMode videoMode = glfwGetVideoMode(glfwGetPrimaryMonitor());
-//
-//            glfwSetWindowPos(
-//                    mHandle,
-//                    (videoMode.width() - widthPtr.get(0)) / 2,
-//                    (videoMode.height() - heightPtr.get(0)) / 2
-//            );
-//        }
 
         glfwMakeContextCurrent(mHandle);
         glfwSwapInterval(1);

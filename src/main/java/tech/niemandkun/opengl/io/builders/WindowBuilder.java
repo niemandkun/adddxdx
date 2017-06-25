@@ -2,20 +2,11 @@ package tech.niemandkun.opengl.io.builders;
 
 import tech.niemandkun.opengl.io.*;
 
-import static org.lwjgl.glfw.GLFW.GLFW_DONT_CARE;
-
-public class WindowBuilder {
-    private static final int DEFAULT_REFRESH_RATE = GLFW_DONT_CARE;
-    private static final int DEFAULT_BITS_PER_PIXEL = 32;
-
-    private VideoModeBuilder mVideoMode;
-    private WindowSettingsBuilder mWindowSettings;
-    private FramebufferSettingsBuilder mFramebufferSettings;
-    private ContextSettingsBuilder mContextSettings;
-
-    public WindowBuilder() {
-
-    }
+public abstract class WindowBuilder {
+    private VideoModeBuilder mVideoMode = new VideoModeBuilder(this);
+    private WindowSettingsBuilder mWindowSettings = new WindowSettingsBuilder(this);
+    private FramebufferSettingsBuilder mFramebufferSettings = new FramebufferSettingsBuilder(this);
+    private ContextSettingsBuilder mContextSettings = new ContextSettingsBuilder(this);
 
     public VideoModeBuilder onVideoMode() { return mVideoMode; }
     public WindowSettingsBuilder onWindow() { return mWindowSettings; }
@@ -23,6 +14,17 @@ public class WindowBuilder {
     public ContextSettingsBuilder onContext() { return mContextSettings; }
 
     public Window build() {
-        return new GlfwWindow()
+        return buildWindow(
+                mWindowSettings.getTitle(),
+                mVideoMode.getVideoMode(),
+                mWindowSettings.getSettings(),
+                mContextSettings.getContextSettings(),
+                mFramebufferSettings.getFramebufferSettings()
+        );
     }
+
+    abstract Window buildWindow(String title, VideoMode videoMode,
+                                WindowSettings windowSettings,
+                                ContextSettings contextSettings,
+                                FramebufferSettings framebufferSettings);
 }

@@ -1,5 +1,6 @@
 package tech.niemandkun.opengl.io;
 
+import tech.niemandkun.opengl.io.builders.GlfwWindowBuilder;
 import tech.niemandkun.opengl.io.builders.WindowBuilder;
 
 import java.io.Closeable;
@@ -11,6 +12,6 @@ public interface Window extends Closeable {
     void close();
 
     static WindowBuilder builder() {
-        return new WindowBuilder();
+        return new GlfwWindowBuilder();
     }
 }
