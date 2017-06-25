@@ -3,6 +3,19 @@ package tech.niemandkun.opengl.math;
 import com.sun.istack.internal.NotNull;
 
 public class Projection {
+    public static @NotNull Matrix4 ortho(float left, float right, float bottom, float top, float near, float far) {
+        float rightToLeft = right - left;
+        float topToBottom = top - bottom;
+        float farToNear = far - near;
+
+        return new Matrix4(
+                2 / rightToLeft, 0, 0, -(right + left) / rightToLeft,
+                0, 2 / topToBottom, 0, -(top + bottom) / topToBottom,
+                0, 0, -2 / farToNear, -(far + near) / farToNear,
+                0, 0, 0, 1
+        );
+    }
+
     public static @NotNull Matrix4 perspective(float fovY, float aspect, float zNear, float zFar) {
         float f = 1.0f / (float) Math.tan(fovY / 2);
 
