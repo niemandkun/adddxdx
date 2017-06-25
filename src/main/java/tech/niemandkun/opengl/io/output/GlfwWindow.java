@@ -1,8 +1,9 @@
-package tech.niemandkun.opengl.io;
+package tech.niemandkun.opengl.io.output;
 
 import com.sun.istack.internal.NotNull;
 import com.sun.istack.internal.Nullable;
 import org.lwjgl.glfw.GLFWErrorCallback;
+import org.lwjgl.glfw.GLFWKeyCallbackI;
 import org.lwjgl.opengl.GL;
 
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
@@ -10,12 +11,12 @@ import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.system.MemoryUtil.NULL;
 
-public class GlfwWindow implements Window {
+class GlfwWindow implements Window {
 
     private long mHandle;
 
-    public GlfwWindow(@NotNull String title, @NotNull VideoMode videoMode, @Nullable WindowSettings windowSettings,
-                      @Nullable ContextSettings contextSettings, @Nullable FramebufferSettings framebufferSettings) {
+    GlfwWindow(@NotNull String title, @NotNull VideoMode videoMode, @Nullable WindowSettings windowSettings,
+               @Nullable ContextSettings contextSettings, @Nullable FramebufferSettings framebufferSettings) {
 
         GLFWErrorCallback.createPrint(System.err).set();
 
@@ -87,6 +88,11 @@ public class GlfwWindow implements Window {
     @Override
     public boolean isOpen() {
         return !glfwWindowShouldClose(mHandle);
+    }
+
+    @Override
+    public void setKeyCallback(GLFWKeyCallbackI callback) {
+        glfwSetKeyCallback(mHandle, callback);
     }
 
     @Override

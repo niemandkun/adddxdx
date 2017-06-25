@@ -1,7 +1,4 @@
-package tech.niemandkun.opengl.io.builders;
-
-import tech.niemandkun.opengl.io.FramebufferSettings;
-import tech.niemandkun.opengl.io.Window;
+package tech.niemandkun.opengl.io.output;
 
 public class FramebufferSettingsBuilder {
     private int mRedBits = 8;

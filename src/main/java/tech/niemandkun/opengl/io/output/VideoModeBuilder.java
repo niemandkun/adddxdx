@@ -1,7 +1,4 @@
-package tech.niemandkun.opengl.io.builders;
-
-import tech.niemandkun.opengl.io.VideoMode;
-import tech.niemandkun.opengl.io.Window;
+package tech.niemandkun.opengl.io.output;
 
 import static org.lwjgl.glfw.GLFW.GLFW_DONT_CARE;
 

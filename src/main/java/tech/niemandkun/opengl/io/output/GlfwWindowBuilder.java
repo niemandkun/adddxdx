@@ -1,8 +1,6 @@
-package tech.niemandkun.opengl.io.builders;
+package tech.niemandkun.opengl.io.output;
 
-import tech.niemandkun.opengl.io.*;
-
-public class GlfwWindowBuilder extends WindowBuilder {
+class GlfwWindowBuilder extends WindowBuilder {
     @Override
     Window buildWindow(String title, VideoMode videoMode, WindowSettings windowSettings,
                        ContextSettings contextSettings, FramebufferSettings framebufferSettings) {

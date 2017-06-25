@@ -1,20 +1,22 @@
 package tech.niemandkun.opengl.shapes;
 
+import org.lwjgl.glfw.GLFWKeyCallbackI;
 import tech.niemandkun.opengl.infrastructure.Destroyable;
-import tech.niemandkun.opengl.math.*;
-import tech.niemandkun.opengl.shaders.*;
+import tech.niemandkun.opengl.math.Matrix4;
+import tech.niemandkun.opengl.math.Projection;
+import tech.niemandkun.opengl.shaders.Shader;
+import tech.niemandkun.opengl.shaders.ShaderCompileException;
 
 import java.io.File;
 
+import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL15.*;
 import static org.lwjgl.opengl.GL20.glEnableVertexAttribArray;
 import static org.lwjgl.opengl.GL20.glVertexAttribPointer;
-import static org.lwjgl.opengl.GL30.glBindVertexArray;
-import static org.lwjgl.opengl.GL30.glDeleteVertexArrays;
-import static org.lwjgl.opengl.GL30.glGenVertexArrays;
+import static org.lwjgl.opengl.GL30.*;
 
-public class Triangles implements Destroyable {
+public class Triangles implements Destroyable, GLFWKeyCallbackI {
 
     private final int[] mBuffers = new int[2];
     private final int mVertexArray;
@@ -79,9 +81,32 @@ public class Triangles implements Destroyable {
         return new File(getClass().getClassLoader().getResource(path).getFile());
     }
 
+    private int cameraX = 0;
+    private int cameraZ = 0;
+
+    private float cameraRot = 0;
+
+    @Override
+    public void invoke(long window, int key, int scancode, int action, int mods) {
+             if (key == GLFW_KEY_W) cameraZ += 1;
+        else if (key == GLFW_KEY_S) cameraZ -= 1;
+        else if (key == GLFW_KEY_A) cameraX += 1;
+        else if (key == GLFW_KEY_D) cameraX -= 1;
+        else if (key == GLFW_KEY_Q) cameraRot += 0.1;
+        else if (key == GLFW_KEY_E) cameraRot -= 0.1;
+    }
+
     public void render() {
         mShader.enable();
-        mShader.setUniform("mvp", Matrix4.IDENTITY);
+
+        Matrix4 model = Matrix4.IDENTITY;
+
+        Matrix4 view = Matrix4.getRotationMatrix(0, cameraRot, 0)
+                .cross(Matrix4.getTranslationMatrix(cameraX, 0, cameraZ));
+
+        Matrix4 perspective = Projection.perspective((float) Math.PI / 3, 4/3f, 0.3f, 100);
+
+        mShader.setUniform("mvp", perspective.cross(view).cross(model));
 
         glBindVertexArray(mVertexArray);
         glDrawArrays(GL_TRIANGLES, 0, VERTICES_COUNT);

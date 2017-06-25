@@ -1,7 +1,4 @@
-package tech.niemandkun.opengl.io.builders;
-
-import tech.niemandkun.opengl.io.ContextSettings;
-import tech.niemandkun.opengl.io.Window;
+package tech.niemandkun.opengl.io.output;
 
 public class ContextSettingsBuilder {
     private int mMajorVersion = 3;

@@ -1,25 +1,25 @@
-package tech.niemandkun.opengl.io;
+package tech.niemandkun.opengl.io.output;
 
-public class VideoMode {
+class VideoMode {
     private final int mWidth;
     private final int mHeight;
     private final int mRefreshRate;
 
-    public VideoMode(int width, int height, int refreshRate) {
+    VideoMode(int width, int height, int refreshRate) {
         mWidth = width;
         mHeight = height;
         mRefreshRate = refreshRate;
     }
 
-    public int getWidth() {
+    int getWidth() {
         return mWidth;
     }
 
-    public int getHeight() {
+    int getHeight() {
         return mHeight;
     }
 
-    public int getRefreshRate() {
+    int getRefreshRate() {
         return mRefreshRate;
     }
 }

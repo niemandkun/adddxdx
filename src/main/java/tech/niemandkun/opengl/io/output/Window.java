@@ -1,13 +1,15 @@
-package tech.niemandkun.opengl.io;
+package tech.niemandkun.opengl.io.output;
 
+import org.lwjgl.glfw.GLFWKeyCallbackI;
 import tech.niemandkun.opengl.infrastructure.Destroyable;
-import tech.niemandkun.opengl.io.builders.GlfwWindowBuilder;
-import tech.niemandkun.opengl.io.builders.WindowBuilder;
 
 public interface Window extends Destroyable {
     void clear();
     void display();
     boolean isOpen();
+
+    // FIXME
+    void setKeyCallback(GLFWKeyCallbackI callback);
 
     static WindowBuilder builder() {
         return new GlfwWindowBuilder();

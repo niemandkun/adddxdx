@@ -1,7 +1,4 @@
-package tech.niemandkun.opengl.io.builders;
-
-import tech.niemandkun.opengl.io.Window;
-import tech.niemandkun.opengl.io.WindowSettings;
+package tech.niemandkun.opengl.io.output;
 
 public class WindowSettingsBuilder {
 

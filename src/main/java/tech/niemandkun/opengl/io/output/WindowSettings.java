@@ -1,6 +1,6 @@
-package tech.niemandkun.opengl.io;
+package tech.niemandkun.opengl.io.output;
 
-public class WindowSettings {
+class WindowSettings {
     private final boolean mResizable;
     private final boolean mDecorated;
     private final boolean mFocused;
@@ -9,7 +9,7 @@ public class WindowSettings {
     private final boolean mMaximized;
     private final boolean mFullscreen;
 
-    public WindowSettings(
+    WindowSettings(
             boolean resizable, boolean decorated, boolean focused, boolean autoIconify,
             boolean floating, boolean maximized, boolean fullscreen) {
 

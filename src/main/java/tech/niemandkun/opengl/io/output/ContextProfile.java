@@ -1,8 +1,6 @@
-package tech.niemandkun.opengl.io.builders;
+package tech.niemandkun.opengl.io.output;
 
-import static org.lwjgl.glfw.GLFW.GLFW_OPENGL_ANY_PROFILE;
-import static org.lwjgl.glfw.GLFW.GLFW_OPENGL_COMPAT_PROFILE;
-import static org.lwjgl.glfw.GLFW.GLFW_OPENGL_CORE_PROFILE;
+import static org.lwjgl.glfw.GLFW.*;
 
 public enum ContextProfile {
     CORE(GLFW_OPENGL_CORE_PROFILE),

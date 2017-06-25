@@ -1,6 +1,6 @@
-package tech.niemandkun.opengl.io;
+package tech.niemandkun.opengl.io.output;
 
-public class FramebufferSettings {
+class FramebufferSettings {
     private final int mRedBits;
     private final int mGreenBits;
     private final int mBlueBits;
@@ -9,8 +9,8 @@ public class FramebufferSettings {
     private final int mStencilBits;
     private final int mMultiSampling;
 
-    public FramebufferSettings(int redBits, int greenBits, int blueBits, int alphaBits,
-                               int depthBits, int stencilBits, int multiSampling) {
+    FramebufferSettings(int redBits, int greenBits, int blueBits, int alphaBits,
+                        int depthBits, int stencilBits, int multiSampling) {
         mRedBits = redBits;
         mGreenBits = greenBits;
         mBlueBits = blueBits;

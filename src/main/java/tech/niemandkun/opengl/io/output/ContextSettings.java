@@ -1,13 +1,11 @@
-package tech.niemandkun.opengl.io;
+package tech.niemandkun.opengl.io.output;
 
-import tech.niemandkun.opengl.io.builders.ContextProfile;
-
-public class ContextSettings {
+class ContextSettings {
     private final int mMajorVersion;
     private final int mMinorVersion;
     private final int mProfile;
 
-    public ContextSettings(int majorVersion, int minorVersion, int profile) {
+    ContextSettings(int majorVersion, int minorVersion, int profile) {
         mMajorVersion = majorVersion;
         mMinorVersion = minorVersion;
         mProfile = profile;
