@@ -1,15 +1,18 @@
 package tech.niemandkun.opengl.shaders;
 
+import tech.niemandkun.opengl.infrastructure.Destroyable;
+
 import static org.lwjgl.opengl.GL20.*;
 
-class GlShader {
+class GlShader implements Destroyable {
     private final int mHandle;
 
     GlShader(int handle) {
         mHandle = handle;
     }
 
-    void unload() {
+    @Override
+    public void destroy() {
         glDeleteShader(mHandle);
     }
 

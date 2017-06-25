@@ -2,11 +2,12 @@ package tech.niemandkun.opengl.shaders;
 
 import tech.niemandkun.opengl.math.*;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.lwjgl.opengl.GL20.*;
 
-public class GlProgram {
+class GlProgram implements Shader {
     private final int mHandle;
     private final Map<String, Integer> mUniformLocations;
 
@@ -15,32 +16,55 @@ public class GlProgram {
         mUniformLocations = new HashMap<>();
     }
 
+    @Override
     public void enable() {
         glUseProgram(mHandle);
     }
 
+    @Override
+    public void destroy() {
+        glDeleteProgram(mHandle);
+    }
+
+    @Override
     public void setUniform(String uniformName, Matrix4 matrix) {
         setUniform(uniformName, matrix, false);
     }
 
+    @Override
     public void setUniform(String uniformName, Matrix4 matrix, boolean transpose) {
         int uniformLocation = getUniformLocation(uniformName);
         glUniformMatrix4fv(uniformLocation, transpose, matrix.toFloatArray());
     }
 
+    @Override
     public void setUniform(String uniformName, Vector4 vector) {
         int uniformLocation = getUniformLocation(uniformName);
         glUniform4fv(uniformLocation, vector.toFloatArray());
     }
 
+    @Override
     public void setUniform(String uniformName, Vector3 vector) {
         int uniformLocation = getUniformLocation(uniformName);
         glUniform3fv(uniformLocation, vector.toFloatArray());
     }
 
+    @Override
     public void setUniform(String uniformName, Vector2 vector) {
         int uniformLocation = getUniformLocation(uniformName);
         glUniform2fv(uniformLocation, vector.toFloatArray());
+    }
+
+    @Override
+    public void setUniform(String uniformName, float value) {
+        int uniformLocation = getUniformLocation(uniformName);
+        glUniform1f(uniformLocation, value);
+    }
+
+    @Override
+    public void setUniform(String uniformName, int value) {
+        int uniformLocation = getUniformLocation(uniformName);
+        glUniform1i(uniformLocation, value);
     }
 
     private int getUniformLocation(String uniformName) {

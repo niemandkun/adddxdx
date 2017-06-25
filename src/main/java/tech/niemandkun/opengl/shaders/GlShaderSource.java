@@ -19,7 +19,7 @@ class GlShaderSource {
         mFile = file;
     }
 
-    GlShader compile() throws ShaderCompileException {
+    GlShader compile() throws GlslCompileException {
         int shaderHandle = glCreateShader(mType);
         glShaderSource(shaderHandle, readSourceCode(mFile));
         glCompileShader(shaderHandle);
@@ -27,12 +27,12 @@ class GlShaderSource {
         return new GlShader(shaderHandle);
     }
 
-    private static void checkCompileStatus(int shaderHandle, File file) throws ShaderCompileException {
+    private static void checkCompileStatus(int shaderHandle, File file) throws GlslCompileException {
         int infoLogLength = glGetShaderi(shaderHandle, GL_INFO_LOG_LENGTH);
 
         if (infoLogLength > 0) {
             String infoLog = glGetShaderInfoLog(shaderHandle);
-            throw new ShaderCompileException(file.getName(), infoLog);
+            throw new GlslCompileException(file.getName(), infoLog);
         }
     }
 

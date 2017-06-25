@@ -1,44 +1,34 @@
 package tech.niemandkun.opengl.shaders;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import static org.lwjgl.opengl.GL20.*;
 
-public class GlslCompiler {
-    private final List<GlShaderSource> mShaders;
+class GlslCompiler implements ShaderCompiler {
+    private final Map<Integer, GlShaderSource> mShaders;
 
-    public GlslCompiler() {
-        mShaders = new ArrayList<>();
+    GlslCompiler() {
+        mShaders = new HashMap<>();
     }
 
-    public GlslCompiler addFragmentShader(String shader) {
-        return addFragmentShader(getFile(shader));
-    }
-
-    public GlslCompiler addFragmentShader(File shader) {
-        mShaders.add(new GlShaderSource(GlShaderSource.FRAGMENT, shader));
+    @Override
+    public GlslCompiler setFragmentShader(File shader) {
+        mShaders.put(GlShaderSource.FRAGMENT, new GlShaderSource(GlShaderSource.FRAGMENT, shader));
         return this;
     }
 
-    public GlslCompiler addVertexShader(String shader) {
-        return addVertexShader(getFile(shader));
-    }
-
-    public GlslCompiler addVertexShader(File shader) {
-        mShaders.add(new GlShaderSource(GlShaderSource.VERTEX, shader));
+    @Override
+    public GlslCompiler setVertexShader(File shader) {
+        mShaders.put(GlShaderSource.VERTEX, new GlShaderSource(GlShaderSource.VERTEX, shader));
         return this;
     }
 
-    private static File getFile(String resource) {
-        return new File(GlslCompiler.class.getClassLoader().getResource(resource).getFile());
-    }
-
-    public GlProgram compile() throws ProgramCompileException {
+    @Override
+    public GlProgram compile() throws ShaderCompileException {
         int programHandle = glCreateProgram();
 
-        List<GlShader> shaders = compileShaders(mShaders);
+        List<GlShader> shaders = compileShaders(mShaders.values());
 
         shaders.forEach(s -> s.attachTo(programHandle));
 
@@ -46,30 +36,28 @@ public class GlslCompiler {
         checkLinkStatus(programHandle);
 
         shaders.forEach(s -> s.detachFrom(programHandle));
-        shaders.forEach(GlShader::unload);
+        shaders.forEach(GlShader::destroy);
 
         return new GlProgram(programHandle);
     }
 
-    private static List<GlShader> compileShaders(List<GlShaderSource> shaderSources) throws ProgramCompileException {
+    private static List<GlShader> compileShaders(Iterable<GlShaderSource> shaderSources)
+            throws GlslCompileException {
+
         List<GlShader> shaders = new ArrayList<>();
 
-        try {
-            for (GlShaderSource shaderSource : shaderSources)
-                shaders.add(shaderSource.compile());
-        } catch (ShaderCompileException e) {
-            throw new ProgramCompileException(e);
-        }
+        for (GlShaderSource shaderSource : shaderSources)
+            shaders.add(shaderSource.compile());
 
         return shaders;
     }
 
-    private static void checkLinkStatus(int programHandle) throws ProgramCompileException {
+    private static void checkLinkStatus(int programHandle) throws GlslCompileException {
         int infoLogLength = glGetProgrami(programHandle, GL_INFO_LOG_LENGTH);
 
         if (infoLogLength > 0) {
             String infoLog = glGetProgramInfoLog(programHandle);
-            throw new ProgramCompileException(infoLog);
+            throw new GlslCompileException(infoLog);
         }
     }
 }

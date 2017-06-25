@@ -90,7 +90,7 @@ public class GlfwWindow implements Window {
     }
 
     @Override
-    public void close() {
+    public void destroy() {
         glfwFreeCallbacks(mHandle);
         glfwDestroyWindow(mHandle);
         glfwTerminate();
