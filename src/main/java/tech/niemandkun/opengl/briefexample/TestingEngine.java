@@ -10,6 +10,11 @@ import tech.niemandkun.opengl.graphics.*;
 public class TestingEngine implements Runnable {
     @Override
     public void run() {
+        ServiceLocator locator = createLocator();
+        Story.basedOn(Setting.from(locator)).reveal(TestingScene.class);
+    }
+
+    private static ServiceLocator createLocator() {
         Window window = Window.builder()
                 .onWindow().setResizable(false)
                 .onContext().setMajorVersion(3).setMinorVersion(3)
@@ -22,7 +27,7 @@ public class TestingEngine implements Runnable {
         locator.registerSingleton(RenderTarget.class, new WindowRenderTarget(window));
         locator.registerSingleton(MaterialFactory.class, new MaterialFactory());
 
-        Story.basedOn(Setting.from(locator)).reveal(TestingScene.class);
+        return locator;
     }
 
     public static void main(String[] args) {
