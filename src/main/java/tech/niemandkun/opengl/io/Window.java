@@ -1,11 +1,9 @@
-package tech.niemandkun.opengl.io.output;
+package tech.niemandkun.opengl.io;
 
 import tech.niemandkun.opengl.infrastructure.Destroyable;
-import tech.niemandkun.opengl.io.input.EventQueueKeyboard;
 
 public interface Window extends Destroyable {
-    void clear();
-    void display();
+    void update();
     boolean isOpen();
 
     EventQueueKeyboard getKeyboard();

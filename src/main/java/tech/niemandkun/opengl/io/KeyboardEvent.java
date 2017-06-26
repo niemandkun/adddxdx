@@ -1,4 +1,4 @@
-package tech.niemandkun.opengl.io.input;
+package tech.niemandkun.opengl.io;
 
 public interface KeyboardEvent {
     int getScancode();

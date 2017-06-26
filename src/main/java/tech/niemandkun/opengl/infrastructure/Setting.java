@@ -1,9 +1,13 @@
 package tech.niemandkun.opengl.infrastructure;
 
-import tech.niemandkun.opengl.io.input.Keyboard;
-import tech.niemandkun.opengl.io.output.Window;
+import tech.niemandkun.opengl.io.Keyboard;
+import tech.niemandkun.opengl.io.Window;
+import tech.niemandkun.opengl.shapes.MaterialFactory;
+import tech.niemandkun.opengl.shapes.RenderTarget;
 
-interface Setting {
+public interface Setting {
+    MaterialFactory getMaterialFactory();
+    RenderTarget getRenderTarget();
     Keyboard getKeyboard();
     Scenario getScenario();
     Window getWindow();

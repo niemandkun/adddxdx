@@ -1,4 +1,4 @@
-package tech.niemandkun.opengl.io.input;
+package tech.niemandkun.opengl.io;
 
 import static org.lwjgl.glfw.GLFW.*;
 

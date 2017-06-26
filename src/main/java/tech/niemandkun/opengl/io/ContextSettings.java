@@ -1,4 +1,4 @@
-package tech.niemandkun.opengl.io.output;
+package tech.niemandkun.opengl.io;
 
 class ContextSettings {
     private final int mMajorVersion;

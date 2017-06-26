@@ -1,4 +1,4 @@
-package tech.niemandkun.opengl.io.output;
+package tech.niemandkun.opengl.io;
 
 import static org.lwjgl.glfw.GLFW.GLFW_DONT_CARE;
 

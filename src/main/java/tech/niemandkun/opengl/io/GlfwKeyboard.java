@@ -1,4 +1,4 @@
-package tech.niemandkun.opengl.io.input;
+package tech.niemandkun.opengl.io;
 
 import org.lwjgl.glfw.GLFWKeyCallbackI;
 
@@ -7,7 +7,7 @@ import java.util.*;
 import static org.lwjgl.glfw.GLFW.GLFW_RELEASE;
 import static org.lwjgl.glfw.GLFW.GLFW_REPEAT;
 
-public class GlfwKeyboard implements EventQueueKeyboard, GLFWKeyCallbackI {
+class GlfwKeyboard implements EventQueueKeyboard, GLFWKeyCallbackI {
     private final static int MAX_EVENTS_COUNT = 32;
 
     private final Set<KeyPressListener> mKeyPressListeners;
@@ -15,7 +15,7 @@ public class GlfwKeyboard implements EventQueueKeyboard, GLFWKeyCallbackI {
     private final Queue<GlfwKeyboardEvent> mEventQueue;
     private final Set<Integer> mPressedKeys;
 
-    public GlfwKeyboard() {
+    GlfwKeyboard() {
         mKeyReleaseListeners = new HashSet<>();
         mKeyPressListeners = new HashSet<>();
         mEventQueue = new ArrayDeque<>();

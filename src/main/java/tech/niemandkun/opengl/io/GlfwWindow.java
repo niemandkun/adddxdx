@@ -1,15 +1,12 @@
-package tech.niemandkun.opengl.io.output;
+package tech.niemandkun.opengl.io;
 
 import com.sun.istack.internal.NotNull;
 import com.sun.istack.internal.Nullable;
 import org.lwjgl.glfw.GLFWErrorCallback;
-import org.lwjgl.glfw.GLFWKeyCallbackI;
 import org.lwjgl.opengl.GL;
-import tech.niemandkun.opengl.io.input.*;
 
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
 import static org.lwjgl.glfw.GLFW.*;
-import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.system.MemoryUtil.NULL;
 
 class GlfwWindow implements Window {
@@ -77,12 +74,7 @@ class GlfwWindow implements Window {
     }
 
     @Override
-    public void clear() {
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    }
-
-    @Override
-    public void display() {
+    public void update() {
         glfwSwapBuffers(mHandle);
         glfwPollEvents();
     }

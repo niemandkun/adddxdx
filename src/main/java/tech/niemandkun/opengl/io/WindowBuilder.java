@@ -1,4 +1,4 @@
-package tech.niemandkun.opengl.io.output;
+package tech.niemandkun.opengl.io;
 
 public abstract class WindowBuilder {
     private VideoModeBuilder mVideoMode = new VideoModeBuilder(this);

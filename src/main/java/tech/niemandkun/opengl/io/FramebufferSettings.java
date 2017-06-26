@@ -1,4 +1,4 @@
-package tech.niemandkun.opengl.io.output;
+package tech.niemandkun.opengl.io;
 
 class FramebufferSettings {
     private final int mRedBits;

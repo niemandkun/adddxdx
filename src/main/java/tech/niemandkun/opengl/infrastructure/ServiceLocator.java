@@ -4,10 +4,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Supplier;
 
-class ServiceLocator {
+public class ServiceLocator {
     private final Map<Class, Supplier> mLocator;
 
-    ServiceLocator() {
+    public ServiceLocator() {
         mLocator = new HashMap<>();
     }
 
@@ -15,7 +15,7 @@ class ServiceLocator {
         mLocator.put(clazz, factory);
     }
 
-    <TService> void registerSingleton(Class<TService> clazz, TService singleton) {
+    public <TService> void registerSingleton(Class<TService> clazz, TService singleton) {
         mLocator.put(clazz, () -> singleton);
     }
 

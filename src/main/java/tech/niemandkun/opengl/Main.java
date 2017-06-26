@@ -1,6 +1,6 @@
 package tech.niemandkun.opengl;
 
-import tech.niemandkun.opengl.infrastructure.TestingEngine;
+import tech.niemandkun.opengl.engine.TestingEngine;
 
 public class Main {
     public static void main(String[] args) {

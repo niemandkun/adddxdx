@@ -62,4 +62,12 @@ class Scenario {
         if (!mSceneStack.isEmpty())
             mSceneStack.peek().onResume();
     }
+
+    void popAll() {
+        while (!mSceneStack.isEmpty()) {
+            Scene toPop = mSceneStack.pop();
+            toPop.onPause();
+            toPop.onDestroy();
+        }
+    }
 }

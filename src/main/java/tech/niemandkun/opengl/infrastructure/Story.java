@@ -1,40 +1,43 @@
 package tech.niemandkun.opengl.infrastructure;
 
-import tech.niemandkun.opengl.io.input.*;
-import tech.niemandkun.opengl.io.output.Window;
+import tech.niemandkun.opengl.io.*;
+import tech.niemandkun.opengl.shapes.RenderTarget;
 
-class Story implements Destroyable {
-    private final Scenario mScenario;
-    private final EventQueueKeyboard mKeyboard;
-    private final Window mWindow;
+public class Story implements Destroyable {
+    private final Setting mSetting;
 
-    static Story basedOn(Setting setting) { return new Story(setting); }
+    public static Story basedOn(Setting setting) { return new Story(setting); }
 
     private Story(Setting setting) {
-        mScenario = setting.getScenario();
-        mWindow = setting.getWindow();
-        mKeyboard = mWindow.getKeyboard();
+        mSetting = setting;
     }
 
-    void reveal(Class<? extends Scene> actFirst) {
-        mScenario.push(actFirst);
+    public void reveal(Class<? extends Scene> actFirst) {
+        Window window = mSetting.getWindow();
+        Scenario scenario = mSetting.getScenario();
+        EventQueueKeyboard keyboard = window.getKeyboard();
+        RenderTarget renderTarget = mSetting.getRenderTarget();
 
-        while (mWindow.isOpen()) {
-            Scene currentAct = mScenario.peekScene();
+        scenario.push(actFirst);
+
+        while (window.isOpen()) {
+            Scene currentAct = scenario.peekScene();
 
             if (currentAct == null)
                 break;
 
-            mKeyboard.deliverEvents();
-
-            mWindow.clear();
-            currentAct.onRender();
-            mWindow.display();
+            keyboard.deliverEvents();
+            currentAct.onRender(renderTarget);
+            window.update();
         }
+
+        destroy();
     }
 
     @Override
     public void destroy() {
-        mWindow.destroy();
+        mSetting.getScenario().popAll();
+        mSetting.getWindow().destroy();
+        mSetting.getMaterialFactory().destroy();
     }
 }
