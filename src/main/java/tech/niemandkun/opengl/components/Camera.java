@@ -4,16 +4,21 @@ import tech.niemandkun.opengl.engine.Component;
 import tech.niemandkun.opengl.math.*;
 
 public class Camera extends Component {
+    private static final float DEFAULT_NEAR_PLANE = 0.3f;
+    private static final float DEFAULT_FAR_PLANE = 1000f;
+    private static final float DEFAULT_ASPECT_RATIO = 16 / 9f;
+    private static final float DEFAULT_FIELD_OF_VIEW = (float) Math.PI / 6;
+
     private float mNearPlane;
     private float mFarPlane;
     private float mFieldOfView;
     private float mAspectRatio;
 
     public Camera() {
-        mAspectRatio = 16 / 9f;
-        mNearPlane = 0.3f;
-        mFarPlane = 1000;
-        mFieldOfView = (float) Math.PI / 6;
+        mAspectRatio = DEFAULT_ASPECT_RATIO;
+        mNearPlane = DEFAULT_NEAR_PLANE;
+        mFarPlane = DEFAULT_FAR_PLANE;
+        mFieldOfView = DEFAULT_FIELD_OF_VIEW;
     }
 
     @Override
