@@ -2,32 +2,20 @@ package tech.niemandkun.opengl.infrastructure;
 
 import tech.niemandkun.opengl.io.input.Keyboard;
 
-public abstract class Scene implements Destroyable {
-    private Scenario mScenario;
+abstract class Scene {
+    private Setting mSetting;
 
-    Scene(Scenario stack) {
-        mScenario = stack;
+    void setSetting(Setting setting) {
+        mSetting = setting;
     }
 
-    public Scenario getScenario() {
-        return mScenario;
-    }
+    Keyboard getKeyboard() { return mSetting.getKeyboard(); }
+    Scenario getScenario() { return mSetting.getScenario(); }
+    Clock getClock() { return mSetting.getClock(); }
 
-    public Keyboard getKeyboard() {
-        return null;
-    }
-
-    public Clock getClock() {
-        return null;
-    }
-
-    public void onCreate() { }
-    public void onResume() { }
-    public void onPause() { }
-    public void onDestroy() { }
-
-    @Override
-    public void destroy() {
-        onDestroy();
-    }
+    void onCreate() { }
+    void onResume() { }
+    void onRender() { }
+    void onPause() { }
+    void onDestroy() { }
 }

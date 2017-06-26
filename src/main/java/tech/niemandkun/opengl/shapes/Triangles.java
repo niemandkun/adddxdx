@@ -1,7 +1,7 @@
 package tech.niemandkun.opengl.shapes;
 
-import org.lwjgl.glfw.GLFWKeyCallbackI;
 import tech.niemandkun.opengl.infrastructure.Destroyable;
+import tech.niemandkun.opengl.io.input.*;
 import tech.niemandkun.opengl.math.Matrix4;
 import tech.niemandkun.opengl.math.Projection;
 import tech.niemandkun.opengl.shaders.Shader;
@@ -9,14 +9,13 @@ import tech.niemandkun.opengl.shaders.ShaderCompileException;
 
 import java.io.File;
 
-import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL15.*;
 import static org.lwjgl.opengl.GL20.glEnableVertexAttribArray;
 import static org.lwjgl.opengl.GL20.glVertexAttribPointer;
 import static org.lwjgl.opengl.GL30.*;
 
-public class Triangles implements Destroyable, GLFWKeyCallbackI {
+public class Triangles implements Destroyable, Keyboard.KeyPressListener {
 
     private final int[] mBuffers = new int[2];
     private final int mVertexArray;
@@ -87,13 +86,15 @@ public class Triangles implements Destroyable, GLFWKeyCallbackI {
     private float cameraRot = 0;
 
     @Override
-    public void invoke(long window, int key, int scancode, int action, int mods) {
-             if (key == GLFW_KEY_W) cameraZ += 1;
-        else if (key == GLFW_KEY_S) cameraZ -= 1;
-        else if (key == GLFW_KEY_A) cameraX += 1;
-        else if (key == GLFW_KEY_D) cameraX -= 1;
-        else if (key == GLFW_KEY_Q) cameraRot += 0.1;
-        else if (key == GLFW_KEY_E) cameraRot -= 0.1;
+    public void onKeyPressed(Keyboard keyboard, KeyboardEvent event) {
+        int key = event.getKey();
+
+             if (key == Key.W) cameraZ += 1;
+        else if (key == Key.S) cameraZ -= 1;
+        else if (key == Key.A) cameraX += 1;
+        else if (key == Key.D) cameraX -= 1;
+        else if (key == Key.Q) cameraRot += 0.1;
+        else if (key == Key.E) cameraRot -= 0.1;
     }
 
     public void render() {

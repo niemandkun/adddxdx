@@ -5,6 +5,7 @@ import com.sun.istack.internal.Nullable;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWKeyCallbackI;
 import org.lwjgl.opengl.GL;
+import tech.niemandkun.opengl.io.input.*;
 
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
 import static org.lwjgl.glfw.GLFW.*;
@@ -14,6 +15,7 @@ import static org.lwjgl.system.MemoryUtil.NULL;
 class GlfwWindow implements Window {
 
     private long mHandle;
+    private GlfwKeyboard mKeyboardInstance;
 
     GlfwWindow(@NotNull String title, @NotNull VideoMode videoMode, @Nullable WindowSettings windowSettings,
                @Nullable ContextSettings contextSettings, @Nullable FramebufferSettings framebufferSettings) {
@@ -91,8 +93,13 @@ class GlfwWindow implements Window {
     }
 
     @Override
-    public void setKeyCallback(GLFWKeyCallbackI callback) {
-        glfwSetKeyCallback(mHandle, callback);
+    public EventQueueKeyboard getKeyboard() {
+        if (mKeyboardInstance == null) {
+            mKeyboardInstance = new GlfwKeyboard();
+            glfwSetKeyCallback(mHandle, mKeyboardInstance);
+        }
+
+        return mKeyboardInstance;
     }
 
     @Override

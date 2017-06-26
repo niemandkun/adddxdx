@@ -4,28 +4,28 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Supplier;
 
-public class DeviceLocator {
+class ServiceLocator {
     private final Map<Class, Supplier> mLocator;
 
-    public DeviceLocator() {
+    ServiceLocator() {
         mLocator = new HashMap<>();
     }
 
-    public <T> void registerFactory(Class<T> clazz, Supplier<T> factory) {
+    public <TService> void registerFactory(Class<TService> clazz, Supplier<TService> factory) {
         mLocator.put(clazz, factory);
     }
 
-    public <T> void registerSingleton(Class<T> clazz, T singleton) {
+    <TService> void registerSingleton(Class<TService> clazz, TService singleton) {
         mLocator.put(clazz, () -> singleton);
     }
 
-    public <T> T get(Class<T> clazz) {
+    <TService> TService get(Class<TService> clazz) {
         if (mLocator.containsKey(clazz))
-            return (T) mLocator.get(clazz).get();
+            return (TService) mLocator.get(clazz).get();
 
         for (Class inLocator : mLocator.keySet()) {
             if (clazz.isAssignableFrom(inLocator))
-                return (T) mLocator.get(inLocator).get();
+                return (TService) mLocator.get(inLocator).get();
         }
 
         throw new IllegalArgumentException("Class " + clazz + " is not found in locator.");
