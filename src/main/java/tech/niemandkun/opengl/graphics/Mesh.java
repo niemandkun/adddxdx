@@ -1,4 +1,4 @@
-package tech.niemandkun.opengl.shapes;
+package tech.niemandkun.opengl.graphics;
 
 import tech.niemandkun.opengl.infrastructure.Destroyable;
 import tech.niemandkun.opengl.math.Color;

@@ -1,4 +1,4 @@
-package tech.niemandkun.opengl.shapes;
+package tech.niemandkun.opengl.graphics;
 
 public interface Renderer {
     void render(RenderTarget target);

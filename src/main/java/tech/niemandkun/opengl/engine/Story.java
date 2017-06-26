@@ -1,7 +1,8 @@
-package tech.niemandkun.opengl.infrastructure;
+package tech.niemandkun.opengl.engine;
 
+import tech.niemandkun.opengl.infrastructure.Destroyable;
 import tech.niemandkun.opengl.io.*;
-import tech.niemandkun.opengl.shapes.RenderTarget;
+import tech.niemandkun.opengl.graphics.RenderTarget;
 
 public class Story implements Destroyable {
     private final Setting mSetting;

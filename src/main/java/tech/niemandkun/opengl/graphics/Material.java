@@ -1,6 +1,4 @@
-package tech.niemandkun.opengl.shapes;
-
-import tech.niemandkun.opengl.shaders.Shader;
+package tech.niemandkun.opengl.graphics;
 
 class Material {
     private final Shader mShader;

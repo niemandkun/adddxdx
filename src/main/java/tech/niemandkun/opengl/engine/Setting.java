@@ -1,9 +1,10 @@
-package tech.niemandkun.opengl.infrastructure;
+package tech.niemandkun.opengl.engine;
 
+import tech.niemandkun.opengl.infrastructure.ServiceLocator;
 import tech.niemandkun.opengl.io.Keyboard;
 import tech.niemandkun.opengl.io.Window;
-import tech.niemandkun.opengl.shapes.MaterialFactory;
-import tech.niemandkun.opengl.shapes.RenderTarget;
+import tech.niemandkun.opengl.graphics.MaterialFactory;
+import tech.niemandkun.opengl.graphics.RenderTarget;
 
 public interface Setting {
     MaterialFactory getMaterialFactory();

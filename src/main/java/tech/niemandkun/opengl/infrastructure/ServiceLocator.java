@@ -19,7 +19,7 @@ public class ServiceLocator {
         mLocator.put(clazz, () -> singleton);
     }
 
-    <TService> TService get(Class<TService> clazz) {
+    public <TService> TService get(Class<TService> clazz) {
         if (mLocator.containsKey(clazz))
             return (TService) mLocator.get(clazz).get();
 

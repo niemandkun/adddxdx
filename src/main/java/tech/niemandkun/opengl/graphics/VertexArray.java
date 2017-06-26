@@ -1,4 +1,4 @@
-package tech.niemandkun.opengl.shapes;
+package tech.niemandkun.opengl.graphics;
 
 import com.sun.istack.internal.NotNull;
 import com.sun.istack.internal.Nullable;

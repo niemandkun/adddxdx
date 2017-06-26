@@ -1,4 +1,4 @@
-package tech.niemandkun.opengl.shaders;
+package tech.niemandkun.opengl.graphics;
 
 import java.io.File;
 import java.io.IOException;

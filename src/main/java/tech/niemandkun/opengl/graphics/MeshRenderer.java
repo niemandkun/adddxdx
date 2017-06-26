@@ -1,4 +1,4 @@
-package tech.niemandkun.opengl.shapes;
+package tech.niemandkun.opengl.graphics;
 
 public class MeshRenderer implements Renderer {
     private final Mesh mMesh;

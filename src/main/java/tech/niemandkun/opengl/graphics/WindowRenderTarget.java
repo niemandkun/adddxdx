@@ -1,12 +1,30 @@
-package tech.niemandkun.opengl.shapes;
+package tech.niemandkun.opengl.graphics;
 
+import tech.niemandkun.opengl.io.Window;
 import tech.niemandkun.opengl.math.*;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL20.glUseProgram;
 import static org.lwjgl.opengl.GL30.glBindVertexArray;
 
-public class GlRenderTarget implements RenderTarget {
+public class WindowRenderTarget implements RenderTarget {
+    private final Window mWindow;
+    private Camera mCamera;
+
+    public WindowRenderTarget(Window window) {
+        mWindow = window;
+        setCamera(new Camera());
+    }
+
+    public void setCamera(Camera camera) {
+        mCamera = camera;
+        mCamera.adjustAspectRatio(mWindow.getSize());
+    }
+
+    public Camera getCamera() {
+        return mCamera;
+    }
+
     @Override
     public void clear(Color color) {
         Vector4 clearColor = color.toVector4();
@@ -19,8 +37,12 @@ public class GlRenderTarget implements RenderTarget {
         if (!vertices.isAllocated())
             vertices.allocateVertexBufferObject();
 
-        glBindVertexArray(vertices.getHandle());
         glUseProgram(material.getShader().getHandle());
+        Matrix4 viewMatrix = getCamera().getViewMatrix();
+
+        material.getShader().setUniform("mvp", viewMatrix);
+
+        glBindVertexArray(vertices.getHandle());
         glDrawArrays(GL_TRIANGLES, 0, vertices.getVertices().length);
     }
 }

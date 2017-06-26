@@ -1,9 +1,10 @@
-package tech.niemandkun.opengl.engine;
+package tech.niemandkun.opengl.briefexample;
 
 import tech.niemandkun.opengl.infrastructure.Destroyable;
 import tech.niemandkun.opengl.math.Color;
 import tech.niemandkun.opengl.math.Vector3;
-import tech.niemandkun.opengl.shapes.*;
+import tech.niemandkun.opengl.graphics.MaterialFactory;
+import tech.niemandkun.opengl.graphics.*;
 
 class Triangles implements Renderer, Destroyable {
 
@@ -12,12 +13,12 @@ class Triangles implements Renderer, Destroyable {
 
     Triangles(MaterialFactory materialFactory) {
         Vector3[] vertices = new Vector3[]{
-                new Vector3(-0.90f, -0.90f, 0),
-                new Vector3(0.85f, -0.90f, 0),
-                new Vector3(-0.90f, 0.85f, 0),
-                new Vector3(0.90f, -0.85f, 0),
-                new Vector3(0.90f, 0.90f, 0),
-                new Vector3(-0.85f, 0.90f, 0),
+                new Vector3(-0.90f, -0.90f, -10),
+                new Vector3(0.85f, -0.90f, -5),
+                new Vector3(-0.90f, 0.85f, -10),
+                new Vector3(0.90f, -0.85f, -5),
+                new Vector3(0.90f, 0.90f, -5),
+                new Vector3(-0.85f, 0.90f, -10),
         };
 
         Color[] colors = new Color[]{

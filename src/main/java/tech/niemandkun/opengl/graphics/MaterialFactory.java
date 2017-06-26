@@ -1,8 +1,6 @@
-package tech.niemandkun.opengl.shapes;
+package tech.niemandkun.opengl.graphics;
 
 import tech.niemandkun.opengl.infrastructure.Destroyable;
-import tech.niemandkun.opengl.shaders.Shader;
-import tech.niemandkun.opengl.shaders.ShaderCompileException;
 
 import java.io.File;
 

@@ -3,10 +3,15 @@ package tech.niemandkun.opengl.io;
 import com.sun.istack.internal.NotNull;
 import com.sun.istack.internal.Nullable;
 import org.lwjgl.glfw.GLFWErrorCallback;
+import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
+import org.lwjgl.system.MemoryStack;
+
+import java.nio.IntBuffer;
 
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
 import static org.lwjgl.glfw.GLFW.*;
+import static org.lwjgl.system.MemoryStack.stackPush;
 import static org.lwjgl.system.MemoryUtil.NULL;
 
 class GlfwWindow implements Window {
@@ -82,6 +87,18 @@ class GlfwWindow implements Window {
     @Override
     public boolean isOpen() {
         return !glfwWindowShouldClose(mHandle);
+    }
+
+    @Override
+    public Size getSize() {
+        try (MemoryStack stack = stackPush()) {
+            IntBuffer width = stack.mallocInt(1);
+            IntBuffer height = stack.mallocInt(1);
+
+            glfwGetWindowSize(mHandle, width, height);
+
+            return new Size(width.get(0), height.get(0));
+        }
     }
 
     @Override
