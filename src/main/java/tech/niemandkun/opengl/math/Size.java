@@ -1,4 +1,4 @@
-package tech.niemandkun.opengl.io;
+package tech.niemandkun.opengl.math;
 
 public class Size {
     private final int mWidth;

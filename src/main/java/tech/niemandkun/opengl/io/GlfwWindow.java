@@ -3,9 +3,9 @@ package tech.niemandkun.opengl.io;
 import com.sun.istack.internal.NotNull;
 import com.sun.istack.internal.Nullable;
 import org.lwjgl.glfw.GLFWErrorCallback;
-import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.system.MemoryStack;
+import tech.niemandkun.opengl.math.Size;
 
 import java.nio.IntBuffer;
 

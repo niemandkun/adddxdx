@@ -1,6 +1,6 @@
 package tech.niemandkun.opengl.graphics;
 
-import tech.niemandkun.opengl.io.Size;
+import tech.niemandkun.opengl.math.Size;
 import tech.niemandkun.opengl.math.*;
 
 public class Camera {
