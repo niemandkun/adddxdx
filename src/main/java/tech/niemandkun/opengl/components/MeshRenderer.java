@@ -14,7 +14,7 @@ public class MeshRenderer extends Component implements Renderer {
 
     @Override
     public void render(RenderTarget target) {
-        target.render(mMesh.getVertexArray(), mMaterial, null);
+        target.render(mMesh.getVertexArray(), mMaterial, getActor().getTransform());
     }
 
     @Override

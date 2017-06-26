@@ -6,7 +6,10 @@ import tech.niemandkun.opengl.math.*;
 public interface Shader extends Destroyable {
     int getHandle();
 
-    void setUniform(String uniformName, Matrix4 matrix);
+    default void setUniform(String uniformName, Matrix4 matrix) {
+        setUniform(uniformName, matrix, true);
+    }
+
     void setUniform(String uniformName, Matrix4 matrix, boolean transpose);
 
     void setUniform(String uniformName, Vector4 vector);

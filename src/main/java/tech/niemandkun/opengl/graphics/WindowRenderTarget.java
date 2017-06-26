@@ -41,9 +41,10 @@ public class WindowRenderTarget implements RenderTarget {
             vertices.allocateVertexBufferObject();
 
         glUseProgram(material.getShader().getHandle());
-        Matrix4 viewMatrix = getCamera().getMatrix();
+        Matrix4 projectionViewMatrix = getCamera().getMatrix();
+        Matrix4 modelMatrix = transform.getMatrix();
 
-        material.getShader().setUniform("mvp", viewMatrix);
+        material.getShader().setUniform("mvp", projectionViewMatrix.cross(modelMatrix));
 
         glBindVertexArray(vertices.getHandle());
         glDrawArrays(GL_TRIANGLES, 0, vertices.getVertices().length);
