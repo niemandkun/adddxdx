@@ -4,10 +4,10 @@ import tech.niemandkun.opengl.graphics.MaterialFactory;
 
 import java.util.*;
 
-public abstract class Scene {
+public abstract class Scene implements FullLifecycle {
 
     /** Internal scene API */
-    Map<Class<? extends Component>, System> getAllSystems() { return mSetting.getAllSystems(); }
+    Collection<SystemInfo> getAllSystems() { return mSetting.getAllSystems(); }
     void setSetting(Setting setting) { mSetting = setting; }
 
     /** User available scene API */
@@ -24,11 +24,11 @@ public abstract class Scene {
     }
 
     /** Lifecycle methods */
-    protected void onCreate() { }
-    protected void onResume() { }
-    protected void onMainLoop() { }
-    protected void onPause() { }
-    protected void onDestroy() { removeAllActors(); }
+    @Override public void onCreate() { }
+    @Override public void onResume() { }
+    @Override public void onMainLoop() { }
+    @Override public void onPause() { }
+    @Override public void onDestroy() { removeAllActors(); }
 
     private void removeAllActors() {
         for (Actor actor : mActors)

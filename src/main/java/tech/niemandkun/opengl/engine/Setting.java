@@ -5,7 +5,6 @@ import tech.niemandkun.opengl.infrastructure.ServiceLocator;
 import tech.niemandkun.opengl.io.Window;
 
 import java.util.Collection;
-import java.util.Map;
 
 public interface Setting {
     MaterialFactory getMaterialFactory();
@@ -14,7 +13,7 @@ public interface Setting {
     Clock getClock();
 
     Collection<ActiveSystem> getActiveSystems();
-    Map<Class<? extends  Component>, System> getAllSystems();
+    Collection<SystemInfo> getAllSystems();
 
     /* etc */
 

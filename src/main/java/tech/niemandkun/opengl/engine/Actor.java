@@ -5,7 +5,7 @@ import tech.niemandkun.opengl.math.Transform;
 
 import java.util.*;
 
-public class Actor {
+public class Actor implements ShortLifecycle {
     private final Map<Class<? extends Component>, Component> mComponents = new HashMap<>();
     public Collection<? extends Component> getComponents() { return mComponents.values(); }
 
@@ -38,8 +38,10 @@ public class Actor {
         mComponents.remove(componentClass);
     }
 
+    @Override
     public void onCreate() { }
 
+    @Override
     public void onDestroy() {
         for (Component component : mComponents.values())
             component.onDestroy();

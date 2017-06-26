@@ -24,7 +24,6 @@ public class TestingEngine implements Runnable {
         ServiceLocator locator = new ServiceLocator();
         locator.registerSingleton(Window.class, window);
         locator.registerSingleton(MaterialFactory.class, new MaterialFactory());
-
         locator.registerSingleton(GraphicsSystem.class, new GraphicsSystem(new WindowRenderTarget(window)));
         locator.registerSingleton(InputSystem.class, new InputSystem(window.getKeyboard()));
 

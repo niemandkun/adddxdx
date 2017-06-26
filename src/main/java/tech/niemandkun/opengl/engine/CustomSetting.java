@@ -5,6 +5,7 @@ import tech.niemandkun.opengl.infrastructure.ServiceLocator;
 import tech.niemandkun.opengl.io.Window;
 
 import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.*;
 
 class CustomSetting implements Setting {
@@ -18,10 +19,10 @@ class CustomSetting implements Setting {
     private final Window mWindow;
 
     @Override public Collection<ActiveSystem> getActiveSystems() { return mActiveSystems; }
-    @Override public Map<Class<? extends Component>, System> getAllSystems() { return mAllSystems; }
+    @Override public Collection<SystemInfo> getAllSystems() { return mAllSystems; }
 
     private final Collection<ActiveSystem> mActiveSystems;
-    private final Map<Class<? extends Component>, System> mAllSystems;
+    private final Collection<SystemInfo> mAllSystems;
 
     CustomSetting(ServiceLocator locator) {
         mScenario = new Scenario(this);
@@ -32,20 +33,19 @@ class CustomSetting implements Setting {
         mAllSystems = getSystems(locator.getAll(System.class));
     }
 
-    private Map<Class<? extends Component>, System> getSystems(Collection<System> systems) {
-        Map<Class<? extends Component>, System> allSystems = new HashMap<>();
+    private List<SystemInfo> getSystems(Collection<System> systems) {
+        List<SystemInfo> allSystems = new ArrayList<>();
 
-        for (System<?> system : systems) {
-            // FIXME: add check before cast
-
-            Class<? extends Component> genericClass =
-                    (Class<? extends Component>)
-                            ((ParameterizedType) system.getClass().getGenericInterfaces()[0])
-                                    .getActualTypeArguments()[0];
-
-            allSystems.put(genericClass, system);
+        for (System system : systems) {
+            Type genericParameterType = getGenericInterfaceParameter(system.getClass());
+            allSystems.add(new SystemInfo((Class) genericParameterType, system));
         }
 
         return allSystems;
+    }
+
+    private Type getGenericInterfaceParameter(Class<?> clazz) {
+        ParameterizedType firstGenericInterface = (ParameterizedType) clazz.getGenericInterfaces()[0];
+        return firstGenericInterface.getActualTypeArguments()[0];
     }
 }

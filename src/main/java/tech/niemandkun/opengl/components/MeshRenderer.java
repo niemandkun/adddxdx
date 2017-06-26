@@ -17,7 +17,7 @@ public class MeshRenderer extends GraphicsSystem.Component implements Renderer {
     }
 
     @Override
-    protected void onDestroy() {
+    public void onDestroy() {
         mMesh.destroy();
     }
 }
