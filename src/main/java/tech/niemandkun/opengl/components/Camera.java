@@ -1,9 +1,9 @@
 package tech.niemandkun.opengl.components;
 
-import tech.niemandkun.opengl.engine.Component;
+import tech.niemandkun.opengl.graphics.GraphicsSystem;
 import tech.niemandkun.opengl.math.*;
 
-public class Camera extends Component {
+public class Camera extends GraphicsSystem.Component {
     private static final float DEFAULT_NEAR_PLANE = 0.3f;
     private static final float DEFAULT_FAR_PLANE = 1000f;
     private static final float DEFAULT_ASPECT_RATIO = 16 / 9f;
@@ -19,18 +19,6 @@ public class Camera extends Component {
         mNearPlane = DEFAULT_NEAR_PLANE;
         mFarPlane = DEFAULT_FAR_PLANE;
         mFieldOfView = DEFAULT_FIELD_OF_VIEW;
-    }
-
-    @Override
-    protected void onCreate() {
-        if (getScene().getRenderTarget().getCamera() == null)
-            getScene().getRenderTarget().setCamera(this);
-    }
-
-    @Override
-    protected void onDestroy() {
-        if (getScene().getRenderTarget().getCamera() == this)
-            getScene().getRenderTarget().setCamera(null);
     }
 
     public Matrix4 getMatrix() {

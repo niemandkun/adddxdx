@@ -7,9 +7,7 @@ import tech.niemandkun.opengl.graphics.*;
 import tech.niemandkun.opengl.io.*;
 import tech.niemandkun.opengl.math.*;
 
-public class Triangles extends Actor implements Renderer {
-
-    private MeshRenderer mMeshRenderer;
+public class Triangles extends Actor {
 
     @Override
     public void onCreate() {
@@ -33,23 +31,16 @@ public class Triangles extends Actor implements Renderer {
 
         Mesh mesh = new Mesh(vertices, colors);
         Material material = getScene().getMaterialFactory().getDefaultMaterial();
-        addComponent(mMeshRenderer = new MeshRenderer(mesh, material));
+        addComponent(new MeshRenderer(mesh, material));
 
         addComponent(new KeyboardController() {
             @Override
-            protected void onKeyPressed(Transform actorTransform, Keyboard keyboard, KeyboardEvent event) {
-                switch (event.getKey()) {
-                    case Key.J: actorTransform.rotate(0, -0.1f, 0); break;
-                    case Key.K: actorTransform.rotate(0, 0.1f, 0); break;
-                }
+            protected void updateTransform(Transform actorTransform, Keyboard keyboard) {
+                if (keyboard.isPressed(Key.J)) actorTransform.rotate(0, -0.1f, 0);
+                if (keyboard.isPressed(Key.K)) actorTransform.rotate(0, 0.1f, 0);
             }
         });
 
         getTransform().translate(0, 0, -5);
-    }
-
-    @Override
-    public void render(RenderTarget target) {
-        mMeshRenderer.render(target);
     }
 }

@@ -1,7 +1,6 @@
 package tech.niemandkun.opengl.infrastructure;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Supplier;
 
 public class ServiceLocator {
@@ -29,5 +28,16 @@ public class ServiceLocator {
         }
 
         throw new IllegalArgumentException("Class " + clazz + " is not found in locator.");
+    }
+
+    public <TService> Collection<TService> getAll(Class<TService> clazz) {
+        List<TService> listOfMatchingServices = new ArrayList<>();
+
+        for (Class inLocator : mLocator.keySet()) {
+            if (clazz.isAssignableFrom(inLocator))
+                listOfMatchingServices.add((TService) mLocator.get(inLocator).get());
+        }
+
+        return listOfMatchingServices;
     }
 }

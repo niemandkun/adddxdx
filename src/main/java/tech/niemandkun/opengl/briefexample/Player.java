@@ -13,15 +13,13 @@ public class Player extends Actor {
 
         addComponent(new KeyboardController() {
             @Override
-            protected void onKeyPressed(Transform actorTransform, Keyboard keyboard, KeyboardEvent event) {
-                switch (event.getKey()) {
-                    case Key.W: actorTransform.translate(0, 0, -1); break;
-                    case Key.A: actorTransform.translate(-1, 0, 0); break;
-                    case Key.S: actorTransform.translate(0, 0, 1); break;
-                    case Key.D: actorTransform.translate(1, 0, 0); break;
-                    case Key.Q: actorTransform.rotate(0, -0.1f, 0); break;
-                    case Key.E: actorTransform.rotate(0, 0.1f, 0); break;
-                }
+            protected void updateTransform(Transform actorTransform, Keyboard keyboard) {
+                if (keyboard.isPressed(Key.W)) actorTransform.translate(0, 0, -.5f);
+                if (keyboard.isPressed(Key.A)) actorTransform.translate(-.5f, 0, 0);
+                if (keyboard.isPressed(Key.S)) actorTransform.translate(0, 0, .5f);
+                if (keyboard.isPressed(Key.D)) actorTransform.translate(.5f, 0, 0);
+                if (keyboard.isPressed(Key.Q)) actorTransform.rotate(0, -0.02f, 0);
+                if (keyboard.isPressed(Key.E)) actorTransform.rotate(0, 0.02f, 0);
             }
         });
     }

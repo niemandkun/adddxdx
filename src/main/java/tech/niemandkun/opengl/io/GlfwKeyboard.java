@@ -4,6 +4,7 @@ import org.lwjgl.glfw.GLFWKeyCallbackI;
 
 import java.util.*;
 
+import static org.lwjgl.glfw.GLFW.GLFW_PRESS;
 import static org.lwjgl.glfw.GLFW.GLFW_RELEASE;
 import static org.lwjgl.glfw.GLFW.GLFW_REPEAT;
 
@@ -33,7 +34,7 @@ class GlfwKeyboard implements EventQueueKeyboard, GLFWKeyCallbackI {
     }
 
     @Override
-    public void addKeyReleasedListener(KeyReleaseListener listener) {
+    public void addKeyReleaseListener(KeyReleaseListener listener) {
         mKeyReleaseListeners.add(listener);
     }
 
@@ -43,7 +44,7 @@ class GlfwKeyboard implements EventQueueKeyboard, GLFWKeyCallbackI {
     }
 
     @Override
-    public boolean isKeyPressed(int keycode) {
+    public boolean isPressed(int keycode) {
         return mPressedKeys.contains(keycode);
     }
 
@@ -53,6 +54,9 @@ class GlfwKeyboard implements EventQueueKeyboard, GLFWKeyCallbackI {
 
         boolean isRepeated = action == GLFW_REPEAT;
         mEventQueue.add(new GlfwKeyboardEvent(action, keycode, scancode, modifiers, isRepeated));
+
+        if (action == GLFW_PRESS) mPressedKeys.add(keycode);
+        if (action == GLFW_RELEASE) mPressedKeys.remove(keycode);
     }
 
     @Override

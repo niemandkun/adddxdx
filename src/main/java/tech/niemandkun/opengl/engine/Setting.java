@@ -1,18 +1,20 @@
 package tech.niemandkun.opengl.engine;
 
-import tech.niemandkun.opengl.infrastructure.ServiceLocator;
-import tech.niemandkun.opengl.io.Keyboard;
-import tech.niemandkun.opengl.io.Window;
 import tech.niemandkun.opengl.graphics.MaterialFactory;
-import tech.niemandkun.opengl.graphics.RenderTarget;
+import tech.niemandkun.opengl.infrastructure.ServiceLocator;
+import tech.niemandkun.opengl.io.Window;
+
+import java.util.Collection;
+import java.util.Map;
 
 public interface Setting {
     MaterialFactory getMaterialFactory();
-    RenderTarget getRenderTarget();
-    Keyboard getKeyboard();
     Scenario getScenario();
     Window getWindow();
     Clock getClock();
+
+    Collection<ActiveSystem> getActiveSystems();
+    Map<Class<? extends  Component>, System> getAllSystems();
 
     /* etc */
 
