@@ -1,17 +1,17 @@
 package tech.niemandkun.opengl.briefexample;
 
-import tech.niemandkun.opengl.infrastructure.Destroyable;
+import tech.niemandkun.opengl.components.MeshRenderer;
+import tech.niemandkun.opengl.engine.Actor;
+import tech.niemandkun.opengl.graphics.*;
 import tech.niemandkun.opengl.math.Color;
 import tech.niemandkun.opengl.math.Vector3;
-import tech.niemandkun.opengl.graphics.MaterialFactory;
-import tech.niemandkun.opengl.graphics.*;
 
-class Triangles implements Renderer, Destroyable {
+public class Triangles extends Actor implements Renderer {
 
-    private final MeshRenderer mMeshRenderer;
-    private final Mesh mMesh;
+    private MeshRenderer mMeshRenderer;
 
-    Triangles(MaterialFactory materialFactory) {
+    @Override
+    public void onCreate() {
         Vector3[] vertices = new Vector3[]{
                 new Vector3(-0.90f, -0.90f, -10),
                 new Vector3(0.85f, -0.90f, -5),
@@ -30,18 +30,13 @@ class Triangles implements Renderer, Destroyable {
                 new Color(0, 0, 255),
         };
 
-        mMesh = new Mesh(vertices, colors);
-
-        mMeshRenderer = new MeshRenderer(mMesh, materialFactory.getDefaultMaterial());
+        Mesh mesh = new Mesh(vertices, colors);
+        Material material = getScene().getMaterialFactory().getDefaultMaterial();
+        addComponent(mMeshRenderer = new MeshRenderer(mesh, material));
     }
 
     @Override
     public void render(RenderTarget target) {
         mMeshRenderer.render(target);
-    }
-
-    @Override
-    public void destroy() {
-        mMesh.destroy();
     }
 }

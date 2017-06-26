@@ -1,6 +1,9 @@
-package tech.niemandkun.opengl.graphics;
+package tech.niemandkun.opengl.components;
 
-public class MeshRenderer implements Renderer {
+import tech.niemandkun.opengl.engine.Component;
+import tech.niemandkun.opengl.graphics.*;
+
+public class MeshRenderer extends Component implements Renderer {
     private final Mesh mMesh;
     private final Material mMaterial;
 
@@ -12,5 +15,10 @@ public class MeshRenderer implements Renderer {
     @Override
     public void render(RenderTarget target) {
         target.render(mMesh.getVertexArray(), mMaterial, null);
+    }
+
+    @Override
+    protected void onDestroy() {
+        mMesh.destroy();
     }
 }

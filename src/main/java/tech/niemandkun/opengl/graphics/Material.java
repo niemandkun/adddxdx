@@ -1,6 +1,6 @@
 package tech.niemandkun.opengl.graphics;
 
-class Material {
+public class Material {
     private final Shader mShader;
     Shader getShader() { return mShader; }
 

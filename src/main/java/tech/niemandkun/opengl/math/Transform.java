@@ -49,7 +49,8 @@ public class Transform {
     @NotNull Vector3 getRotation() { return rotation; }
     @NotNull Vector3 getScale() { return scale; }
 
-    @NotNull Matrix4 getMatrix() {
+    @NotNull
+    public Matrix4 getMatrix() {
         return Matrix4.getTranslationMatrix(location.getX(), location.getY(), location.getZ())
                 .cross(Matrix4.getRotationMatrix(rotation.getX(), rotation.getY(), rotation.getZ()))
                 .cross(Matrix4.getScaleMatrix(scale.getX(), scale.getY(), scale.getZ()));

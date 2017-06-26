@@ -8,16 +8,14 @@ public class TestingScene extends Scene {
 
     @Override
     protected void onCreate() {
-        mTriangles = new Triangles(getMaterialFactory());
+        mTriangles = spawnActor(Triangles.class);
+
+        spawnActor(Player.class);
     }
 
     @Override
     protected void onRender(RenderTarget target) {
+        getRenderTarget().clear();
         mTriangles.render(target);
-    }
-
-    @Override
-    protected void onDestroy() {
-        mTriangles.destroy();
     }
 }

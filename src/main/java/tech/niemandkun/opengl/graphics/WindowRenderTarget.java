@@ -1,5 +1,6 @@
 package tech.niemandkun.opengl.graphics;
 
+import tech.niemandkun.opengl.components.Camera;
 import tech.niemandkun.opengl.io.Window;
 import tech.niemandkun.opengl.math.*;
 
@@ -13,7 +14,6 @@ public class WindowRenderTarget implements RenderTarget {
 
     public WindowRenderTarget(Window window) {
         mWindow = window;
-        setCamera(new Camera());
     }
 
     public void setCamera(Camera camera) {
@@ -34,11 +34,14 @@ public class WindowRenderTarget implements RenderTarget {
 
     @Override
     public void render(VertexArray vertices, Material material, Transform transform) {
+        if (mCamera == null)
+            return;
+
         if (!vertices.isAllocated())
             vertices.allocateVertexBufferObject();
 
         glUseProgram(material.getShader().getHandle());
-        Matrix4 viewMatrix = getCamera().getViewMatrix();
+        Matrix4 viewMatrix = getCamera().getMatrix();
 
         material.getShader().setUniform("mvp", viewMatrix);
 
