@@ -1,4 +1,4 @@
-package tech.niemandkun.opengl.infrastructure;
+package tech.niemandkun.opengl.engine;
 
 import java.util.*;
 import java.util.function.Supplier;

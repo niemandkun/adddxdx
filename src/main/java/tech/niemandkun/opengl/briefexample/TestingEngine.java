@@ -1,11 +1,9 @@
 package tech.niemandkun.opengl.briefexample;
 
-import tech.niemandkun.opengl.engine.Setting;
-import tech.niemandkun.opengl.engine.Story;
-import tech.niemandkun.opengl.infrastructure.*;
-import tech.niemandkun.opengl.io.*;
-import tech.niemandkun.opengl.graphics.MaterialFactory;
+import tech.niemandkun.opengl.engine.*;
 import tech.niemandkun.opengl.graphics.*;
+import tech.niemandkun.opengl.io.InputSystem;
+import tech.niemandkun.opengl.io.Window;
 
 public class TestingEngine implements Runnable {
     @Override

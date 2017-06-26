@@ -1,6 +1,6 @@
 package tech.niemandkun.opengl.graphics;
 
-import tech.niemandkun.opengl.infrastructure.Destroyable;
+import tech.niemandkun.opengl.engine.Destroyable;
 
 import static org.lwjgl.opengl.GL20.*;
 

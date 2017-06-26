@@ -1,7 +1,6 @@
 package tech.niemandkun.opengl.engine;
 
 import tech.niemandkun.opengl.graphics.MaterialFactory;
-import tech.niemandkun.opengl.infrastructure.ServiceLocator;
 import tech.niemandkun.opengl.io.Window;
 
 import java.util.Collection;

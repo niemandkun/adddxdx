@@ -1,6 +1,5 @@
 package tech.niemandkun.opengl.engine;
 
-import tech.niemandkun.opengl.infrastructure.Destroyable;
 import tech.niemandkun.opengl.io.Window;
 
 import java.util.Collection;

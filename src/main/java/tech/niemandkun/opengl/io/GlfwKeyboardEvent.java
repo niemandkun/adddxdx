@@ -1,8 +1,6 @@
 package tech.niemandkun.opengl.io;
 
-import static org.lwjgl.glfw.GLFW.GLFW_MOD_ALT;
-import static org.lwjgl.glfw.GLFW.GLFW_MOD_CONTROL;
-import static org.lwjgl.glfw.GLFW.GLFW_MOD_SHIFT;
+import static org.lwjgl.glfw.GLFW.*;
 
 class GlfwKeyboardEvent implements KeyboardEvent {
     private final int mAction;

@@ -3,8 +3,10 @@ package tech.niemandkun.opengl.briefexample;
 import tech.niemandkun.opengl.components.KeyboardController;
 import tech.niemandkun.opengl.components.MeshRenderer;
 import tech.niemandkun.opengl.engine.Actor;
-import tech.niemandkun.opengl.graphics.*;
-import tech.niemandkun.opengl.io.*;
+import tech.niemandkun.opengl.graphics.Material;
+import tech.niemandkun.opengl.graphics.Mesh;
+import tech.niemandkun.opengl.io.Key;
+import tech.niemandkun.opengl.io.Keyboard;
 import tech.niemandkun.opengl.math.*;
 
 public class Triangles extends Actor {

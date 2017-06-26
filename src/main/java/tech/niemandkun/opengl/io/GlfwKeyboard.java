@@ -4,9 +4,7 @@ import org.lwjgl.glfw.GLFWKeyCallbackI;
 
 import java.util.*;
 
-import static org.lwjgl.glfw.GLFW.GLFW_PRESS;
-import static org.lwjgl.glfw.GLFW.GLFW_RELEASE;
-import static org.lwjgl.glfw.GLFW.GLFW_REPEAT;
+import static org.lwjgl.glfw.GLFW.*;
 
 class GlfwKeyboard implements EventQueueKeyboard, GLFWKeyCallbackI {
     private final static int MAX_EVENTS_COUNT = 32;

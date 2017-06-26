@@ -3,7 +3,8 @@ package tech.niemandkun.opengl.graphics;
 import tech.niemandkun.opengl.components.Camera;
 import tech.niemandkun.opengl.engine.ActiveSystem;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Set;
 
 public class GraphicsSystem implements ActiveSystem<GraphicsSystem.Component> {
     public abstract static class Component extends tech.niemandkun.opengl.engine.Component { }

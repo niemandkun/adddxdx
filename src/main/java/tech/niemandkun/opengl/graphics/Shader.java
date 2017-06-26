@@ -1,6 +1,6 @@
 package tech.niemandkun.opengl.graphics;
 
-import tech.niemandkun.opengl.infrastructure.Destroyable;
+import tech.niemandkun.opengl.engine.Destroyable;
 import tech.niemandkun.opengl.math.*;
 
 public interface Shader extends Destroyable {
