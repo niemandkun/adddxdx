@@ -16,4 +16,8 @@ public class Size {
         mWidth = width;
         mHeight = height;
     }
+
+    public static Size square(int size) {
+        return new Size(size, size);
+    }
 }
