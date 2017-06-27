@@ -40,7 +40,28 @@ class GlVertexBufferObject implements Renderer {
         mBufferHandle = glGenBuffers();
         glBindBuffer(GL_ARRAY_BUFFER, mBufferHandle);
         glBufferData(GL_ARRAY_BUFFER, mVertexArray.getVertexBuffer(), GL_STATIC_DRAW);
+    }
 
+    void deallocate() {
+        glDeleteVertexArrays(mObjectHandle);
+        glDeleteBuffers(mBufferHandle);
+
+        mObjectHandle = NULL_HANDLE;
+        mBufferHandle = NULL_HANDLE;
+    }
+
+    @Override
+    public void render(RenderTarget target, RenderSettings settings) {
+        if (!isAllocated()) allocate();
+
+        glBindVertexArray(mObjectHandle);
+        glBindBuffer(GL_ARRAY_BUFFER, mBufferHandle);
+        setupVertexAttributesPointers();
+
+        glDrawArrays(GL_TRIANGLES, 0, mVertexArray.getVertexBuffer().length);
+    }
+
+    private void setupVertexAttributesPointers() {
         int stride = mVertexArray.getVertexSize() * SIZEOF_FLOAT;
         int offset = 0;
 
@@ -64,21 +85,5 @@ class GlVertexBufferObject implements Renderer {
             glEnableVertexAttribArray(VERTEX_UV_ATTR_ID);
             glVertexAttribPointer(VERTEX_UV_ATTR_ID, UV_COMPONENTS_PER_VERTEX, GL_FLOAT, false, stride, offset);
         }
-    }
-
-    void deallocate() {
-        glDeleteVertexArrays(mObjectHandle);
-        glDeleteBuffers(mBufferHandle);
-
-        mObjectHandle = NULL_HANDLE;
-        mBufferHandle = NULL_HANDLE;
-    }
-
-    @Override
-    public void render(RenderTarget target, RenderSettings settings) {
-        if (!isAllocated()) allocate();
-
-        glBindVertexArray(mObjectHandle);
-        glDrawArrays(GL_TRIANGLES, 0, mVertexArray.getVertexBuffer().length);
     }
 }
