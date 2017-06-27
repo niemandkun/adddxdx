@@ -8,6 +8,6 @@ class GlfwPlatformBuilder extends PlatformBuilder {
                          ContextSettings contextSettings, FramebufferSettings framebufferSettings) {
 
         GlfwWindow window = new GlfwWindow(title, videoMode, windowSettings, contextSettings, framebufferSettings);
-        return new GlfwPlatform(new WindowRenderTarget(window), window.getKeyboard(), window, window.getMouse());
+        return new GlfwPlatform(new WindowRenderTarget(window), window);
     }
 }

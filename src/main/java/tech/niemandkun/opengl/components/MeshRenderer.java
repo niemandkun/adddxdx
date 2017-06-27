@@ -20,4 +20,14 @@ public class MeshRenderer extends GraphicsSystem.Component implements Renderer {
     public void onDestroy() {
         mMesh.destroy();
     }
+
+    @Override
+    public void connect(GraphicsSystem system) {
+        system.addRenderer(this);
+    }
+
+    @Override
+    public void disconnect(GraphicsSystem system) {
+        system.removeRenderer(this);
+    }
 }

@@ -1,6 +1,7 @@
 package tech.niemandkun.opengl.components;
 
 import tech.niemandkun.opengl.graphics.GraphicsSystem;
+import tech.niemandkun.opengl.graphics.RenderTarget;
 import tech.niemandkun.opengl.math.*;
 
 public class Camera extends GraphicsSystem.Component {
@@ -19,6 +20,18 @@ public class Camera extends GraphicsSystem.Component {
         mNearPlane = DEFAULT_NEAR_PLANE;
         mFarPlane = DEFAULT_FAR_PLANE;
         mFieldOfView = DEFAULT_FIELD_OF_VIEW;
+    }
+
+    @Override
+    public void connect(GraphicsSystem system) {
+        RenderTarget target = system.getCurrentRenderTarget();
+        if (target.getCamera() == null) target.setCamera(this);
+    }
+
+    @Override
+    public void disconnect(GraphicsSystem system) {
+        RenderTarget target = system.getCurrentRenderTarget();
+        if (this.equals(target.getCamera())) target.setCamera(null);
     }
 
     public Matrix4 getMatrix() {

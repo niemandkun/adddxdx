@@ -15,5 +15,12 @@ public interface Keyboard {
     void addKeyReleaseListener(KeyReleaseListener listener);
     void removeKeyReleasedListener(KeyReleaseListener listener);
 
+    interface Observer {
+        void checkKeyboardState(Keyboard keyboard);
+    }
+
+    void addObserver(Observer observer);
+    void removeObserver(Observer observer);
+
     boolean isPressed(int keycode);
 }

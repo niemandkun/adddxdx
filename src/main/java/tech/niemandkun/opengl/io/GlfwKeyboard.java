@@ -12,11 +12,13 @@ class GlfwKeyboard implements Keyboard, GLFWKeyCallbackI {
     private final Set<KeyPressListener> mKeyPressListeners;
     private final Set<KeyReleaseListener> mKeyReleaseListeners;
     private final Queue<GlfwKeyboardEvent> mEventQueue;
+    private final Set<Observer> mKeyboardObservers;
     private final Set<Integer> mPressedKeys;
 
     GlfwKeyboard() {
         mKeyReleaseListeners = new HashSet<>();
         mKeyPressListeners = new HashSet<>();
+        mKeyboardObservers = new HashSet<>();
         mEventQueue = new ArrayDeque<>();
         mPressedKeys = new HashSet<>();
     }
@@ -42,6 +44,16 @@ class GlfwKeyboard implements Keyboard, GLFWKeyCallbackI {
     }
 
     @Override
+    public void addObserver(Observer observer) {
+        mKeyboardObservers.add(observer);
+    }
+
+    @Override
+    public void removeObserver(Observer observer) {
+        mKeyboardObservers.add(observer);
+    }
+
+    @Override
     public boolean isPressed(int keycode) {
         return mPressedKeys.contains(keycode);
     }
@@ -57,7 +69,7 @@ class GlfwKeyboard implements Keyboard, GLFWKeyCallbackI {
         if (action == GLFW_RELEASE) mPressedKeys.remove(keycode);
     }
 
-    public void deliverEvents() {
+    void update() {
         while (!mEventQueue.isEmpty()) {
             GlfwKeyboardEvent event = mEventQueue.remove();
 
@@ -69,5 +81,8 @@ class GlfwKeyboard implements Keyboard, GLFWKeyCallbackI {
                     listener.onKeyPressed(this, event);
             }
         }
+
+        for (Observer observer : mKeyboardObservers)
+            observer.checkKeyboardState(this);
     }
 }

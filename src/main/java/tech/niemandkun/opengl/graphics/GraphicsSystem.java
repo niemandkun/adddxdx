@@ -1,13 +1,15 @@
 package tech.niemandkun.opengl.graphics;
 
-import tech.niemandkun.opengl.components.Camera;
 import tech.niemandkun.opengl.engine.ActiveSystem;
 
 import java.util.HashSet;
 import java.util.Set;
 
 public class GraphicsSystem implements ActiveSystem<GraphicsSystem.Component> {
-    public abstract static class Component extends tech.niemandkun.opengl.engine.Component { }
+    public abstract static class Component extends tech.niemandkun.opengl.engine.Component {
+        public abstract void connect(GraphicsSystem system);
+        public abstract void disconnect(GraphicsSystem system);
+    }
 
     private final Set<Renderer> mRenderers;
     private final RenderTarget mRenderTarget;
@@ -17,20 +19,26 @@ public class GraphicsSystem implements ActiveSystem<GraphicsSystem.Component> {
         mRenderTarget = renderTarget;
     }
 
+    public void addRenderer(Renderer renderer) {
+        mRenderers.add(renderer);
+    }
+
+    public void removeRenderer(Renderer renderer) {
+        mRenderers.remove(renderer);
+    }
+
+    public RenderTarget getCurrentRenderTarget() {
+        return mRenderTarget;
+    }
+
     @Override
     public void register(Component component) {
-        if (component instanceof Renderer)
-            mRenderers.add(((Renderer) component));
-        if (component instanceof Camera && mRenderTarget.getCamera() == null)
-            mRenderTarget.setCamera(((Camera) component));
+        component.connect(this);
     }
 
     @Override
     public void unregister(Component component) {
-        if (component instanceof Renderer)
-            mRenderers.remove(component);
-        if (component instanceof Camera && mRenderTarget.getCamera().equals(component))
-            mRenderTarget.setCamera(null);
+        component.disconnect(this);
     }
 
     @Override

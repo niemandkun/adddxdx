@@ -24,7 +24,7 @@ public class TestingEngine implements Runnable {
         locator.registerSingleton(Window.class, platform.getWindow());
         locator.registerSingleton(MaterialFactory.class, new MaterialFactory());
         locator.registerSingleton(GraphicsSystem.class, new GraphicsSystem(platform.getRenderTarget()));
-        //locator.registerSingleton(InputSystem.class, new InputSystem(platform.getKeyboard()));
+        locator.registerSingleton(InputSystem.class, platform.getInputSystem());
 
         return locator;
     }

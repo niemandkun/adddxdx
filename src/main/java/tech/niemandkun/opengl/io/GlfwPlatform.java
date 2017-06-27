@@ -5,20 +5,29 @@ import tech.niemandkun.opengl.graphics.WindowRenderTarget;
 
 class GlfwPlatform implements Platform {
     private final WindowRenderTarget mRenderTarget;
+    private final InputSystem mInputSystem;
     private final GlfwKeyboard mKeyboard;
     private final GlfwWindow mWindow;
     private final GlfwMouse mMouse;
 
-    GlfwPlatform(WindowRenderTarget renderTarget, GlfwKeyboard keyboard, GlfwWindow window, GlfwMouse mouse) {
+    GlfwPlatform(WindowRenderTarget renderTarget, GlfwWindow window) {
         mRenderTarget = renderTarget;
-        mKeyboard = keyboard;
         mWindow = window;
-        mMouse = mouse;
+
+        mKeyboard = window.getKeyboard();
+        mMouse = window.getMouse();
+
+        mInputSystem = new InputSystem(mKeyboard, mMouse);
     }
 
     @Override
     public RenderTarget getRenderTarget() {
         return mRenderTarget;
+    }
+
+    @Override
+    public InputSystem getInputSystem() {
+        return mInputSystem;
     }
 
     @Override

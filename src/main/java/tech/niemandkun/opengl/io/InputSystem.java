@@ -2,48 +2,32 @@ package tech.niemandkun.opengl.io;
 
 import tech.niemandkun.opengl.engine.ActiveSystem;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import static tech.niemandkun.opengl.io.Keyboard.KeyPressListener;
-import static tech.niemandkun.opengl.io.Keyboard.KeyReleaseListener;
-
 public class InputSystem implements ActiveSystem<InputSystem.Component> {
-    public abstract static class Component extends tech.niemandkun.opengl.engine.Component { }
+    public abstract static class Component extends tech.niemandkun.opengl.engine.Component {
+        public abstract void connect(Keyboard keyboard, Mouse mouse);
+        public abstract void disconnect(Keyboard keyboard, Mouse mouse);
+    }
 
-    private Set<KeyboardObserver> mKeyboardObservers;
+    private final GlfwKeyboard mKeyboard;
+    private final GlfwMouse mMouse;
 
-    private GlfwKeyboard mKeyboard;
-
-    public InputSystem(GlfwKeyboard keyboard) {
+    public InputSystem(GlfwKeyboard keyboard, GlfwMouse mouse) {
         mKeyboard = keyboard;
-        mKeyboardObservers = new HashSet<>();
+        mMouse = mouse;
     }
 
     @Override
     public void register(Component component) {
-        if (component instanceof KeyPressListener)
-            mKeyboard.addKeyPressListener(((KeyPressListener) component));
-        if (component instanceof KeyReleaseListener)
-            mKeyboard.addKeyReleaseListener(((KeyReleaseListener) component));
-        if (component instanceof KeyboardObserver)
-            mKeyboardObservers.add((KeyboardObserver) component);
+        component.connect(mKeyboard, mMouse);
     }
 
     @Override
     public void unregister(Component component) {
-        if (component instanceof KeyPressListener)
-            mKeyboard.removeKeyPressListener(((KeyPressListener) component));
-        if (component instanceof KeyReleaseListener)
-            mKeyboard.removeKeyReleasedListener(((KeyReleaseListener) component));
-        if (component instanceof KeyboardObserver)
-            mKeyboardObservers.remove(component);
+        component.disconnect(mKeyboard, mMouse);
     }
 
     @Override
     public void update() {
-        mKeyboard.deliverEvents();
-        for (KeyboardObserver observer : mKeyboardObservers)
-            observer.checkKeyboardState(mKeyboard);
+        mKeyboard.update();
     }
 }
