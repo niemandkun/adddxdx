@@ -5,6 +5,7 @@ import tech.niemandkun.opengl.math.Color;
 
 public interface RenderTarget extends Destroyable {
     void init();
+    void enable();
     void clear(Color color);
     default void clear() { clear(Color.BLACK); }
 }

@@ -21,15 +21,14 @@ public class GraphicsSystem extends ActiveSystem<GraphicsSystem.Component> {
 
     public GraphicsSystem(Window window) {
         mRenderers = new HashSet<>();
-        mRenderTarget = new GlWindowRenderTarget();
-
-        mRenderTarget.init();
         mWindow = window;
+
+        mRenderTarget = new GlWindowRenderTarget(mWindow);
+        mRenderTarget.init();
     }
 
     void setCamera(Camera camera) {
         mCamera = camera;
-        mCamera.adjustAspectRatio(mWindow.getSize());
     }
 
     Camera getCamera() {
@@ -56,10 +55,12 @@ public class GraphicsSystem extends ActiveSystem<GraphicsSystem.Component> {
 
     @Override
     public void update(Duration timeSinceLastUpdate) {
+        mRenderTarget.enable();
         mRenderTarget.clear();
 
         if (mCamera == null) return;
 
+        mCamera.adjustAspectRatio(mWindow.getSize());
         RenderSettings settings = new RenderSettings(mCamera.getMatrix());
 
         for (Renderer renderer : mRenderers)
