@@ -4,6 +4,7 @@ import tech.niemandkun.opengl.engine.*;
 import tech.niemandkun.opengl.graphics.*;
 import tech.niemandkun.opengl.io.InputSystem;
 import tech.niemandkun.opengl.io.Window;
+import tech.niemandkun.opengl.math.Size;
 
 public class TestingEngine implements Runnable {
     @Override
@@ -15,6 +16,7 @@ public class TestingEngine implements Runnable {
     private static ServiceLocator createLocator() {
         Window window = Window.builder()
                 .onWindow().setResizable(false)
+                .onVideoMode().setSize(new Size(1024, 768))
                 .onContext().setMajorVersion(3).setMinorVersion(3)
                 .onFramebuffer().setMultiSampling(4)
                 .build();

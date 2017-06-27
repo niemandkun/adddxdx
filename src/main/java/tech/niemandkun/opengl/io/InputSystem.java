@@ -44,6 +44,6 @@ public class InputSystem implements ActiveSystem<InputSystem.Component> {
     public void update() {
         mKeyboard.deliverEvents();
         for (KeyboardObserver observer : mKeyboardObservers)
-            observer.checkKeyboard(mKeyboard);
+            observer.checkKeyboardState(mKeyboard);
     }
 }

@@ -13,6 +13,8 @@ public class Triangles extends Actor {
 
     @Override
     public void onCreate() {
+        super.onCreate();
+
         Vector3[] vertices = new Vector3[]{
                 new Vector3(-0.90f, -0.90f, 0),
                 new Vector3(0.85f, -0.90f, 0),
@@ -23,12 +25,12 @@ public class Triangles extends Actor {
         };
 
         Color[] colors = new Color[]{
-                new Color(255, 0, 0),
-                new Color(0, 255, 0),
-                new Color(0, 0, 255),
-                new Color(0, 255, 0),
-                new Color(255, 0, 0),
-                new Color(0, 0, 255),
+                Color.MATERIAL_DEEP_ORANGE,
+                Color.MATERIAL_GREEN,
+                Color.MATERIAL_LIGHT_BLUE,
+                Color.MATERIAL_GREEN,
+                Color.MATERIAL_DEEP_ORANGE,
+                Color.MATERIAL_LIGHT_BLUE,
         };
 
         Mesh mesh = new Mesh(vertices, colors);
@@ -37,12 +39,12 @@ public class Triangles extends Actor {
 
         addComponent(new KeyboardController() {
             @Override
-            protected void updateTransform(Transform actorTransform, Keyboard keyboard) {
-                if (keyboard.isPressed(Key.J)) actorTransform.rotate(0, -0.1f, 0);
-                if (keyboard.isPressed(Key.K)) actorTransform.rotate(0, 0.1f, 0);
+            protected void onCheckKeyboardState(Keyboard keyboard) {
+                if (keyboard.isPressed(Key.J)) getTransform().rotate(0, -0.1f, 0);
+                if (keyboard.isPressed(Key.K)) getTransform().rotate(0, 0.1f, 0);
             }
         });
 
-        getTransform().translate(0, 0, -5);
+        getTransform().translate(0, 1, -5);
     }
 }

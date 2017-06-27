@@ -7,7 +7,7 @@ public class Camera extends GraphicsSystem.Component {
     private static final float DEFAULT_NEAR_PLANE = 0.3f;
     private static final float DEFAULT_FAR_PLANE = 1000f;
     private static final float DEFAULT_ASPECT_RATIO = 16 / 9f;
-    private static final float DEFAULT_FIELD_OF_VIEW = (float) Math.PI / 6;
+    private static final float DEFAULT_FIELD_OF_VIEW = (float) Math.PI / 2.5f;
 
     private float mNearPlane;
     private float mFarPlane;
@@ -22,9 +22,10 @@ public class Camera extends GraphicsSystem.Component {
     }
 
     public Matrix4 getMatrix() {
-        Matrix4 viewMatrix = getActor().getTransform().getMatrix().inverse();
+        Matrix4 viewMatrix = getActor().getTransform().getMatrix();
+        Matrix4 cameraTransform = Matrix4.getRotationMatrix(0, (float) Math.PI, 0);
         Matrix4 projectionMatrix = Projection.perspective(mFieldOfView, mAspectRatio, mNearPlane, mFarPlane);
-        return projectionMatrix.cross(viewMatrix);
+        return projectionMatrix.cross(viewMatrix.cross(cameraTransform).inverse());
     }
 
     float getAspectRatio() {

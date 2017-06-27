@@ -1,22 +1,18 @@
 package tech.niemandkun.opengl.io;
 
+import tech.niemandkun.opengl.math.Size;
+
 class VideoMode {
-    private final int mWidth;
-    private final int mHeight;
+    private final Size mSize;
     private final int mRefreshRate;
 
-    VideoMode(int width, int height, int refreshRate) {
-        mWidth = width;
-        mHeight = height;
+    VideoMode(Size size, int refreshRate) {
+        mSize = size;
         mRefreshRate = refreshRate;
     }
 
-    int getWidth() {
-        return mWidth;
-    }
-
-    int getHeight() {
-        return mHeight;
+    Size getSize() {
+        return mSize;
     }
 
     int getRefreshRate() {

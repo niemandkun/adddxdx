@@ -11,6 +11,8 @@ import java.nio.IntBuffer;
 
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
 import static org.lwjgl.glfw.GLFW.*;
+import static org.lwjgl.opengl.GL11.GL_DEPTH_TEST;
+import static org.lwjgl.opengl.GL11.glEnable;
 import static org.lwjgl.system.MemoryStack.stackPush;
 import static org.lwjgl.system.MemoryUtil.NULL;
 
@@ -55,7 +57,8 @@ class GlfwWindow implements Window {
 
         glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
 
-        mHandle = glfwCreateWindow(videoMode.getWidth(), videoMode.getHeight(), title, NULL, NULL);
+        Size screenSize = videoMode.getSize();
+        mHandle = glfwCreateWindow(screenSize.getWidth(), screenSize.getHeight(), title, NULL, NULL);
 
         System.out.println("OpenGL version: " + glfwGetVersionString());
 
@@ -64,7 +67,7 @@ class GlfwWindow implements Window {
         if (windowSettings != null && windowSettings.isFullscreen()) {
             long monitorHandle = glfwGetWindowMonitor(mHandle);
             glfwSetWindowMonitor(mHandle, monitorHandle, 0, 0,
-                    videoMode.getWidth(), videoMode.getHeight(), videoMode.getRefreshRate());
+                    screenSize.getWidth(), screenSize.getHeight(), videoMode.getRefreshRate());
         }
 
         glfwMakeContextCurrent(mHandle);
@@ -72,6 +75,8 @@ class GlfwWindow implements Window {
         glfwShowWindow(mHandle);
 
         GL.createCapabilities();
+
+        glEnable(GL_DEPTH_TEST);
     }
 
     private int glfwBool(boolean bool) {

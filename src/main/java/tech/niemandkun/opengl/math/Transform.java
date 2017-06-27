@@ -41,13 +41,13 @@ public class Transform {
         );
     }
 
-    void setLocation(@NotNull Vector3 location) { this.location = location; }
-    void setRotation(@NotNull Vector3 rotation) { this.rotation = rotation; }
-    void setScale(@NotNull Vector3 scale) { this.scale = scale; }
+    public void setLocation(@NotNull Vector3 location) { this.location = location; }
+    public void setRotation(@NotNull Vector3 rotation) { this.rotation = rotation; }
+    public void setScale(@NotNull Vector3 scale) { this.scale = scale; }
 
-    @NotNull Vector3 getLocation() { return location; }
-    @NotNull Vector3 getRotation() { return rotation; }
-    @NotNull Vector3 getScale() { return scale; }
+    @NotNull public Vector3 getLocation() { return location; }
+    @NotNull public Vector3 getRotation() { return rotation; }
+    @NotNull public Vector3 getScale() { return scale; }
 
     @NotNull
     public Matrix4 getMatrix() {

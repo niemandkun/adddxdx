@@ -1,10 +1,11 @@
 package tech.niemandkun.opengl.io;
 
+import tech.niemandkun.opengl.math.Size;
+
 import static org.lwjgl.glfw.GLFW.GLFW_DONT_CARE;
 
 public class VideoModeBuilder {
-    private int mWidth = 800;
-    private int mHeight = 600;
+    private Size mSize = new Size(800, 600);
     private int mRefreshRate = GLFW_DONT_CARE;
 
     private final WindowBuilder mBuilder;
@@ -19,16 +20,11 @@ public class VideoModeBuilder {
     public Window build() { return mBuilder.build(); }
 
     VideoMode getVideoMode() {
-        return new VideoMode(mWidth, mHeight, mRefreshRate);
+        return new VideoMode(mSize, mRefreshRate);
     }
 
-    public VideoModeBuilder setWidth(int width) {
-        mWidth = width;
-        return this;
-    }
-
-    public VideoModeBuilder setHeight(int height) {
-        mHeight = height;
+    public VideoModeBuilder setSize(Size size) {
+        mSize = size;
         return this;
     }
 

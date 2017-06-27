@@ -7,5 +7,6 @@ public class TestingScene extends Scene {
     public void onCreate() {
         spawnActor(Triangles.class);
         spawnActor(Player.class);
+        spawnActor(Walls.class);
     }
 }

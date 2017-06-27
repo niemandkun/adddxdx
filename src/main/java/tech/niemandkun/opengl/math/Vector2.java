@@ -39,6 +39,13 @@ public class Vector2 implements Vector<Vector2> {
         return new Vector2(-y, x);
     }
 
+    public @NotNull Vector2 rotate(float angle) {
+        return new Vector2(
+                x * (float) Math.cos(angle) + y * (float) Math.sin(angle),
+              - x * (float) Math.sin(angle) + y * (float) Math.cos(angle)
+        );
+    }
+
     @Override
     public @NotNull Vector2 add(@NotNull Vector2 other) {
         return new Vector2(x + other.x, y + other.y);
