@@ -33,6 +33,12 @@ public class Vector3 implements Vector<Vector3> {
         return new float[] {x, y, z};
     }
 
+    public @NotNull void toFloatArray(float[] outArray) {
+        outArray[0] = x;
+        outArray[1] = y;
+        outArray[2] = z;
+    }
+
     public static @NotNull Vector3 fromFloatArray(@NotNull float[] vector) {
         return new Vector3(vector[0], vector[1], vector[2]);
     }

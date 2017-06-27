@@ -18,6 +18,12 @@ public class GraphicsSystem extends ActiveSystem<GraphicsSystem.Component> {
     public GraphicsSystem(RenderTarget renderTarget) {
         mRenderers = new HashSet<>();
         mRenderTarget = renderTarget;
+
+        mRenderTarget.init();
+    }
+
+    public RenderTarget getCurrentRenderTarget() {
+        return mRenderTarget;
     }
 
     public void addRenderer(Renderer renderer) {
@@ -26,10 +32,6 @@ public class GraphicsSystem extends ActiveSystem<GraphicsSystem.Component> {
 
     public void removeRenderer(Renderer renderer) {
         mRenderers.remove(renderer);
-    }
-
-    public RenderTarget getCurrentRenderTarget() {
-        return mRenderTarget;
     }
 
     @Override

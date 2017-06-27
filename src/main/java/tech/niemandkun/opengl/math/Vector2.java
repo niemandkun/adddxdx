@@ -27,6 +27,11 @@ public class Vector2 implements Vector<Vector2> {
         return new float[] {x, y};
     }
 
+    public @NotNull void toFloatArray(float[] outArray) {
+        outArray[0] = x;
+        outArray[1] = y;
+    }
+
     public static @NotNull Vector2 fromFloatArray(@NotNull float[] vector) {
         return new Vector2(vector[0], vector[1]);
     }

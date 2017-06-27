@@ -76,8 +76,6 @@ class GlfwWindow implements Window {
         glfwShowWindow(mHandle);
 
         GL.createCapabilities();
-
-        glEnable(GL_DEPTH_TEST);
     }
 
     private int glfwBool(boolean bool) {
@@ -107,7 +105,7 @@ class GlfwWindow implements Window {
         }
     }
 
-    public GlfwKeyboard getKeyboard() {
+    GlfwKeyboard getKeyboard() {
         if (mKeyboardInstance == null) {
             mKeyboardInstance = new GlfwKeyboard();
             glfwSetKeyCallback(mHandle, mKeyboardInstance);
@@ -116,7 +114,7 @@ class GlfwWindow implements Window {
         return mKeyboardInstance;
     }
 
-    public GlfwMouse getMouse() {
+    GlfwMouse getMouse() {
         if (mMouseInstance == null) {
             mMouseInstance = new GlfwMouse();
             glfwSetCursorPosCallback(mHandle, mMouseInstance.getCursorPosCallback());

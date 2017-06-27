@@ -3,22 +3,23 @@ package tech.niemandkun.opengl.components;
 import tech.niemandkun.opengl.graphics.*;
 
 public class MeshRenderer extends GraphicsSystem.Component implements Renderer {
-    private final Mesh mMesh;
     private final Material mMaterial;
+    private final VertexBufferObject mVertexBufferObject;
 
     public MeshRenderer(Mesh mesh, Material material) {
-        mMesh = mesh;
         mMaterial = material;
+        mVertexBufferObject = new VertexBufferObject(mesh.getVertexArray());
     }
 
     @Override
     public void render(RenderTarget target) {
-        target.render(mMesh.getVertexArray(), mMaterial, getActor().getTransform());
+        target.render(mVertexBufferObject, mMaterial, getActor().getTransform());
     }
 
     @Override
     public void onDestroy() {
-        mMesh.destroy();
+        if (mVertexBufferObject.isAllocated())
+            mVertexBufferObject.deallocate();
     }
 
     @Override

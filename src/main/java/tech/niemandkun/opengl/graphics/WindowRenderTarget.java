@@ -6,7 +6,6 @@ import tech.niemandkun.opengl.math.*;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL20.glUseProgram;
-import static org.lwjgl.opengl.GL30.glBindVertexArray;
 
 public class WindowRenderTarget implements RenderTarget {
     private final Window mWindow;
@@ -26,6 +25,12 @@ public class WindowRenderTarget implements RenderTarget {
     }
 
     @Override
+    public void init() {
+        glEnable(GL_DEPTH_TEST);
+        glDepthFunc(GL_LESS);
+    }
+
+    @Override
     public void clear(Color color) {
         Vector4 clearColor = color.toVector4();
         glClearColor(clearColor.getX(), clearColor.getY(), clearColor.getZ(), clearColor.getW());
@@ -33,20 +38,21 @@ public class WindowRenderTarget implements RenderTarget {
     }
 
     @Override
-    public void render(VertexArray vertices, Material material, Transform transform) {
+    public void render(VertexBufferObject vertices, Material material, Transform transform) {
         if (mCamera == null)
             return;
 
-        if (!vertices.isAllocated())
-            vertices.allocateVertexBufferObject();
+        if (!vertices.isAllocated()) vertices.allocate();
 
         glUseProgram(material.getShader().getHandle());
+
         Matrix4 projectionViewMatrix = getCamera().getMatrix();
         Matrix4 modelMatrix = transform.getMatrix();
-
         material.getShader().setUniform("mvp", projectionViewMatrix.cross(modelMatrix));
 
-        glBindVertexArray(vertices.getHandle());
-        glDrawArrays(GL_TRIANGLES, 0, vertices.getVertices().length);
+        vertices.drawArray();
     }
+
+    @Override
+    public void destroy() { }
 }

@@ -4,131 +4,97 @@ import com.sun.istack.internal.NotNull;
 import com.sun.istack.internal.Nullable;
 import tech.niemandkun.opengl.math.*;
 
-import java.util.Arrays;
-
-import static org.lwjgl.opengl.GL11.GL_FLOAT;
-import static org.lwjgl.opengl.GL15.*;
-import static org.lwjgl.opengl.GL20.glEnableVertexAttribArray;
-import static org.lwjgl.opengl.GL20.glVertexAttribPointer;
-import static org.lwjgl.opengl.GL30.*;
-
 class VertexArray {
-    private final static int VERTEX_POSITION_ATTR_ID = 0;
-    private final static int VERTEX_NORMAL_ATTR_ID = 1;
-    private final static int VERTEX_COLOR_ATTR_ID = 2;
-    private final static int VERTEX_UV_ATTR_ID = 3;
+    final static int COLOR_COMPONENTS_PER_VERTEX = 3;
+    final static int POSITION_COMPONENTS_PER_VERTEX = 3;
+    final static int NORMAL_COMPONENTS_PER_VERTEX = 3;
+    final static int UV_COMPONENTS_PER_VERTEX = 2;
 
-    private final static int COLOR_COMPONENTS_PER_VERTEX = 3;
-    private final static int POSITION_COMPONENTS_PER_VERTEX = 3;
-    private final static int NORMAL_COMPONENTS_PER_VERTEX = 3;
-    private final static int UV_COMPONENTS_PER_VERTEX = 2;
+    private final float[] mVertexBuffer;
 
-    private final static int NULL_HANDLE = -1;
+    private final boolean mHasNormalData;
+    private final boolean mHasColorData;
+    private final boolean mHasUvData;
 
-    private int mHandle;
-    int getHandle() { return mHandle; }
+    private final int mVertexSize;
 
-    private final Vector3[] mVertices;
-    private int mVerticesBufferHandle;
-    Vector3[] getVertices() { return mVertices; }
+    float[] getVertexBuffer() { return mVertexBuffer; }
 
-    private final Vector3[] mNormals;
-    private int mNormalsBufferHandle;
-    Vector3[] getNormals() { return mNormals; }
+    boolean hasNormalData() { return mHasNormalData; }
+    boolean hasColorData() { return mHasColorData; }
+    boolean hasUvData() { return mHasUvData; }
 
-    private final Color[] mColors;
-    private int mColorsBufferHandle;
-    Color[] getColors() { return mColors; }
+    int getVertexSize() { return mVertexSize; }
 
-    private final Vector2[] mUvCoordinates;
-    private int mUvBufferHandle;
-    Vector2[] getUvCoordinates() { return mUvCoordinates; }
+    VertexArray(@NotNull Vector3[] vertices, @Nullable Vector3[] normals,
+                @Nullable Color[] colors, @Nullable Vector2[] uvCoordinates) {
 
-    VertexArray(@NotNull Vector3[] vertices,
-                @Nullable Vector3[] normals,
-                @Nullable Color[] colors,
-                @Nullable Vector2[] uvCoordinates) {
+        if (vertices == null) throw new IllegalArgumentException("Expected vertices data, but got null.");
 
-        mHandle = NULL_HANDLE;
-        mVertices = vertices;
-        mNormals = normals;
-        mColors = colors;
-        mUvCoordinates = uvCoordinates;
+        if (!validateArraysLength(vertices, normals, colors, uvCoordinates))
+            throw new IllegalArgumentException("Length of all arrays data should match.");
+
+        mHasNormalData = normals != null;
+        mHasColorData = colors != null;
+        mHasUvData = uvCoordinates != null;
+
+        mVertexBuffer = packToFloatArray(vertices, normals, colors, uvCoordinates);
+        mVertexSize = mVertexBuffer.length / vertices.length;
     }
 
-    void allocateVertexBufferObject() {
-        if (mHandle != NULL_HANDLE) throw new IllegalStateException("VBO is already allocated.");
+    private float[] packToFloatArray(Vector3[] vertices, Vector3[] normals,
+                                     Color[] colors, Vector2[] uvCoordinates) {
 
-        mHandle = glGenVertexArrays();
-        glBindVertexArray(mHandle);
-        glEnableVertexAttribArray(VERTEX_POSITION_ATTR_ID);
-
-        mVerticesBufferHandle = glGenBuffers();
-        glBindBuffer(GL_ARRAY_BUFFER, mVerticesBufferHandle);
-        glBufferData(GL_ARRAY_BUFFER, toFloatArray(mVertices, POSITION_COMPONENTS_PER_VERTEX), GL_STATIC_DRAW);
-        glVertexAttribPointer(VERTEX_POSITION_ATTR_ID, POSITION_COMPONENTS_PER_VERTEX, GL_FLOAT, false, 0, 0);
-
-        if (mNormals != null) {
-            mNormalsBufferHandle = glGenBuffers();
-            glEnableVertexAttribArray(VERTEX_NORMAL_ATTR_ID);
-            glBindBuffer(GL_ARRAY_BUFFER, mNormalsBufferHandle);
-            glBufferData(GL_ARRAY_BUFFER, toFloatArray(mNormals, NORMAL_COMPONENTS_PER_VERTEX), GL_STATIC_DRAW);
-            glVertexAttribPointer(VERTEX_NORMAL_ATTR_ID, NORMAL_COMPONENTS_PER_VERTEX, GL_FLOAT, false, 0, 0);
-        } else {
-            mNormalsBufferHandle = NULL_HANDLE;
-        }
-
-        if (mColors != null) {
-            mColorsBufferHandle = glGenBuffers();
-            glEnableVertexAttribArray(VERTEX_COLOR_ATTR_ID);
-            glBindBuffer(GL_ARRAY_BUFFER, mColorsBufferHandle);
-            glBufferData(GL_ARRAY_BUFFER, toFloatArray(mColors, COLOR_COMPONENTS_PER_VERTEX), GL_STATIC_DRAW);
-            glVertexAttribPointer(VERTEX_COLOR_ATTR_ID, COLOR_COMPONENTS_PER_VERTEX, GL_FLOAT, false, 0, 0);
-        } else {
-            mColorsBufferHandle = NULL_HANDLE;
-        }
-
-        if (mUvCoordinates != null) {
-            mUvBufferHandle = glGenBuffers();
-            glEnableVertexAttribArray(VERTEX_UV_ATTR_ID);
-            glBindBuffer(GL_ARRAY_BUFFER, mUvBufferHandle);
-            glBufferData(GL_ARRAY_BUFFER, toFloatArray(mUvCoordinates, UV_COMPONENTS_PER_VERTEX), GL_STATIC_DRAW);
-            glVertexAttribPointer(VERTEX_UV_ATTR_ID, UV_COMPONENTS_PER_VERTEX, GL_FLOAT, false, 0, 0);
-        } else {
-            mUvBufferHandle = NULL_HANDLE;
-        }
-    }
-
-    private static float[] toFloatArray(Vector[] vectors, int vectorLength) {
-        float[] positions = new float[vectors.length * vectorLength];
+        float[] vertexBuffer = new float[calculateTotalLength(vertices, normals, colors, uvCoordinates)];
+        float[] buffer = new float[POSITION_COMPONENTS_PER_VERTEX];
 
         int positionArrayOffset = 0;
 
-        for (Vector vector : vectors) {
-            float[] vectorAsFloatArray = vector.toFloatArray();
+        for (int i = 0; i < vertices.length; ++i) {
+            vertices[i].toFloatArray(buffer);
+            for (int j = 0; j < POSITION_COMPONENTS_PER_VERTEX; ++j)
+                vertexBuffer[positionArrayOffset++] = buffer[j];
 
-            for (int j = 0; j < vectorLength; ++j)
-                positions[positionArrayOffset++] = vectorAsFloatArray[j];
+            if (normals != null) {
+                normals[i].toFloatArray(buffer);
+                for (int j = 0; j < NORMAL_COMPONENTS_PER_VERTEX; ++j)
+                    vertexBuffer[positionArrayOffset++] = buffer[j];
+            }
+
+            if (colors != null) {
+                colors[i].toVector3().toFloatArray(buffer);
+                for (int j = 0; j < COLOR_COMPONENTS_PER_VERTEX; ++j)
+                    vertexBuffer[positionArrayOffset++] = buffer[j];
+            }
+
+            if (uvCoordinates != null) {
+                uvCoordinates[i].toFloatArray(buffer);
+                for (int j = 0; j < UV_COMPONENTS_PER_VERTEX; ++j)
+                    vertexBuffer[positionArrayOffset++] = buffer[j];
+            }
         }
 
-        return positions;
+        return vertexBuffer;
     }
 
-    private static float[] toFloatArray(Color[] colors, int componentsPerColor) {
-        Vector3[] colorsAsVectors = Arrays.stream(colors).map(Color::toVector3).toArray(Vector3[]::new);
-        return toFloatArray(colorsAsVectors, componentsPerColor);
+    private static boolean validateArraysLength(@NotNull Object[] first, Object[]... others) {
+        boolean isValid = true;
+
+        for (Object[] array : others)
+            isValid &= !(array != null && first.length != array.length);
+
+        return isValid;
     }
 
-    boolean isAllocated() {
-        return mHandle != -1;
-    }
+    private static int calculateTotalLength(Vector3[] vertices, Vector3[] normals,
+                                            Color[] colors, Vector2[] uvCoordinates) {
+        int totalLength = 0;
 
-    void deallocateVertexBufferObject() {
-        if (mVerticesBufferHandle != NULL_HANDLE) glDeleteBuffers(mVerticesBufferHandle);
-        if (mNormalsBufferHandle != NULL_HANDLE) glDeleteBuffers(mNormalsBufferHandle);
-        if (mColorsBufferHandle != NULL_HANDLE) glDeleteBuffers(mColorsBufferHandle);
-        if (mUvBufferHandle != NULL_HANDLE) glDeleteBuffers(mUvBufferHandle);
+        if (vertices != null) totalLength += vertices.length * POSITION_COMPONENTS_PER_VERTEX;
+        if (normals != null) totalLength += normals.length * NORMAL_COMPONENTS_PER_VERTEX;
+        if (colors != null) totalLength += colors.length * COLOR_COMPONENTS_PER_VERTEX;
+        if (uvCoordinates != null) totalLength += uvCoordinates.length * UV_COMPONENTS_PER_VERTEX;
 
-        glDeleteVertexArrays(mHandle);
+        return totalLength;
     }
 }

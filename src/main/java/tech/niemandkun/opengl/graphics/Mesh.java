@@ -1,25 +1,19 @@
 package tech.niemandkun.opengl.graphics;
 
-import tech.niemandkun.opengl.engine.Destroyable;
-import tech.niemandkun.opengl.math.Color;
-import tech.niemandkun.opengl.math.Vector3;
+import com.sun.istack.internal.NotNull;
+import com.sun.istack.internal.Nullable;
+import tech.niemandkun.opengl.math.*;
 
-public class Mesh implements Destroyable {
-    private VertexArray mVertexArray;
+public class Mesh {
+    private final VertexArray mVertexArray;
 
     public VertexArray getVertexArray() { return mVertexArray; }
 
-    public Mesh(Vector3[] vertices) {
+    public Mesh(@NotNull Vector3[] vertices) {
         mVertexArray = new VertexArray(vertices, null, null, null);
     }
 
-    public Mesh(Vector3[] vertices, Color[] colors) {
+    public Mesh(@NotNull Vector3[] vertices, @NotNull Color[] colors) {
         mVertexArray = new VertexArray(vertices, null, colors, null);
-    }
-
-    @Override
-    public void destroy() {
-        if (mVertexArray.isAllocated())
-            mVertexArray.deallocateVertexBufferObject();
     }
 }
