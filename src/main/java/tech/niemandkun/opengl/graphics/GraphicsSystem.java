@@ -2,10 +2,11 @@ package tech.niemandkun.opengl.graphics;
 
 import tech.niemandkun.opengl.engine.ActiveSystem;
 
+import java.time.Duration;
 import java.util.HashSet;
 import java.util.Set;
 
-public class GraphicsSystem implements ActiveSystem<GraphicsSystem.Component> {
+public class GraphicsSystem extends ActiveSystem<GraphicsSystem.Component> {
     public abstract static class Component extends tech.niemandkun.opengl.engine.Component {
         public abstract void connect(GraphicsSystem system);
         public abstract void disconnect(GraphicsSystem system);
@@ -42,7 +43,7 @@ public class GraphicsSystem implements ActiveSystem<GraphicsSystem.Component> {
     }
 
     @Override
-    public void update() {
+    public void update(Duration timeSinceLastUpdate) {
         mRenderTarget.clear();
 
         for (Renderer renderer : mRenderers)

@@ -24,7 +24,7 @@ public class Story implements Destroyable {
 
         while (window.isOpen() && (currentAct = scenario.peekScene()) != null) {
             currentAct.onMainLoop();
-            activeSystems.forEach(ActiveSystem::update);
+            activeSystems.forEach(ActiveSystem::fixedUpdate);
             window.update();
         }
 

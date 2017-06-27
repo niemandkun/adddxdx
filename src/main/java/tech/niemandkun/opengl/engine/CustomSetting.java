@@ -44,7 +44,7 @@ class CustomSetting implements Setting {
     }
 
     private Type getGenericInterfaceParameter(Class<?> clazz) {
-        ParameterizedType firstGenericInterface = (ParameterizedType) clazz.getGenericInterfaces()[0];
+        ParameterizedType firstGenericInterface = (ParameterizedType) clazz.getGenericSuperclass();
         return firstGenericInterface.getActualTypeArguments()[0];
     }
 }

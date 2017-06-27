@@ -1,5 +1,5 @@
 package tech.niemandkun.opengl.engine;
 
-public interface PassiveSystem<TComponent extends Component> extends System<TComponent> {
+public abstract class PassiveSystem<TComponent extends Component> implements System<TComponent> {
 
 }

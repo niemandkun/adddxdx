@@ -2,7 +2,9 @@ package tech.niemandkun.opengl.io;
 
 import tech.niemandkun.opengl.engine.ActiveSystem;
 
-public class InputSystem implements ActiveSystem<InputSystem.Component> {
+import java.time.Duration;
+
+public class InputSystem extends ActiveSystem<InputSystem.Component> {
     public abstract static class Component extends tech.niemandkun.opengl.engine.Component {
         public abstract void connect(Keyboard keyboard, Mouse mouse);
         public abstract void disconnect(Keyboard keyboard, Mouse mouse);
@@ -11,7 +13,7 @@ public class InputSystem implements ActiveSystem<InputSystem.Component> {
     private final GlfwKeyboard mKeyboard;
     private final GlfwMouse mMouse;
 
-    public InputSystem(GlfwKeyboard keyboard, GlfwMouse mouse) {
+    InputSystem(GlfwKeyboard keyboard, GlfwMouse mouse) {
         mKeyboard = keyboard;
         mMouse = mouse;
     }
@@ -27,7 +29,7 @@ public class InputSystem implements ActiveSystem<InputSystem.Component> {
     }
 
     @Override
-    public void update() {
+    public void update(Duration timeSinceLastUpdate) {
         mKeyboard.update();
     }
 }
