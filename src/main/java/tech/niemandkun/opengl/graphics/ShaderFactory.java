@@ -4,22 +4,25 @@ import tech.niemandkun.opengl.engine.Destroyable;
 
 import java.io.File;
 
-public class MaterialFactory implements Destroyable {
+public class ShaderFactory implements Destroyable {
     private final Shader mDefaultShader;
     private final Material mDefaultMaterial;
 
-    public MaterialFactory() {
+    public ShaderFactory() {
+        mDefaultShader = buildShader("simple");
+        mDefaultMaterial = new Material(mDefaultShader);
+    }
+
+    Shader buildShader(String shaderName) {
         try {
-            mDefaultShader = Shader.getCompiler()
-                            .setFragmentShader(open("simple.frag"))
-                            .setVertexShader(open("simple.vert"))
-                            .compile();
+            return Shader.getCompiler()
+                    .setFragmentShader(open(shaderName + ".frag"))
+                    .setVertexShader(open(shaderName + ".vert"))
+                    .compile();
         } catch (ShaderCompileException e) {
             System.out.println(e.getMessage());
             throw new IllegalStateException(e.getMessage());
         }
-
-        mDefaultMaterial = new Material(mDefaultShader);
     }
 
     private File open(String path) {

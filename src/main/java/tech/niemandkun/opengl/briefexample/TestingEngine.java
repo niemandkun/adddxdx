@@ -2,7 +2,7 @@ package tech.niemandkun.opengl.briefexample;
 
 import tech.niemandkun.opengl.engine.*;
 import tech.niemandkun.opengl.graphics.GraphicsSystem;
-import tech.niemandkun.opengl.graphics.MaterialFactory;
+import tech.niemandkun.opengl.graphics.ShaderFactory;
 import tech.niemandkun.opengl.io.*;
 import tech.niemandkun.opengl.math.Size;
 
@@ -21,11 +21,14 @@ public class TestingEngine implements Runnable {
                 .onFramebuffer().setMultiSampling(4)
                 .build();
 
+        ShaderFactory shaderFactory = new ShaderFactory();
+        GraphicsSystem graphicsSystem = new GraphicsSystem(platform.getWindow(), shaderFactory);
+
         ServiceLocator locator = new ServiceLocator();
         locator.registerSingleton(Window.class, platform.getWindow());
         locator.registerSingleton(InputSystem.class, platform.getInputSystem());
-        locator.registerSingleton(MaterialFactory.class, new MaterialFactory());
-        locator.registerSingleton(GraphicsSystem.class, new GraphicsSystem(platform.getWindow()));
+        locator.registerSingleton(ShaderFactory.class, shaderFactory);
+        locator.registerSingleton(GraphicsSystem.class, graphicsSystem);
 
         return locator;
     }

@@ -1,12 +1,12 @@
 package tech.niemandkun.opengl.engine;
 
-import tech.niemandkun.opengl.graphics.MaterialFactory;
+import tech.niemandkun.opengl.graphics.ShaderFactory;
 import tech.niemandkun.opengl.io.Window;
 
 import java.util.Collection;
 
 public interface Setting {
-    MaterialFactory getMaterialFactory();
+    ShaderFactory getShaderFactory();
     Scenario getScenario();
     Window getWindow();
     Clock getClock();

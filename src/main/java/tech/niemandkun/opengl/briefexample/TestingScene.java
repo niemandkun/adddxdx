@@ -8,5 +8,6 @@ public class TestingScene extends Scene {
         spawnActor(Triangles.class);
         spawnActor(Player.class);
         spawnActor(Walls.class);
+        spawnActor(TestingLight.class);
     }
 }

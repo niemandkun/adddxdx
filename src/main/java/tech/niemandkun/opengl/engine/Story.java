@@ -35,6 +35,6 @@ public class Story implements Destroyable {
     public void destroy() {
         mSetting.getScenario().popAll();
         mSetting.getWindow().destroy();
-        mSetting.getMaterialFactory().destroy();
+        mSetting.getShaderFactory().destroy();
     }
 }
