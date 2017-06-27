@@ -1,11 +1,8 @@
 package tech.niemandkun.opengl.graphics;
 
-import tech.niemandkun.opengl.math.Matrix4;
-
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL15.*;
 import static org.lwjgl.opengl.GL20.glEnableVertexAttribArray;
-import static org.lwjgl.opengl.GL20.glUseProgram;
 import static org.lwjgl.opengl.GL20.glVertexAttribPointer;
 import static org.lwjgl.opengl.GL30.*;
 import static tech.niemandkun.opengl.graphics.VertexArray.*;

@@ -2,7 +2,6 @@ package tech.niemandkun.opengl.graphics;
 
 import tech.niemandkun.opengl.engine.ActiveSystem;
 import tech.niemandkun.opengl.io.Window;
-import tech.niemandkun.opengl.math.Size;
 
 import java.time.Duration;
 import java.util.HashSet;
