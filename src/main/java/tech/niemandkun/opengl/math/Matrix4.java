@@ -101,6 +101,11 @@ public class Matrix4 {
         return inv;
     }
 
+
+    public static @NotNull Matrix4 getTranslationMatrix(Vector3 v) {
+        return getTranslationMatrix(v.getX(), v.getY(), v.getZ());
+    }
+
     public static @NotNull Matrix4 getTranslationMatrix(float x, float y, float z) {
         return new Matrix4(new float[]{
                 1, 0, 0, x,
@@ -108,6 +113,10 @@ public class Matrix4 {
                 0, 0, 1, z,
                 0, 0, 0, 1,
         });
+    }
+
+    public static @NotNull Matrix4 getRotationMatrix(Vector3 v) {
+        return getRotationMatrix(v.getX(), v.getY(), v.getZ());
     }
 
     public static @NotNull Matrix4 getRotationMatrix(float x, float y, float z) {
@@ -133,6 +142,10 @@ public class Matrix4 {
                 0,                     0,                      0,                      1,
             }
         ));
+    }
+
+    public static @NotNull Matrix4 getScaleMatrix(Vector3 v) {
+        return getScaleMatrix(v.getX(), v.getY(), v.getZ());
     }
 
     public static @NotNull Matrix4 getScaleMatrix(float x, float y, float z) {
