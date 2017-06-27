@@ -17,8 +17,8 @@ class GlProgram implements Shader {
     }
 
     @Override
-    public int getHandle() {
-        return mHandle;
+    public void enable() {
+        glUseProgram(mHandle);
     }
 
     @Override

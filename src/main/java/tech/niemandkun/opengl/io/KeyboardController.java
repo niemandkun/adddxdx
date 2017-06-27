@@ -8,12 +8,12 @@ public abstract class KeyboardController extends InputSystem.Component implement
     }
 
     @Override
-    public void connect(Keyboard keyboard, Mouse mouse) {
+    void connect(Keyboard keyboard, Mouse mouse) {
         keyboard.addObserver(this);
     }
 
     @Override
-    public void disconnect(Keyboard keyboard, Mouse mouse) {
+    void disconnect(Keyboard keyboard, Mouse mouse) {
         keyboard.removeObserver(this);
     }
 

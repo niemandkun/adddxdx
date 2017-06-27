@@ -4,7 +4,7 @@ import tech.niemandkun.opengl.engine.Destroyable;
 import tech.niemandkun.opengl.math.*;
 
 public interface Shader extends Destroyable {
-    int getHandle();
+    void enable();
 
     void setUniform(String uniformName, Matrix4 matrix);
 

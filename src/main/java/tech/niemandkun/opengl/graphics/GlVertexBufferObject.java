@@ -1,13 +1,16 @@
 package tech.niemandkun.opengl.graphics;
 
+import tech.niemandkun.opengl.math.Matrix4;
+
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL15.*;
 import static org.lwjgl.opengl.GL20.glEnableVertexAttribArray;
+import static org.lwjgl.opengl.GL20.glUseProgram;
 import static org.lwjgl.opengl.GL20.glVertexAttribPointer;
 import static org.lwjgl.opengl.GL30.*;
 import static tech.niemandkun.opengl.graphics.VertexArray.*;
 
-class VertexBufferObject {
+class GlVertexBufferObject implements Renderer {
     private final static int VERTEX_POSITION_ATTR_ID = 0;
     private final static int VERTEX_NORMAL_ATTR_ID = 1;
     private final static int VERTEX_COLOR_ATTR_ID = 2;
@@ -21,15 +24,11 @@ class VertexBufferObject {
     private int mObjectHandle;
     private int mBufferHandle;
 
-    int getHandle() {
-        return mObjectHandle;
-    }
-
     boolean isAllocated() {
         return mObjectHandle != NULL_HANDLE;
     }
 
-    VertexBufferObject(VertexArray vertexArray) {
+    GlVertexBufferObject(VertexArray vertexArray) {
         mVertexArray = vertexArray;
         mObjectHandle = NULL_HANDLE;
         mBufferHandle = NULL_HANDLE;
@@ -70,16 +69,19 @@ class VertexBufferObject {
         }
     }
 
-    void drawArray() {
-        glBindVertexArray(mObjectHandle);
-        glDrawArrays(GL_TRIANGLES, 0, mVertexArray.getVertexBuffer().length);
-    }
-
-    public void deallocate() {
+    void deallocate() {
         glDeleteVertexArrays(mObjectHandle);
         glDeleteBuffers(mBufferHandle);
 
         mObjectHandle = NULL_HANDLE;
         mBufferHandle = NULL_HANDLE;
+    }
+
+    @Override
+    public void render(RenderTarget target, RenderSettings settings) {
+        if (!isAllocated()) allocate();
+
+        glBindVertexArray(mObjectHandle);
+        glDrawArrays(GL_TRIANGLES, 0, mVertexArray.getVertexBuffer().length);
     }
 }

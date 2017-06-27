@@ -1,6 +1,8 @@
 package tech.niemandkun.opengl.graphics;
 
 import tech.niemandkun.opengl.engine.ActiveSystem;
+import tech.niemandkun.opengl.io.Window;
+import tech.niemandkun.opengl.math.Size;
 
 import java.time.Duration;
 import java.util.HashSet;
@@ -8,29 +10,38 @@ import java.util.Set;
 
 public class GraphicsSystem extends ActiveSystem<GraphicsSystem.Component> {
     public abstract static class Component extends tech.niemandkun.opengl.engine.Component {
-        public abstract void connect(GraphicsSystem system);
-        public abstract void disconnect(GraphicsSystem system);
+        abstract void connect(GraphicsSystem system);
+        abstract void disconnect(GraphicsSystem system);
     }
 
     private final Set<Renderer> mRenderers;
     private final RenderTarget mRenderTarget;
+    private final Window mWindow;
 
-    public GraphicsSystem(RenderTarget renderTarget) {
+    private Camera mCamera;
+
+    public GraphicsSystem(Window window) {
         mRenderers = new HashSet<>();
-        mRenderTarget = renderTarget;
+        mRenderTarget = new GlWindowRenderTarget();
 
         mRenderTarget.init();
+        mWindow = window;
     }
 
-    public RenderTarget getCurrentRenderTarget() {
-        return mRenderTarget;
+    void setCamera(Camera camera) {
+        mCamera = camera;
+        mCamera.adjustAspectRatio(mWindow.getSize());
     }
 
-    public void addRenderer(Renderer renderer) {
+    Camera getCamera() {
+        return mCamera;
+    }
+
+    void addRenderer(Renderer renderer) {
         mRenderers.add(renderer);
     }
 
-    public void removeRenderer(Renderer renderer) {
+    void removeRenderer(Renderer renderer) {
         mRenderers.remove(renderer);
     }
 
@@ -48,7 +59,11 @@ public class GraphicsSystem extends ActiveSystem<GraphicsSystem.Component> {
     public void update(Duration timeSinceLastUpdate) {
         mRenderTarget.clear();
 
+        if (mCamera == null) return;
+
+        RenderSettings settings = new RenderSettings(mCamera.getMatrix());
+
         for (Renderer renderer : mRenderers)
-            renderer.render(mRenderTarget);
+            renderer.render(mRenderTarget, settings);
     }
 }

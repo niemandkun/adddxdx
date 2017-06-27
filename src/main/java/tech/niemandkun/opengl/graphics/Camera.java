@@ -22,14 +22,12 @@ public class Camera extends GraphicsSystem.Component {
 
     @Override
     public void connect(GraphicsSystem system) {
-        RenderTarget target = system.getCurrentRenderTarget();
-        if (target.getCamera() == null) target.setCamera(this);
+        if (system.getCamera() == null) system.setCamera(this);
     }
 
     @Override
     public void disconnect(GraphicsSystem system) {
-        RenderTarget target = system.getCurrentRenderTarget();
-        if (this.equals(target.getCamera())) target.setCamera(null);
+        if (this.equals(system.getCamera())) system.setCamera(null);
     }
 
     Matrix4 getMatrix() {
