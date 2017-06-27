@@ -27,9 +27,9 @@ class GlProgram implements Shader {
     }
 
     @Override
-    public void setUniform(String uniformName, Matrix4 matrix, boolean transpose) {
+    public void setUniform(String uniformName, Matrix4 matrix) {
         int uniformLocation = getUniformLocation(uniformName);
-        glUniformMatrix4fv(uniformLocation, transpose, matrix.toFloatArray());
+        glUniformMatrix4fv(uniformLocation, true, matrix.toFloatArray());
     }
 
     @Override
