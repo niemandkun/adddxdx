@@ -1,6 +1,6 @@
 package tech.niemandkun.opengl.io;
 
-public abstract class WindowBuilder {
+public abstract class PlatformBuilder {
     private VideoModeBuilder mVideoMode = new VideoModeBuilder(this);
     private WindowSettingsBuilder mWindowSettings = new WindowSettingsBuilder(this);
     private FramebufferSettingsBuilder mFramebufferSettings = new FramebufferSettingsBuilder(this);
@@ -11,8 +11,8 @@ public abstract class WindowBuilder {
     public FramebufferSettingsBuilder onFramebuffer() { return mFramebufferSettings; }
     public ContextSettingsBuilder onContext() { return mContextSettings; }
 
-    public Window build() {
-        return buildWindow(
+    public Platform build() {
+        return buildPlatform(
                 mWindowSettings.getTitle(),
                 mVideoMode.getVideoMode(),
                 mWindowSettings.getSettings(),
@@ -21,8 +21,8 @@ public abstract class WindowBuilder {
         );
     }
 
-    abstract Window buildWindow(String title, VideoMode videoMode,
-                                WindowSettings windowSettings,
-                                ContextSettings contextSettings,
-                                FramebufferSettings framebufferSettings);
+    abstract Platform buildPlatform(String title, VideoMode videoMode,
+                                    WindowSettings windowSettings,
+                                    ContextSettings contextSettings,
+                                    FramebufferSettings framebufferSettings);
 }

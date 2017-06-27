@@ -5,16 +5,16 @@ public class ContextSettingsBuilder {
     private int mMinorVersion = 0;
     private ContextProfile mProfile = ContextProfile.ANY;
 
-    private final WindowBuilder mBuilder;
+    private final PlatformBuilder mBuilder;
 
-    ContextSettingsBuilder(WindowBuilder builder) {
+    ContextSettingsBuilder(PlatformBuilder builder) {
         mBuilder = builder;
     }
 
     public VideoModeBuilder onVideoMode() { return mBuilder.onVideoMode(); }
     public WindowSettingsBuilder onWindow() { return mBuilder.onWindow(); }
     public FramebufferSettingsBuilder onFramebuffer() { return mBuilder.onFramebuffer(); }
-    public Window build() { return mBuilder.build(); }
+    public Platform build() { return mBuilder.build(); }
 
     ContextSettings getContextSettings() {
         return new ContextSettings(mMajorVersion, mMinorVersion, mProfile.getProfile());

@@ -6,8 +6,8 @@ import java.util.*;
 
 import static org.lwjgl.glfw.GLFW.*;
 
-class GlfwKeyboard implements EventQueueKeyboard, GLFWKeyCallbackI {
-    private final static int MAX_EVENTS_COUNT = 32;
+class GlfwKeyboard implements Keyboard, GLFWKeyCallbackI {
+    private final static int MAX_EVENTS_COUNT = 128;
 
     private final Set<KeyPressListener> mKeyPressListeners;
     private final Set<KeyReleaseListener> mKeyReleaseListeners;
@@ -57,7 +57,6 @@ class GlfwKeyboard implements EventQueueKeyboard, GLFWKeyCallbackI {
         if (action == GLFW_RELEASE) mPressedKeys.remove(keycode);
     }
 
-    @Override
     public void deliverEvents() {
         while (!mEventQueue.isEmpty()) {
             GlfwKeyboardEvent event = mEventQueue.remove();

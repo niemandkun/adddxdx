@@ -5,12 +5,12 @@ public interface Keyboard {
         void onKeyPressed(Keyboard keyboard, KeyboardEvent event);
     }
 
+    void addKeyPressListener(KeyPressListener listener);
+    void removeKeyPressListener(KeyPressListener listener);
+
     interface KeyReleaseListener {
         void onKeyReleased(Keyboard keyboard, KeyboardEvent event);
     }
-
-    void addKeyPressListener(KeyPressListener listener);
-    void removeKeyPressListener(KeyPressListener listener);
 
     void addKeyReleaseListener(KeyReleaseListener listener);
     void removeKeyReleasedListener(KeyReleaseListener listener);

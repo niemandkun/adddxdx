@@ -12,16 +12,16 @@ public class WindowSettingsBuilder {
 
     private String title = "Window";
 
-    private final WindowBuilder mBuilder;
+    private final PlatformBuilder mBuilder;
 
-    WindowSettingsBuilder(WindowBuilder builder) {
+    WindowSettingsBuilder(PlatformBuilder builder) {
         mBuilder = builder;
     }
 
     public VideoModeBuilder onVideoMode() { return mBuilder.onVideoMode(); }
     public FramebufferSettingsBuilder onFramebuffer() { return mBuilder.onFramebuffer(); }
     public ContextSettingsBuilder onContext() { return mBuilder.onContext(); }
-    public Window build() { return mBuilder.build(); }
+    public Platform build() { return mBuilder.build(); }
 
     String getTitle() {
         return title;

@@ -2,8 +2,7 @@ package tech.niemandkun.opengl.briefexample;
 
 import tech.niemandkun.opengl.engine.*;
 import tech.niemandkun.opengl.graphics.*;
-import tech.niemandkun.opengl.io.InputSystem;
-import tech.niemandkun.opengl.io.Window;
+import tech.niemandkun.opengl.io.*;
 import tech.niemandkun.opengl.math.Size;
 
 public class TestingEngine implements Runnable {
@@ -14,7 +13,7 @@ public class TestingEngine implements Runnable {
     }
 
     private static ServiceLocator createLocator() {
-        Window window = Window.builder()
+        Platform platform = Platform.builder()
                 .onWindow().setResizable(false)
                 .onVideoMode().setSize(new Size(1024, 768))
                 .onContext().setMajorVersion(3).setMinorVersion(3)
@@ -22,10 +21,10 @@ public class TestingEngine implements Runnable {
                 .build();
 
         ServiceLocator locator = new ServiceLocator();
-        locator.registerSingleton(Window.class, window);
+        locator.registerSingleton(Window.class, platform.getWindow());
         locator.registerSingleton(MaterialFactory.class, new MaterialFactory());
-        locator.registerSingleton(GraphicsSystem.class, new GraphicsSystem(new WindowRenderTarget(window)));
-        locator.registerSingleton(InputSystem.class, new InputSystem(window.getKeyboard()));
+        locator.registerSingleton(GraphicsSystem.class, new GraphicsSystem(platform.getRenderTarget()));
+        //locator.registerSingleton(InputSystem.class, new InputSystem(platform.getKeyboard()));
 
         return locator;
     }

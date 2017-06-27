@@ -8,16 +8,16 @@ public class VideoModeBuilder {
     private Size mSize = new Size(800, 600);
     private int mRefreshRate = GLFW_DONT_CARE;
 
-    private final WindowBuilder mBuilder;
+    private final PlatformBuilder mBuilder;
 
-    VideoModeBuilder(WindowBuilder builder) {
+    VideoModeBuilder(PlatformBuilder builder) {
         mBuilder = builder;
     }
 
     public WindowSettingsBuilder onWindow() { return mBuilder.onWindow(); }
     public FramebufferSettingsBuilder onFramebuffer() { return mBuilder.onFramebuffer(); }
     public ContextSettingsBuilder onContext() { return mBuilder.onContext(); }
-    public Window build() { return mBuilder.build(); }
+    public Platform build() { return mBuilder.build(); }
 
     VideoMode getVideoMode() {
         return new VideoMode(mSize, mRefreshRate);

@@ -9,16 +9,16 @@ public class FramebufferSettingsBuilder {
     private int mStencilBits = 8;
     private int mMultiSampling = 0;
 
-    private final WindowBuilder mBuilder;
+    private final PlatformBuilder mBuilder;
 
-    FramebufferSettingsBuilder(WindowBuilder builder) {
+    FramebufferSettingsBuilder(PlatformBuilder builder) {
         mBuilder = builder;
     }
 
     public VideoModeBuilder onVideoMode() { return mBuilder.onVideoMode(); }
     public WindowSettingsBuilder onWindow() { return mBuilder.onWindow(); }
     public ContextSettingsBuilder onContext() { return mBuilder.onContext(); }
-    public Window build() { return mBuilder.build(); }
+    public Platform build() { return mBuilder.build(); }
 
     FramebufferSettings getFramebufferSettings() {
         return new FramebufferSettings(mRedBits, mGreenBits, mBlueBits, mAlphaBits,

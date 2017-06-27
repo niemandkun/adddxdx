@@ -20,6 +20,7 @@ class GlfwWindow implements Window {
 
     private long mHandle;
     private GlfwKeyboard mKeyboardInstance;
+    private GlfwMouse mMouseInstance;
 
     GlfwWindow(@NotNull String title, @NotNull VideoMode videoMode, @Nullable WindowSettings windowSettings,
                @Nullable ContextSettings contextSettings, @Nullable FramebufferSettings framebufferSettings) {
@@ -106,14 +107,24 @@ class GlfwWindow implements Window {
         }
     }
 
-    @Override
-    public EventQueueKeyboard getKeyboard() {
+    public GlfwKeyboard getKeyboard() {
         if (mKeyboardInstance == null) {
             mKeyboardInstance = new GlfwKeyboard();
             glfwSetKeyCallback(mHandle, mKeyboardInstance);
         }
 
         return mKeyboardInstance;
+    }
+
+    public GlfwMouse getMouse() {
+        if (mMouseInstance == null) {
+            mMouseInstance = new GlfwMouse();
+            glfwSetCursorPosCallback(mHandle, mMouseInstance.getCursorPosCallback());
+            glfwSetMouseButtonCallback(mHandle, mMouseInstance.getMouseButtonCallback());
+            glfwSetScrollCallback(mHandle, mMouseInstance.getScrollCallback());
+        }
+
+        return mMouseInstance;
     }
 
     @Override

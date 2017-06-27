@@ -7,10 +7,4 @@ public interface Window extends Destroyable {
     void update();
     boolean isOpen();
     Size getSize();
-
-    EventQueueKeyboard getKeyboard();
-
-    static WindowBuilder builder() {
-        return new GlfwWindowBuilder();
-    }
 }

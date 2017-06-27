@@ -13,9 +13,9 @@ public class InputSystem implements ActiveSystem<InputSystem.Component> {
 
     private Set<KeyboardObserver> mKeyboardObservers;
 
-    private EventQueueKeyboard mKeyboard;
+    private GlfwKeyboard mKeyboard;
 
-    public InputSystem(EventQueueKeyboard keyboard) {
+    public InputSystem(GlfwKeyboard keyboard) {
         mKeyboard = keyboard;
         mKeyboardObservers = new HashSet<>();
     }
