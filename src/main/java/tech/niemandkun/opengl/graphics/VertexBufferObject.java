@@ -1,15 +1,13 @@
 package tech.niemandkun.opengl.graphics;
 
-import static org.lwjgl.opengl.GL11.GL_FLOAT;
-import static org.lwjgl.opengl.GL11.GL_TRIANGLES;
-import static org.lwjgl.opengl.GL11.glDrawArrays;
+import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL15.*;
 import static org.lwjgl.opengl.GL20.glEnableVertexAttribArray;
 import static org.lwjgl.opengl.GL20.glVertexAttribPointer;
 import static org.lwjgl.opengl.GL30.*;
 import static tech.niemandkun.opengl.graphics.VertexArray.*;
 
-public class VertexBufferObject {
+class VertexBufferObject {
     private final static int VERTEX_POSITION_ATTR_ID = 0;
     private final static int VERTEX_NORMAL_ATTR_ID = 1;
     private final static int VERTEX_COLOR_ATTR_ID = 2;
@@ -27,11 +25,11 @@ public class VertexBufferObject {
         return mObjectHandle;
     }
 
-    public boolean isAllocated() {
+    boolean isAllocated() {
         return mObjectHandle != NULL_HANDLE;
     }
 
-    public VertexBufferObject(VertexArray vertexArray) {
+    VertexBufferObject(VertexArray vertexArray) {
         mVertexArray = vertexArray;
         mObjectHandle = NULL_HANDLE;
         mBufferHandle = NULL_HANDLE;

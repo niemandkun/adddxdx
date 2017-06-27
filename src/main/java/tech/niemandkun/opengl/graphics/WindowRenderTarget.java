@@ -1,6 +1,5 @@
 package tech.niemandkun.opengl.graphics;
 
-import tech.niemandkun.opengl.components.Camera;
 import tech.niemandkun.opengl.io.Window;
 import tech.niemandkun.opengl.math.*;
 

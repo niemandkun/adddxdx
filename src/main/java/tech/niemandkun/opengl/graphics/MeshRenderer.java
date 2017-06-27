@@ -1,6 +1,4 @@
-package tech.niemandkun.opengl.components;
-
-import tech.niemandkun.opengl.graphics.*;
+package tech.niemandkun.opengl.graphics;
 
 public class MeshRenderer extends GraphicsSystem.Component implements Renderer {
     private final Material mMaterial;

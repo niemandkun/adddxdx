@@ -1,6 +1,4 @@
-package tech.niemandkun.opengl.components;
-
-import tech.niemandkun.opengl.io.*;
+package tech.niemandkun.opengl.io;
 
 public abstract class KeyboardController extends InputSystem.Component implements Keyboard.Observer {
 

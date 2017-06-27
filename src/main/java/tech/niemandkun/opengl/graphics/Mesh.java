@@ -1,13 +1,13 @@
 package tech.niemandkun.opengl.graphics;
 
 import com.sun.istack.internal.NotNull;
-import com.sun.istack.internal.Nullable;
-import tech.niemandkun.opengl.math.*;
+import tech.niemandkun.opengl.math.Color;
+import tech.niemandkun.opengl.math.Vector3;
 
 public class Mesh {
     private final VertexArray mVertexArray;
 
-    public VertexArray getVertexArray() { return mVertexArray; }
+    VertexArray getVertexArray() { return mVertexArray; }
 
     public Mesh(@NotNull Vector3[] vertices) {
         mVertexArray = new VertexArray(vertices, null, null, null);

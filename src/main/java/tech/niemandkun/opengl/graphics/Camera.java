@@ -1,7 +1,5 @@
-package tech.niemandkun.opengl.components;
+package tech.niemandkun.opengl.graphics;
 
-import tech.niemandkun.opengl.graphics.GraphicsSystem;
-import tech.niemandkun.opengl.graphics.RenderTarget;
 import tech.niemandkun.opengl.math.*;
 
 public class Camera extends GraphicsSystem.Component {
@@ -34,7 +32,7 @@ public class Camera extends GraphicsSystem.Component {
         if (this.equals(target.getCamera())) target.setCamera(null);
     }
 
-    public Matrix4 getMatrix() {
+    Matrix4 getMatrix() {
         Matrix4 viewMatrix = getActor().getTransform().getMatrix();
         Matrix4 cameraTransform = Matrix4.getRotationMatrix(0, (float) Math.PI, 0);
         Matrix4 projectionMatrix = Projection.perspective(mFieldOfView, mAspectRatio, mNearPlane, mFarPlane);
@@ -45,7 +43,7 @@ public class Camera extends GraphicsSystem.Component {
         return mAspectRatio;
     }
 
-    public void adjustAspectRatio(Size windowSize) {
+    void adjustAspectRatio(Size windowSize) {
         mAspectRatio = (float) windowSize.getWidth() / windowSize.getHeight();
     }
 

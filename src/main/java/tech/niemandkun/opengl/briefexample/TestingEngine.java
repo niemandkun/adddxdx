@@ -1,7 +1,8 @@
 package tech.niemandkun.opengl.briefexample;
 
 import tech.niemandkun.opengl.engine.*;
-import tech.niemandkun.opengl.graphics.*;
+import tech.niemandkun.opengl.graphics.GraphicsSystem;
+import tech.niemandkun.opengl.graphics.MaterialFactory;
 import tech.niemandkun.opengl.io.*;
 import tech.niemandkun.opengl.math.Size;
 
