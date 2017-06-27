@@ -16,7 +16,6 @@ public abstract class ActiveSystem<TComponent extends Component> implements Syst
 
         if (timeSinceLastUpdate.compareTo(getUpdateInterval()) > 0) {
             update(timeSinceLastUpdate);
-            java.lang.System.out.println(timeSinceLastUpdate);
             lastUpdate = now;
         }
     }
