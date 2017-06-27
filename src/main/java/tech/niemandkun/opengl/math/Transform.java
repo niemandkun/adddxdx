@@ -3,14 +3,18 @@ package tech.niemandkun.opengl.math;
 import com.sun.istack.internal.NotNull;
 
 public class Transform {
-    private Vector3 location;
-    private Vector3 rotation;
-    private Vector3 scale;
+    private Vector3 mLocation;
+    private Vector3 mRotation;
+    private Vector3 mScale;
+
+    // TODO: Implement quaternions for this
+    private Matrix4 mRotationMatrix;
 
     public Transform() {
-        location = Vector3.ZERO;
-        rotation = Vector3.ZERO;
-        scale = Vector3.ONE;
+        mLocation = Vector3.ZERO;
+        mRotation = Vector3.ZERO;
+        mScale = Vector3.ONE;
+        mRotationMatrix = Matrix4.IDENTITY;
     }
 
     public void rotate(float x, float y, float z) {
@@ -26,33 +30,43 @@ public class Transform {
     }
 
     public void rotate(Vector3 v) {
-        rotation = rotation.add(v);
+        mRotationMatrix = mRotationMatrix.cross(Matrix4.getRotationMatrix(v));
+        mRotation = mRotation.add(v);
     }
 
     public void translate(Vector3 v) {
-        location = location.add(v);
+        mLocation = mLocation.add(v);
     }
 
     public void scale(Vector3 v) {
-        scale = new Vector3(
-                scale.getX() * v.getX(),
-                scale.getY() * v.getY(),
-                scale.getZ() * v.getZ()
+        mScale = new Vector3(
+                mScale.getX() * v.getX(),
+                mScale.getY() * v.getY(),
+                mScale.getZ() * v.getZ()
         );
     }
 
-    public void setLocation(@NotNull Vector3 location) { this.location = location; }
-    public void setRotation(@NotNull Vector3 rotation) { this.rotation = rotation; }
-    public void setScale(@NotNull Vector3 scale) { this.scale = scale; }
+    public void setLocation(@NotNull Vector3 location) {
+        mLocation = location;
+    }
 
-    @NotNull public Vector3 getLocation() { return location; }
-    @NotNull public Vector3 getRotation() { return rotation; }
-    @NotNull public Vector3 getScale() { return scale; }
+    public void setRotation(@NotNull Vector3 rotation) {
+        mRotation = rotation;
+        mRotationMatrix = Matrix4.getRotationMatrix(rotation);
+    }
 
-    @NotNull
-    public Matrix4 getMatrix() {
-        return Matrix4.getTranslationMatrix(location.getX(), location.getY(), location.getZ())
-                .cross(Matrix4.getRotationMatrix(rotation.getX(), rotation.getY(), rotation.getZ()))
-                .cross(Matrix4.getScaleMatrix(scale.getX(), scale.getY(), scale.getZ()));
+    public void setScale(@NotNull Vector3 scale) {
+        mScale = scale;
+    }
+
+    @NotNull public Vector3 getLocation() { return mLocation; }
+    @NotNull public Vector3 getRotation() { return mRotation; }
+    @NotNull public Vector3 getScale() { return mScale; }
+    @NotNull public Matrix4 getMatrix() { return buildMatrix(mLocation, mScale); }
+
+    private Matrix4 buildMatrix(Vector3 location, Vector3 scale) {
+        return Matrix4.getTranslationMatrix(location)
+                .cross(mRotationMatrix)
+                .cross(Matrix4.getScaleMatrix(scale));
     }
 }
