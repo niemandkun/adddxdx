@@ -19,6 +19,13 @@ public class Triangles extends Actor {
                 new Vector3(0.90f, -0.85f, 0),
                 new Vector3(0.90f, 0.90f, 0),
                 new Vector3(-0.85f, 0.90f, 0),
+
+                new Vector3(-0.90f, -0.90f, 0),
+                new Vector3(-0.90f, 0.85f, 0),
+                new Vector3(0.85f, -0.90f, 0),
+                new Vector3(0.90f, -0.85f, 0),
+                new Vector3(-0.85f, 0.90f, 0),
+                new Vector3(0.90f, 0.90f, 0),
         };
 
         Color[] colors = new Color[]{
@@ -28,6 +35,13 @@ public class Triangles extends Actor {
                 Color.MATERIAL_GREEN,
                 Color.MATERIAL_DEEP_ORANGE,
                 Color.MATERIAL_LIGHT_BLUE,
+
+                Color.MATERIAL_DEEP_ORANGE,
+                Color.MATERIAL_LIGHT_BLUE,
+                Color.MATERIAL_GREEN,
+                Color.MATERIAL_GREEN,
+                Color.MATERIAL_LIGHT_BLUE,
+                Color.MATERIAL_DEEP_ORANGE,
         };
 
         Mesh mesh = new Mesh(vertices, colors);

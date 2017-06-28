@@ -17,16 +17,16 @@ public class Walls extends Actor {
                 new Vector3(10, 0, 10),
                 new Vector3(10, 0, -10),
                 new Vector3(-10, 0, 10),
-                new Vector3(-10, 0, -10),
                 new Vector3(10, 0, -10),
+                new Vector3(-10, 0, -10),
 
                 // wall
                 new Vector3(-10, 10, 10),
                 new Vector3(10, 10, 10),
                 new Vector3(10, 0, 10),
                 new Vector3(-10, 10, 10),
-                new Vector3(-10, 0, 10),
                 new Vector3(10, 0, 10),
+                new Vector3(-10, 0, 10),
         };
 
         Color floorColor = new Color(0x99DCAAFF);

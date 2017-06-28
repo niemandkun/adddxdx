@@ -18,6 +18,8 @@ class GlWindowRenderTarget implements RenderTarget {
 
     @Override
     public void init() {
+        glEnable(GL_CULL_FACE);
+        glCullFace(GL_BACK);
         glEnable(GL_DEPTH_TEST);
         glDepthFunc(GL_LESS);
     }
