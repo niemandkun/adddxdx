@@ -27,6 +27,14 @@ public class Walls extends Actor {
                 new Vector3(-10, 10, 10),
                 new Vector3(10, 0, 10),
                 new Vector3(-10, 0, 10),
+
+                // wall (back)
+                new Vector3(-10, 10, 10.2f),
+                new Vector3(10, 0, 10.2f),
+                new Vector3(10, 10, 10.2f),
+                new Vector3(-10, 10, 10.2f),
+                new Vector3(-10, 0, 10.2f),
+                new Vector3(10, 0, 10.2f),
         };
 
         Color floorColor = new Color(0x99DCAAFF);
@@ -35,6 +43,9 @@ public class Walls extends Actor {
         Color[] colors = {
                 floorColor, floorColor, floorColor,
                 floorColor, floorColor, floorColor,
+
+                wallColor, wallColor, wallColor,
+                wallColor, wallColor, wallColor,
 
                 wallColor, wallColor, wallColor,
                 wallColor, wallColor, wallColor,
