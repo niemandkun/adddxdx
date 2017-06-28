@@ -6,7 +6,7 @@ public class Camera extends GraphicsSystem.Component {
     private static final float DEFAULT_NEAR_PLANE = 0.3f;
     private static final float DEFAULT_FAR_PLANE = 1000f;
     private static final float DEFAULT_ASPECT_RATIO = 16 / 9f;
-    private static final float DEFAULT_FIELD_OF_VIEW = (float) Math.PI / 2.5f;
+    private static final float DEFAULT_FIELD_OF_VIEW = (float) Math.PI / 3;
 
     private float mNearPlane;
     private float mFarPlane;
