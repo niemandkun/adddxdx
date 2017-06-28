@@ -3,24 +3,19 @@ package tech.niemandkun.opengl.briefexample;
 import tech.niemandkun.opengl.engine.Actor;
 import tech.niemandkun.opengl.graphics.Camera;
 import tech.niemandkun.opengl.io.*;
-import tech.niemandkun.opengl.math.Transform;
-import tech.niemandkun.opengl.math.Vector2;
+import tech.niemandkun.opengl.math.*;
 
 public class Player extends Actor {
     @Override
     public void onCreate() {
         super.onCreate();
-
-        getTransform().translate(0, 1, 0);
-
         addComponent(new Camera());
 
+        final Transform transform = getTransform();
+        transform.translate(0, 1, 0);
+
         addComponent(new KeyboardController() {
-
-            @Override
-            protected void onCheckKeyboardState(Keyboard keyboard) {
-                Transform transform = getTransform();
-
+            @Override public void checkKeyboardState(Keyboard keyboard) {
                 Vector2 forward = Vector2.ORT_X.rotate(transform.getRotation().getY()).div(8);
                 Vector2 backward = forward.negate();
                 Vector2 left = forward.getNormal();
@@ -32,6 +27,27 @@ public class Player extends Actor {
                 if (keyboard.isPressed(Key.D)) transform.translate(right.getY(), 0, right.getX());
                 if (keyboard.isPressed(Key.Q)) transform.rotate(0, -0.04f, 0);
                 if (keyboard.isPressed(Key.E)) transform.rotate(0, 0.04f, 0);
+            }
+        });
+
+        addComponent(new MouseController() {
+            float rotationY;
+            float rotationX;
+            float maxRotationX = (float) Math.PI / 2;
+
+            @Override public void onPointerMoved(Mouse mouse, MouseEvent event) {
+                rotationX = clamp(rotationX - event.getPointerMovement().getY() / 200, -maxRotationX, maxRotationX);
+                rotationY += event.getPointerMovement().getX() / 200;
+
+                transform.setRotation(Vector3.ZERO);
+                transform.rotate(0, rotationY, 0);
+                transform.rotate(rotationX, 0, 0);
+            }
+
+            private float clamp(float source, float min, float max) {
+                if (source < min) return min;
+                if (source > max) return max;
+                return source;
             }
         });
     }

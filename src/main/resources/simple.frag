@@ -35,7 +35,7 @@ void main() {
 
     vec3 materialDiffuseColor = fragmentColor;
     vec3 materialAmbientColor = vec3(0.1, 0.1, 0.1) * materialDiffuseColor;
-    vec3 materialSpecularColor = vec3(0.3, 0.3, 0.3);
+    vec3 materialSpecularColor = vec3(0.0, 0.0, 0.0);
 
     vec3 normal = normalize(fragmentNormal_viewspace);
     vec3 light = normalize(lightDirection_viewspace);

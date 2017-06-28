@@ -31,5 +31,6 @@ public class InputSystem extends ActiveSystem<InputSystem.Component> {
     @Override
     public void update(Duration timeSinceLastUpdate) {
         mKeyboard.update();
+        mMouse.update();
     }
 }

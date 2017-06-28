@@ -46,13 +46,26 @@ public class Transform {
         );
     }
 
+    public void setLocation(float x, float y, float z) {
+        mLocation = new Vector3(x, y, z);
+    }
+
     public void setLocation(@NotNull Vector3 location) {
         mLocation = location;
+    }
+
+    public void setRotation(float x, float y, float z) {
+        mRotation = new Vector3(x, y, z);
+        mRotationMatrix = Matrix4.getRotationMatrix(mRotation);
     }
 
     public void setRotation(@NotNull Vector3 rotation) {
         mRotation = rotation;
         mRotationMatrix = Matrix4.getRotationMatrix(rotation);
+    }
+
+    public void setScale(float x, float y, float z) {
+        mScale = new Vector3(x, y, z);
     }
 
     public void setScale(@NotNull Vector3 scale) {
@@ -66,7 +79,7 @@ public class Transform {
 
     @NotNull public Vector3 getViewDirection() {
         return mRotationMatrix.cross(Vector4.ORT_Z).clipToVec3();
-    } 
+    }
 
     private Matrix4 buildMatrix(Vector3 location, Vector3 scale) {
         return Matrix4.getTranslationMatrix(location)

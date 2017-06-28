@@ -66,7 +66,7 @@ public class Triangles extends Actor {
 
         addComponent(new KeyboardController() {
             @Override
-            protected void onCheckKeyboardState(Keyboard keyboard) {
+            public void checkKeyboardState(Keyboard keyboard) {
                 if (keyboard.isPressed(Key.J)) getTransform().rotate(0, -0.1f, 0);
                 if (keyboard.isPressed(Key.K)) getTransform().rotate(0, 0.1f, 0);
             }

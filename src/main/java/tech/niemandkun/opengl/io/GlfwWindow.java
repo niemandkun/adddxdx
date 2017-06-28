@@ -73,6 +73,8 @@ class GlfwWindow implements Window {
         glfwSwapInterval(1);
         glfwShowWindow(mHandle);
 
+        glfwSetInputMode(mHandle, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+
         GL.createCapabilities();
     }
 

@@ -62,7 +62,7 @@ class GlfwMouse implements Mouse {
         }
     };
 
-    void deliverEvents() {
+    void update() {
         while (!mEventQueue.isEmpty()) {
             GlfwMouseEvent event = mEventQueue.remove();
             switch (event.getAction()) {
