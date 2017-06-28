@@ -30,15 +30,18 @@ public class Camera extends GraphicsSystem.Component {
         if (this.equals(system.getCamera())) system.setCamera(null);
     }
 
-    Matrix4 getMvpMatrix() {
-        Matrix4 projectionMatrix = Projection.perspective(mFieldOfView, mAspectRatio, mNearPlane, mFarPlane);
-        return projectionMatrix.cross(getViewMatrix());
+    Matrix4 getViewProjectionMatrix() {
+        return getProjectionMatrix().cross(getViewMatrix());
     }
 
     Matrix4 getViewMatrix() {
         Matrix4 viewMatrix = getActor().getTransform().getMatrix();
         Matrix4 cameraTransform = Matrix4.getRotationMatrix(0, (float) Math.PI, 0);
         return viewMatrix.cross(cameraTransform).inverse();
+    }
+
+    private Matrix4 getProjectionMatrix() {
+        return Projection.perspective(mFieldOfView, mAspectRatio, mNearPlane, mFarPlane);
     }
 
     float getAspectRatio() {

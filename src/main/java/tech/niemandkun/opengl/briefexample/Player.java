@@ -25,8 +25,6 @@ public class Player extends Actor {
                 if (keyboard.isPressed(Key.S)) transform.translate(backward.getY(), 0, backward.getX());
                 if (keyboard.isPressed(Key.A)) transform.translate(left.getY(), 0, left.getX());
                 if (keyboard.isPressed(Key.D)) transform.translate(right.getY(), 0, right.getX());
-                if (keyboard.isPressed(Key.Q)) transform.rotate(0, -0.04f, 0);
-                if (keyboard.isPressed(Key.E)) transform.rotate(0, 0.04f, 0);
             }
         });
 

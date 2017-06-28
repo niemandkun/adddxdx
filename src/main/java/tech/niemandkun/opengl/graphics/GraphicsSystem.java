@@ -13,6 +13,7 @@ import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL13.GL_TEXTURE0;
 import static org.lwjgl.opengl.GL13.glActiveTexture;
 import static org.lwjgl.opengl.GL15.*;
+import static org.lwjgl.opengl.GL20.glDisableVertexAttribArray;
 import static org.lwjgl.opengl.GL20.glEnableVertexAttribArray;
 import static org.lwjgl.opengl.GL20.glVertexAttribPointer;
 import static org.lwjgl.opengl.GL30.*;
@@ -32,6 +33,7 @@ public class GraphicsSystem extends ActiveSystem<GraphicsSystem.Component> {
     private final Shader mShadowShader;
     private final Shader mDefaultShader;
     private final Shader mDebugShader;
+    private final Shader mSkyShader;
     private final Window mWindow;
 
     private Light mLight;
@@ -53,6 +55,7 @@ public class GraphicsSystem extends ActiveSystem<GraphicsSystem.Component> {
         mShadowMap.init();
 
         mShadowShader = shaderFactory.buildShader("shadow");
+        mSkyShader = shaderFactory.buildShader("sky");
         mDefaultShader = shaderFactory.getDefaultMaterial().getShader();
 
         /// DEBUG:
@@ -117,7 +120,7 @@ public class GraphicsSystem extends ActiveSystem<GraphicsSystem.Component> {
 
         mCamera.adjustAspectRatio(mWindow.getSize());
 
-        settings = new RenderSettings(mCamera.getMvpMatrix(), mCamera.getViewMatrix(), lightMpv);
+        settings = new RenderSettings(mCamera.getViewProjectionMatrix(), mCamera.getViewMatrix(), lightMpv);
 
         mDefaultShader.enable();
 
@@ -130,38 +133,34 @@ public class GraphicsSystem extends ActiveSystem<GraphicsSystem.Component> {
         for (Renderer renderer : mRenderers)
             renderer.render(mRenderTarget, settings);
 
-        // DEBUG: /////////////////////////////////////////////////////////////////////////////////////////////////////
+        // SKY: ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        // Render only on a corner of the window (or we we won't see the real rendering...)
-        glViewport(0, 0, 128, 128);
-
-        // Use our shader
-        mDebugShader.enable();
-
-        // Bind our texture in Texture Unit 0
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, mShadowMap.getTextureHandle());
-        // Set our "renderedTexture" sampler to user Texture Unit 0
-        mDebugShader.setUniform("mtexture", 0);
-
-        // 1rst attribute buffer : vertices
+        mSkyShader.enable();
+        mSkyShader.setUniform("inverseProjectionMatrix", mCamera.getViewProjectionMatrix().inverse());
         glEnableVertexAttribArray(0);
         glBindBuffer(GL_ARRAY_BUFFER, mQuadBufferHandle);
-        glVertexAttribPointer(
-                0,                  // attribute 0. No particular reason for 0, but must match the layout in the shader.
-                3,                  // size
-                GL_FLOAT,           // type
-                false,           // normalized?
-                0,                  // stride
-                0            // array buffer offset
-		);
-
-        // Draw the triangle !
-        // You have to disable GL_COMPARE_R_TO_TEXTURE above in order to see anything !
-        glDrawArrays(GL_TRIANGLES, 0, 6); // 2*3 indices starting at 0 -> 2 triangles
-        //glDisableVertexAttribArray(0);
+        glVertexAttribPointer(0, 3, GL_FLOAT, false, 0, 0);
+        glDrawArrays(GL_TRIANGLES, 0, 6);
+        glDisableVertexAttribArray(0);
 
         // DEBUG: /////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        glViewport(0, 0, 128, 128);
+
+        mDebugShader.enable();
+
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, mShadowMap.getTextureHandle());
+
+        mDebugShader.setUniform("mtexture", 0);
+
+        glEnableVertexAttribArray(0);
+        glBindBuffer(GL_ARRAY_BUFFER, mQuadBufferHandle);
+        glVertexAttribPointer(0, 3, GL_FLOAT, false, 0, 0);
+        glDrawArrays(GL_TRIANGLES, 0, 6);
+        glDisableVertexAttribArray(0);
+
+        // DEBUG //////////////////////////////////////////////////////////////////////////////////////////////////////
     }
 
     private final static Matrix4 BIAS_MATRIX = new Matrix4(
