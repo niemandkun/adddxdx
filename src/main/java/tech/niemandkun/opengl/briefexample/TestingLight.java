@@ -7,8 +7,7 @@ public class TestingLight extends Actor {
     @Override
     public void onCreate() {
         addComponent(new Light());
-        getTransform().rotate(0, (float) Math.PI / 2, 0);
-        getTransform().rotate(0, 0.5f, 0);
-        getTransform().rotate(-0.5f, 0, 0);
+        getTransform().rotate(0, 0.3f, 0);
+        getTransform().rotate(-0.4f, 0, 0);
     }
 }

@@ -17,7 +17,7 @@ public class Light extends GraphicsSystem.Component {
     Matrix4 getMatrix() {
         Matrix4 viewMatrix = getActor().getTransform().getMatrix();
         Matrix4 cameraTransform = Matrix4.getRotationMatrix(0, (float) Math.PI, 0);
-        Matrix4 projectionMatrix = Projection.ortho(-15, 15, -10, 12, -20, 20);
+        Matrix4 projectionMatrix = Projection.ortho(-15, 10, -20, 20, -50, 50);
         return projectionMatrix.cross(viewMatrix.cross(cameraTransform).inverse());
     }
 }
