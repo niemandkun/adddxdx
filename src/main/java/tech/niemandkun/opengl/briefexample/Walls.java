@@ -37,6 +37,32 @@ public class Walls extends Actor {
                 new Vector3(10, 0, 10.2f),
         };
 
+        Vector3[] normals = {
+                // floor
+                new Vector3(0, 1, 0),
+                new Vector3(0, 1, 0),
+                new Vector3(0, 1, 0),
+                new Vector3(0, 1, 0),
+                new Vector3(0, 1, 0),
+                new Vector3(0, 1, 0),
+
+                // wall
+                new Vector3(0, 0, -1),
+                new Vector3(0, 0, -1),
+                new Vector3(0, 0, -1),
+                new Vector3(0, 0, -1),
+                new Vector3(0, 0, -1),
+                new Vector3(0, 0, -1),
+
+                // wall (back)
+                new Vector3(0, 0, 1),
+                new Vector3(0, 0, 1),
+                new Vector3(0, 0, 1),
+                new Vector3(0, 0, 1),
+                new Vector3(0, 0, 1),
+                new Vector3(0, 0, 1),
+        };
+
         Color floorColor = new Color(0x99DCAAFF);
         Color wallColor = new Color(0xDCDCAAFF);
 
@@ -51,7 +77,7 @@ public class Walls extends Actor {
                 wallColor, wallColor, wallColor,
         };
 
-        Mesh mesh = new Mesh(vertices, colors);
+        Mesh mesh = new Mesh(vertices, normals, colors);
         Material material = getScene().getMaterialFactory().getDefaultMaterial();
         MeshRenderer renderer = new MeshRenderer(mesh, material);
 

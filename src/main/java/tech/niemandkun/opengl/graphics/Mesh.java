@@ -16,4 +16,8 @@ public class Mesh {
     public Mesh(@NotNull Vector3[] vertices, @NotNull Color[] colors) {
         mVertexArray = new VertexArray(vertices, null, colors, null);
     }
+
+    public Mesh(@NotNull Vector3[] vertices, @NotNull Vector3[] normals, @NotNull Color[] colors) {
+        mVertexArray = new VertexArray(vertices, normals, colors, null);
+    }
 }

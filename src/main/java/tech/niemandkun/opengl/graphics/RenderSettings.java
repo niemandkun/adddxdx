@@ -3,20 +3,18 @@ package tech.niemandkun.opengl.graphics;
 import tech.niemandkun.opengl.math.Matrix4;
 
 class RenderSettings {
-    static final RenderSettings DEFAULT = new RenderSettings(Matrix4.IDENTITY, null);
-
     private final Matrix4 mViewProjectionMatrix;
     private final Matrix4 mLightMatrix;
-//    private final Vector3 mLightDirection;
-//
+    private final Matrix4 mViewMatrix;
+
     RenderSettings(Matrix4 viewProjectionMatrix) {
-        this(viewProjectionMatrix, null);
+        this(viewProjectionMatrix, null, null);
     }
 
-    RenderSettings(Matrix4 viewProjectionMatrix, Matrix4 lightMatrix) {
+    RenderSettings(Matrix4 viewProjectionMatrix, Matrix4 viewMatrix, Matrix4 lightMatrix) {
         mViewProjectionMatrix = viewProjectionMatrix;
         mLightMatrix = lightMatrix;
-//        mLightDirection = lightDirection;
+        mViewMatrix = viewMatrix;
     }
 
     Matrix4 getViewProjectionMatrix() {
@@ -26,8 +24,8 @@ class RenderSettings {
     Matrix4 getLightMatrix() {
         return mLightMatrix;
     }
-//
-//    Vector3 getLightDirection() {
-//        return mLightDirection;
-//    }
+
+    Matrix4 getViewMatrix() {
+        return mViewMatrix;
+    }
 }

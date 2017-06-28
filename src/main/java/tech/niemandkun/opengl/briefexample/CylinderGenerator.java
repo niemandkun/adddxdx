@@ -12,11 +12,15 @@ class CylinderGenerator {
     private final Color[] mColors;
     public Color[] getColors() { return mColors; }
 
+    private final Vector3[] mNormals;
+    public Vector3[] getNormals() { return mNormals; }
+
     CylinderGenerator() {
         int trianglesCount = 4 * RESOLUTION;
         float step = (float) (2 * Math.PI / RESOLUTION);
 
         mVertices = new Vector3[trianglesCount * 3];
+        mNormals = new Vector3[trianglesCount * 3];
         int offset = 0;
 
         for (int i = 0; i < RESOLUTION; ++i) {
@@ -27,45 +31,37 @@ class CylinderGenerator {
             float y1 = (float) Math.sin(phi1);
             float y2 = (float) Math.sin(phi2);
 
-            // mVertices:
             mVertices[offset]     = new Vector3(0, 0, 1);
             mVertices[offset + 1] = new Vector3(x1, y1, 1);
             mVertices[offset + 2] = new Vector3(x2, y2, 1);
 
-            // normals:
-//          new Vec4(0, 0, 1, 0),
-//          new Vec4(0, 0, 1, 0),
-//          new Vec4(0, 0, 1, 0),
+            mNormals[offset]     = new Vector3(0, 0, 1);
+            mNormals[offset + 1] = new Vector3(0, 0, 1);
+            mNormals[offset + 2] = new Vector3(0, 0, 1);
 
-            // mVertices:
             mVertices[offset + 3] = new Vector3(x1, y1, -1);
             mVertices[offset + 4] = new Vector3(0, 0, -1);
             mVertices[offset + 5] = new Vector3(x2, y2, -1);
 
-            // normals:
-//          new Vec4(0, 0, -1, 0),
-//          new Vec4(0, 0, -1, 0),
-//          new Vec4(0, 0, -1, 0),
+            mNormals[offset + 3] = new Vector3(0, 0, -1);
+            mNormals[offset + 4] = new Vector3(0, 0, -1);
+            mNormals[offset + 5] = new Vector3(0, 0, -1);
 
-            // mVertices:
             mVertices[offset + 6] = new Vector3(x1, y1, 1);
             mVertices[offset + 7] = new Vector3(x1, y1, -1);
             mVertices[offset + 8] = new Vector3(x2, y2, -1);
 
-            // normals:
-//          new Vec4(x1, y1, 0, 0),
-//          new Vec4(x1, y1, 0, 0),
-//          new Vec4(x2, y2, 0, 0),
+            mNormals[offset + 6] = new Vector3(x1, y1, 0);
+            mNormals[offset + 7] = new Vector3(x1, y1, 0);
+            mNormals[offset + 8] = new Vector3(x2, y2, 0);
 
-            // mVertices:
-            mVertices[offset + 9] = new Vector3(x2, y2, 1);
+            mVertices[offset + 9]  = new Vector3(x2, y2, 1);
             mVertices[offset + 10] = new Vector3(x1, y1, 1);
             mVertices[offset + 11] = new Vector3(x2, y2, -1);
 
-            //normals:
-//          new Vec4(x2, y2, 0, 0),
-//          new Vec4(x1, y1, 0, 0),
-//          new Vec4(x2, y2, 0, 0),
+            mNormals[offset + 9]  = new Vector3(x2, y2, 0);
+            mNormals[offset + 10] = new Vector3(x1, y1, 0);
+            mNormals[offset + 11] = new Vector3(x2, y2, 0);
 
             offset += 12;
         }

@@ -23,11 +23,16 @@ public class MeshRenderer extends GraphicsSystem.Component implements Renderer {
         Matrix4 modelMatrix = getActor().getTransform().getMatrix();
 
         Matrix4 mvp = settings.getViewProjectionMatrix().cross(modelMatrix);
-        mMaterial.getShader().setUniform("mvp", mvp);
+        mMaterial.getShader().setUniform("mvpMatrix", mvp);
 
         if (settings.getLightMatrix() != null) {
-            Matrix4 lightMvp = settings.getLightMatrix().cross(modelMatrix);
-            mMaterial.getShader().setUniform("lightMvp", lightMvp);
+            Matrix4 lightMatrix = settings.getLightMatrix().cross(modelMatrix);
+            mMaterial.getShader().setUniform("lightMatrix", lightMatrix);
+        }
+
+        if (settings.getViewMatrix() != null) {
+            Matrix4 modelViewMatrix = settings.getViewMatrix().cross(modelMatrix);
+            mMaterial.getShader().setUniform("mvMatrix", modelViewMatrix);
         }
 
         mVertexBufferObject.render(target, settings);

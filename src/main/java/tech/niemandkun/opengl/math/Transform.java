@@ -64,6 +64,10 @@ public class Transform {
     @NotNull public Vector3 getScale() { return mScale; }
     @NotNull public Matrix4 getMatrix() { return buildMatrix(mLocation, mScale); }
 
+    @NotNull public Vector3 getViewDirection() {
+        return mRotationMatrix.cross(Vector4.ORT_Z).clipToVec3();
+    } 
+
     private Matrix4 buildMatrix(Vector3 location, Vector3 scale) {
         return Matrix4.getTranslationMatrix(location)
                 .cross(mRotationMatrix)

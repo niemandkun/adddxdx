@@ -12,7 +12,7 @@ public class Triangles extends Actor {
     public void onCreate() {
         super.onCreate();
 
-        Vector3[] vertices = new Vector3[]{
+        Vector3[] vertices = {
                 new Vector3(-0.90f, -0.90f, 0),
                 new Vector3(0.85f, -0.90f, 0),
                 new Vector3(-0.90f, 0.85f, 0),
@@ -28,7 +28,23 @@ public class Triangles extends Actor {
                 new Vector3(0.90f, 0.90f, 0),
         };
 
-        Color[] colors = new Color[]{
+        Vector3[] normals = {
+                new Vector3(0, 0, 1),
+                new Vector3(0, 0, 1),
+                new Vector3(0, 0, 1),
+                new Vector3(0, 0, 1),
+                new Vector3(0, 0, 1),
+                new Vector3(0, 0, 1),
+
+                new Vector3(0, 0, -1),
+                new Vector3(0, 0, -1),
+                new Vector3(0, 0, -1),
+                new Vector3(0, 0, -1),
+                new Vector3(0, 0, -1),
+                new Vector3(0, 0, -1),
+        };
+
+        Color[] colors = {
                 Color.MATERIAL_DEEP_ORANGE,
                 Color.MATERIAL_GREEN,
                 Color.MATERIAL_LIGHT_BLUE,
@@ -44,7 +60,7 @@ public class Triangles extends Actor {
                 Color.MATERIAL_DEEP_ORANGE,
         };
 
-        Mesh mesh = new Mesh(vertices, colors);
+        Mesh mesh = new Mesh(vertices, normals, colors);
         Material material = getScene().getMaterialFactory().getDefaultMaterial();
         addComponent(new MeshRenderer(mesh, material));
 

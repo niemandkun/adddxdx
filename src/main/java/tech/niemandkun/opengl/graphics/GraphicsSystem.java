@@ -13,7 +13,6 @@ import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL13.GL_TEXTURE0;
 import static org.lwjgl.opengl.GL13.glActiveTexture;
 import static org.lwjgl.opengl.GL15.*;
-import static org.lwjgl.opengl.GL20.glDisableVertexAttribArray;
 import static org.lwjgl.opengl.GL20.glEnableVertexAttribArray;
 import static org.lwjgl.opengl.GL20.glVertexAttribPointer;
 import static org.lwjgl.opengl.GL30.*;
@@ -118,13 +117,15 @@ public class GraphicsSystem extends ActiveSystem<GraphicsSystem.Component> {
 
         mCamera.adjustAspectRatio(mWindow.getSize());
 
-        settings = new RenderSettings(mCamera.getMatrix(), lightMpv);
+        settings = new RenderSettings(mCamera.getMvpMatrix(), mCamera.getViewMatrix(), lightMpv);
 
         mDefaultShader.enable();
 
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, mShadowMap.getTextureHandle());
         mDefaultShader.setUniform("shadowMap", 0);
+        mDefaultShader.setUniform("lightDirection", mLight.getActor().getTransform().getViewDirection());
+        mDefaultShader.setUniform("vMatrix", mCamera.getViewMatrix());
 
         for (Renderer renderer : mRenderers)
             renderer.render(mRenderTarget, settings);

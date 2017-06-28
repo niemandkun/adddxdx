@@ -8,7 +8,7 @@ public class Cylinder extends Actor {
     @Override
     public void onCreate() {
         CylinderGenerator generator = new CylinderGenerator();
-        Mesh mesh = new Mesh(generator.getVertices(), generator.getColors());
+        Mesh mesh = new Mesh(generator.getVertices(), generator.getNormals(), generator.getColors());
         addComponent(new MeshRenderer(mesh, getScene().getMaterialFactory().getDefaultMaterial()));
 
         getTransform().scale(1, 1, 2);
