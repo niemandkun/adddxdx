@@ -30,12 +30,15 @@ vec2 poissonDisk[16] = vec2[](
 );
 
 void main() {
-    vec3 lightColor = vec3(1, 1, 1);
+    vec3 lightColor = vec3(0.75);
+    vec3 ambientLight = vec3(0.25);
+
     float lightIntencity = 1.0f;
+    float shininess = 5;
 
     vec3 materialDiffuseColor = fragmentColor;
-    vec3 materialAmbientColor = vec3(0.1, 0.1, 0.1) * materialDiffuseColor;
-    vec3 materialSpecularColor = vec3(0.0, 0.0, 0.0);
+    vec3 materialAmbientColor = ambientLight * materialDiffuseColor;
+    vec3 materialSpecularColor = vec3(0.1);
 
     vec3 normal = normalize(fragmentNormal_viewspace);
     vec3 light = normalize(lightDirection_viewspace);
@@ -44,18 +47,19 @@ void main() {
     float bias = 0.005;
     float visibility = 1;
 
-    vec3 shadowMapCoords = (shadowMapPosition.xyz + vec3(1, 1, 1)) / 2;
+    vec3 shadowMapCoords = (shadowMapPosition.xyz + vec3(1)) / 2;
 
     for (int i = 0; i < 16; ++i) {
-        if (texture(shadowMap, shadowMapCoords.xy + poissonDisk[i] / 700).x < shadowMapCoords.z - bias)
-            visibility -= 0.04f;
+        if (texture(shadowMap, shadowMapCoords.xy + poissonDisk[i] / 800).x < shadowMapCoords.z - bias)
+            visibility -= 0.0625f;
     }
 
     vec3 camera = normalize(cameraDirection_viewspace);
     vec3 reflection = reflect(-light, normal);
     float cosCameraToReflection = clamp(-dot(camera, reflection), 0, 1);
 
-    color = materialAmbientColor +
-            visibility * materialDiffuseColor * lightColor * cosLightToNormal +
-            visibility * materialSpecularColor * lightColor * pow(cosCameraToReflection, 5);
+    vec3 diffuse = materialDiffuseColor * cosLightToNormal;
+    vec3 specular = materialSpecularColor * pow(cosCameraToReflection, shininess);
+
+    color = materialAmbientColor + visibility * lightColor * (diffuse + specular);
 }
