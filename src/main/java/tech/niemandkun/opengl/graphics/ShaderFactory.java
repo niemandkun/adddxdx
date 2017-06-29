@@ -5,7 +5,7 @@ import tech.niemandkun.opengl.engine.Destroyable;
 import java.io.File;
 
 public class ShaderFactory implements Destroyable {
-    private final static String DEFAULT_SHADER_NAME = "default";
+    private final static String DEFAULT_SHADER_NAME = "cartoon";
     private final static String FRAGMENT_SHADER_EXT = ".frag";
     private final static String VERTEX_SHADER_EXT = ".vert";
 
