@@ -92,6 +92,26 @@ public class Vector3 implements Vector<Vector3> {
         return new Vector2(x, y);
     }
 
+    public @NotNull Vector3 rotateAroundOx(float angle) {
+        return Quaternion.fromEulerAngles(angle, 0, 0).apply(this);
+    }
+
+    public @NotNull Vector3 rotateAroundOy(float angle) {
+        return Quaternion.fromEulerAngles(0, angle, 0).apply(this);
+    }
+
+    public @NotNull Vector3 rotateAroundOz(float angle) {
+        return Quaternion.fromEulerAngles(0, 0, angle).apply(this);
+    }
+
+    public @NotNull Vector3 rotate(float x, float y, float z) {
+        return Quaternion.fromEulerAngles(x, y, z).apply(this);
+    }
+
+    public @NotNull Vector3 rotate(Vector3 eulerAngles) {
+        return Quaternion.fromEulerAngles(eulerAngles).apply(this);
+    }
+
     @Override
     public boolean equals(Object other) {
         if (this == other) return true;

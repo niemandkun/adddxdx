@@ -1,6 +1,8 @@
 package tech.niemandkun.opengl.math;
 
 public class Quaternion {
+    public static final Quaternion IDENTITY = Quaternion.fromEulerAngles(0, 0, 0);
+
     private float r;
     private float i;
     private float j;
@@ -28,18 +30,6 @@ public class Quaternion {
         Quaternion vec = new Quaternion(0, vector.getX(), vector.getY(), vector.getZ());
         Quaternion rot = dot(vec).dot(inverse());
         return new Vector3(rot.i, rot.j, rot.k);
-    }
-
-    public Quaternion rotateX(float x) {
-        return dot(fromEulerAngles(x, 0, 0));
-    }
-
-    public Quaternion rotateY(float y) {
-        return dot(fromEulerAngles(0, y, 0));
-    }
-
-    public Quaternion rotateZ(float z) {
-        return dot(fromEulerAngles(0, 0, z));
     }
 
     public Quaternion rotate(float x, float y, float z) {

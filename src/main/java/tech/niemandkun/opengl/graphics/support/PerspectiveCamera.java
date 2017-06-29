@@ -3,11 +3,13 @@ package tech.niemandkun.opengl.graphics.support;
 import tech.niemandkun.opengl.graphics.Camera;
 import tech.niemandkun.opengl.math.*;
 
+import static tech.niemandkun.opengl.math.FMath.PI;
+
 public class PerspectiveCamera extends Camera {
     private static final float DEFAULT_NEAR_PLANE = 0.3f;
     private static final float DEFAULT_FAR_PLANE = 1000f;
     private static final float DEFAULT_ASPECT_RATIO = 16 / 9f;
-    private static final float DEFAULT_FIELD_OF_VIEW = (float) Math.PI / 3;
+    private static final float DEFAULT_FIELD_OF_VIEW = PI / 3;
 
     private float mNearPlane;
     private float mFarPlane;
@@ -24,7 +26,7 @@ public class PerspectiveCamera extends Camera {
     @Override
     public Matrix4 getViewMatrix() {
         Matrix4 viewMatrix = getActor().getTransform().getMatrix();
-        Matrix4 cameraTransform = Matrix4.getRotationMatrix(0, (float) Math.PI, 0);
+        Matrix4 cameraTransform = Matrix4.getRotationMatrix(0, PI, 0);
         return viewMatrix.cross(cameraTransform).inverse();
     }
 

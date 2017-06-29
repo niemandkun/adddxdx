@@ -5,6 +5,8 @@ import tech.niemandkun.opengl.graphics.Mesh;
 import tech.niemandkun.opengl.graphics.MeshRenderer;
 import tech.niemandkun.opengl.graphics.support.DefaultMaterial;
 
+import static tech.niemandkun.opengl.math.FMath.HALF_PI;
+
 public class Cylinder extends Actor {
     @Override
     public void onCreate() {
@@ -13,7 +15,7 @@ public class Cylinder extends Actor {
         addComponent(new MeshRenderer(mesh, getScene().getMaterialFactory().get(DefaultMaterial.class)));
 
         getTransform().scale(1, 1, 2);
-        getTransform().rotate((float) Math.PI / 2, 0, 0);
+        getTransform().rotate(HALF_PI, 0, 0);
         getTransform().translate(4, 1, 0);
     }
 }

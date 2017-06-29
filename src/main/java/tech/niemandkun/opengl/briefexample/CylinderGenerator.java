@@ -1,7 +1,8 @@
 package tech.niemandkun.opengl.briefexample;
 
-import tech.niemandkun.opengl.math.Color;
-import tech.niemandkun.opengl.math.Vector3;
+import tech.niemandkun.opengl.math.*;
+
+import static tech.niemandkun.opengl.math.FMath.PI;
 
 class CylinderGenerator {
     private final static int RESOLUTION = 100;
@@ -17,7 +18,7 @@ class CylinderGenerator {
 
     CylinderGenerator() {
         int trianglesCount = 4 * RESOLUTION;
-        float step = (float) (2 * Math.PI / RESOLUTION);
+        float step = 2 * PI / RESOLUTION;
 
         mVertices = new Vector3[trianglesCount * 3];
         mNormals = new Vector3[trianglesCount * 3];

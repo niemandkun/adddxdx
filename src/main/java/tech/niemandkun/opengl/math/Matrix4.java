@@ -5,6 +5,11 @@ import com.sun.istack.internal.NotNull;
 import java.util.Arrays;
 
 public class Matrix4 {
+    private final static int ROW_LENGTH = 4;
+    private final static int COLUMN_LENGTH = 4;
+    private final static int ELEMENTS_COUNT = ROW_LENGTH * COLUMN_LENGTH;
+
+
     private final float[] mMatrix;
 
     public Matrix4(
@@ -34,10 +39,10 @@ public class Matrix4 {
     }
 
     private static float[] fastMatrixMultiply(@NotNull float[] a, @NotNull float[] b) {
-        float[] mat = new float[16];
+        float[] mat = new float[ELEMENTS_COUNT];
 
-        for (int i = 0; i < 16; i += 4)
-            for (int j = 0; j < 4; ++j)
+        for (int i = 0; i < ELEMENTS_COUNT; i += ROW_LENGTH)
+            for (int j = 0; j < COLUMN_LENGTH; ++j)
                 mat[i + j] =
                           a[i    ] * b[    j]
                         + a[i + 1] * b[4 + j]
@@ -52,7 +57,7 @@ public class Matrix4 {
     }
 
     private static @NotNull float[] fastVectorMultiply(@NotNull float[] a, @NotNull float[] v) {
-        float[] vec = new float[4];
+        float[] vec = new float[COLUMN_LENGTH];
 
         vec[0] = a[0]*v[0] + a[1]*v[1] + a[2]*v[2] + a[3]*v[3];
         vec[1] = a[4]*v[0] + a[5]*v[1] + a[6]*v[2] + a[7]*v[3];
@@ -67,7 +72,7 @@ public class Matrix4 {
     }
 
     private static @NotNull float[] fastMatrixInverse(@NotNull float[] m) {
-        float[] inv = new float[16];
+        float[] inv = new float[ELEMENTS_COUNT];
 
         inv[0] = m[5]*m[10]*m[15]-m[5]*m[11]*m[14]-m[9]*m[6]*m[15]+m[9]*m[7]*m[14]+m[13]*m[6]*m[11]-m[13]*m[7]*m[10];
         inv[4] = -m[4]*m[10]*m[15]+m[4]*m[11]*m[14]+m[8]*m[6]*m[15]-m[8]*m[7]*m[14]-m[12]*m[6]*m[11]+m[12]*m[7]*m[10];
@@ -101,6 +106,23 @@ public class Matrix4 {
         return inv;
     }
 
+    public @NotNull Matrix4 sub(@NotNull Matrix4 other) {
+        float[] diff = new float[ELEMENTS_COUNT];
+
+        for (int i = 0; i < ELEMENTS_COUNT; ++i)
+            diff[i] = mMatrix[i] - other.mMatrix[i];
+
+        return new Matrix4(diff);
+    }
+
+    public @NotNull Matrix4 add(@NotNull Matrix4 other) {
+        float[] sum = new float[ELEMENTS_COUNT];
+
+        for (int i = 0; i < ELEMENTS_COUNT; ++i)
+            sum[i] = mMatrix[i] + other.mMatrix[i];
+
+        return new Matrix4(sum);
+    }
 
     public static @NotNull Matrix4 getTranslationMatrix(Vector3 v) {
         return getTranslationMatrix(v.getX(), v.getY(), v.getZ());
@@ -122,24 +144,24 @@ public class Matrix4 {
     public static @NotNull Matrix4 getRotationMatrix(float x, float y, float z) {
         return new Matrix4(new float[]
             {
-                1,                     0,                      0,                      0,
-                0,                     (float)  Math.cos(x),   (float) Math.sin(x),    0,
-                0,                     (float) -Math.sin(x),   (float) Math.cos(x),    0,
-                0,                     0,                      0,                      1,
+                1,                      0,                      0,                      0,
+                0,                      (float) Math.cos(x),    (float) -Math.sin(x),   0,
+                0,                      (float) Math.sin(x),    (float) Math.cos(x),    0,
+                0,                      0,                      0,                      1,
             }
         ).cross(new Matrix4(new float[]
             {
-                (float) Math.cos(y),   0,                      (float) -Math.sin(y),   0,
-                0,                     1,                      0,                      0,
-                (float) Math.sin(y),   0,                      (float)  Math.cos(y),   0,
-                0,                     0,                      0,                      1,
+                (float) Math.cos(y),    0,                      (float) Math.sin(y),    0,
+                0,                      1,                      0,                      0,
+                (float) -Math.sin(y),   0,                      (float) Math.cos(y),    0,
+                0,                      0,                      0,                      1,
             }
         )).cross(new Matrix4(new float[]
             {
-                (float)  Math.cos(z),  (float) Math.sin(z),    0,                      0,
-                (float) -Math.sin(z),  (float) Math.cos(z),    0,                      0,
-                0,                     0,                      1,                      0,
-                0,                     0,                      0,                      1,
+                (float) Math.cos(z),    (float) -Math.sin(z),   0,                      0,
+                (float) Math.sin(z),    (float) Math.cos(z),    0,                      0,
+                0,                      0,                      1,                      0,
+                0,                      0,                      0,                      1,
             }
         ));
     }
