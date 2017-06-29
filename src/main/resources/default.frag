@@ -30,6 +30,10 @@ vec2 poissonDisk[16] = vec2[](
 );
 
 void main() {
+    vec3  fogColor  = vec3(0.5, 0.6, 0.7);
+    float fogExtinction = 0.6;
+    float fogDensity = 0.03;
+
     vec3 lightColor = vec3(0.75);
     vec3 ambientLight = vec3(0.25);
 
@@ -61,5 +65,9 @@ void main() {
     vec3 diffuse = materialDiffuseColor * cosLightToNormal;
     vec3 specular = materialSpecularColor * pow(cosCameraToReflection, shininess);
 
-    color = materialAmbientColor + visibility * lightColor * (diffuse + specular);
+    vec3 materialColor = materialAmbientColor + visibility * lightColor * (diffuse + specular);
+
+    float distance = length(cameraDirection_viewspace);
+    float fogAmount = fogExtinction * (1.0 - exp(-distance * fogDensity));
+    color = mix(materialColor, fogColor, fogAmount);
 }
