@@ -2,23 +2,13 @@ package tech.niemandkun.opengl.graphics;
 
 import com.sun.istack.internal.NotNull;
 import com.sun.istack.internal.Nullable;
-import tech.niemandkun.opengl.graphics.support.*;
+import tech.niemandkun.opengl.graphics.support.DefaultMaterial;
+import tech.niemandkun.opengl.graphics.support.ShadowMaterial;
 import tech.niemandkun.opengl.math.Size;
 
 import java.util.*;
 
-import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.GL13.GL_TEXTURE0;
-import static org.lwjgl.opengl.GL13.glActiveTexture;
-import static org.lwjgl.opengl.GL15.*;
-import static org.lwjgl.opengl.GL20.*;
-import static org.lwjgl.opengl.GL30.glBindVertexArray;
-import static org.lwjgl.opengl.GL30.glGenVertexArrays;
-
 class GlRenderer implements Renderer {
-
-    private final static int SHADOW_MAP_VIEWPORT_SIZE = 128;
-
     private class VboDescriptor {
         final GlVertexBufferObject vbo;
         boolean dirty;
@@ -36,13 +26,6 @@ class GlRenderer implements Renderer {
     private final Material mDefaultMaterial;
     private final Material mShadowMaterial;
 
-    // DEBUG: /////////////////////////////////////////////////////////////////////////////////////////////////////////
-    private final Material mDebugGuiMaterial;
-
-    private int mQuadObjectHandle;
-    private int mQuadBufferHandle;
-    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
     GlRenderer(RenderTarget renderTarget, MaterialFactory materialFactory) {
         mDefaultMaterial = materialFactory.get(DefaultMaterial.class);
         mShadowMaterial = materialFactory.get(ShadowMaterial.class);
@@ -54,38 +37,20 @@ class GlRenderer implements Renderer {
         mShadowMap.init();
 
         mVBOs = new HashMap<>();
-
-        /// DEBUG: ////////////////////////////////////////////////////////////////////////////////////////////////////
-        mDebugGuiMaterial = materialFactory.get(DebugGuiMaterial.class);
-
-        mQuadObjectHandle = glGenVertexArrays();
-        glBindVertexArray(mQuadObjectHandle);
-
-        float[] quadVertexBufferData = {
-                -1.0f, -1.0f, 0.0f,
-                1.0f, -1.0f, 0.0f,
-                -1.0f,  1.0f, 0.0f,
-                -1.0f,  1.0f, 0.0f,
-                1.0f, -1.0f, 0.0f,
-                1.0f,  1.0f, 0.0f,
-        };
-
-        mQuadBufferHandle = glGenBuffers();
-        glBindBuffer(GL_ARRAY_BUFFER, mQuadBufferHandle);
-        glBufferData(GL_ARRAY_BUFFER, quadVertexBufferData, GL_STATIC_DRAW);
-        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
     }
 
     void renderAll(@NotNull Camera camera, @Nullable Light light, @NotNull Collection<Renderable> renderables) {
-        RenderSettings settings;
+        prepareShadowMap(light, renderables);
+        renderToOutputTarget(camera, light, renderables);
+        deallocateObsoleteVBOs();
+    }
 
-        // SHADOWS: ///////////////////////////////////////////////////////////////////////////////////////////////////
-
+    private void prepareShadowMap(Light light, Collection<Renderable> renderables) {
         mShadowMap.enable();
         mShadowMap.clear();
 
         if (light != null) {
-            settings = RenderSettings.empty()
+            RenderSettings settings = RenderSettings.empty()
                     .putMaterial(mShadowMaterial)
                     .putViewMatrix(light.getViewMatrix())
                     .putProjectionMatrix(light.getProjectionMatrix())
@@ -94,15 +59,15 @@ class GlRenderer implements Renderer {
             for (Renderable renderable : renderables)
                 renderable.render(this, settings);
         }
+    }
 
-        // SCENE: /////////////////////////////////////////////////////////////////////////////////////////////////////
-
+    private void renderToOutputTarget(Camera camera, Light light, Collection<Renderable> renderables) {
         mOutputRenderTarget.enable();
         mOutputRenderTarget.clear();
 
         camera.adjustAspectRatio(mOutputRenderTarget.getSize());
 
-        settings = RenderSettings.empty()
+        RenderSettings settings = RenderSettings.empty()
                 .extractFromCamera(camera)
                 .putShadowMapTexture(mShadowMap.bind());
 
@@ -112,26 +77,6 @@ class GlRenderer implements Renderer {
 
         for (Renderable renderable : renderables)
             renderable.render(this, settings);
-
-        // DEBUG: /////////////////////////////////////////////////////////////////////////////////////////////////////
-
-        mDebugGuiMaterial.getShader().enable();
-        mDebugGuiMaterial.setupShader(RenderSettings.empty().putShadowMapTexture(0));
-
-        glViewport(0, 0, SHADOW_MAP_VIEWPORT_SIZE, SHADOW_MAP_VIEWPORT_SIZE);
-
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, mShadowMap.getTextureHandle());
-
-        glEnableVertexAttribArray(0);
-        glBindBuffer(GL_ARRAY_BUFFER, mQuadBufferHandle);
-        glVertexAttribPointer(0, 3, GL_FLOAT, false, 0, 0);
-        glDrawArrays(GL_TRIANGLES, 0, 6);
-        glDisableVertexAttribArray(0);
-
-        // DEBUG //////////////////////////////////////////////////////////////////////////////////////////////////////
-
-        deallocateObsoleteVBOs();
     }
 
     private void deallocateObsoleteVBOs() {

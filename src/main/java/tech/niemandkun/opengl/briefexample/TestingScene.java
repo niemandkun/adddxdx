@@ -11,5 +11,6 @@ public class TestingScene extends Scene {
         spawnActor(Cylinder.class);
         spawnActor(Triangles.class);
         spawnActor(TestingLight.class);
+        spawnActor(DebugGui.class);
     }
 }
