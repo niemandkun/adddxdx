@@ -7,7 +7,7 @@ import static org.lwjgl.opengl.GL20.glVertexAttribPointer;
 import static org.lwjgl.opengl.GL30.*;
 import static tech.niemandkun.opengl.graphics.VertexArray.*;
 
-class GlVertexBufferObject implements Renderer {
+class GlVertexBufferObject {
     private final static int VERTEX_POSITION_ATTR_ID = 0;
     private final static int VERTEX_NORMAL_ATTR_ID = 1;
     private final static int VERTEX_COLOR_ATTR_ID = 2;
@@ -50,9 +50,9 @@ class GlVertexBufferObject implements Renderer {
         mBufferHandle = NULL_HANDLE;
     }
 
-    @Override
-    public void render(RenderTarget target, RenderSettings settings) {
-        if (!isAllocated()) allocate();
+    void draw() {
+        if (!isAllocated())
+            throw new UnsupportedOperationException("Trying to render unallocated VBO. Expected allocate() call.");
 
         glBindVertexArray(mObjectHandle);
         glBindBuffer(GL_ARRAY_BUFFER, mBufferHandle);

@@ -1,6 +1,6 @@
 package tech.niemandkun.opengl.engine;
 
-import tech.niemandkun.opengl.graphics.ShaderFactory;
+import tech.niemandkun.opengl.graphics.MaterialFactory;
 
 import java.util.*;
 
@@ -11,7 +11,7 @@ public abstract class Scene implements FullLifecycle {
     void setSetting(Setting setting) { mSetting = setting; }
 
     /** User available scene API */
-    public ShaderFactory getMaterialFactory() { return mSetting.getShaderFactory(); }
+    public MaterialFactory getMaterialFactory() { return mSetting.getMaterialFactory(); }
     public Scenario getScenario() { return mSetting.getScenario(); }
     public Collection<? extends Actor> getActors() { return mActors; }
     public Clock getClock() { return mSetting.getClock(); }

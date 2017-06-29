@@ -32,6 +32,16 @@ class GlWindowRenderTarget implements RenderTarget {
     }
 
     @Override
+    public Size getSize() {
+        return mWindow.getSize();
+    }
+
+    @Override
+    public void clear() {
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    }
+
+    @Override
     public void clear(Color color) {
         Vector4 clearColor = color.toVector4();
         glClearColor(clearColor.getX(), clearColor.getY(), clearColor.getZ(), clearColor.getW());

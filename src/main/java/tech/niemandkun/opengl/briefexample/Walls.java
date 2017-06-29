@@ -2,6 +2,7 @@ package tech.niemandkun.opengl.briefexample;
 
 import tech.niemandkun.opengl.engine.Actor;
 import tech.niemandkun.opengl.graphics.*;
+import tech.niemandkun.opengl.graphics.support.DefaultMaterial;
 import tech.niemandkun.opengl.math.Color;
 import tech.niemandkun.opengl.math.Vector3;
 
@@ -97,7 +98,7 @@ public class Walls extends Actor {
         };
 
         Mesh mesh = new Mesh(vertices, normals, colors);
-        Material material = getScene().getMaterialFactory().getDefaultMaterial();
+        Material material = getScene().getMaterialFactory().get(DefaultMaterial.class);
         MeshRenderer renderer = new MeshRenderer(mesh, material);
 
         addComponent(renderer);

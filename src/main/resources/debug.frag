@@ -2,10 +2,10 @@
 
 layout(location = 0) out vec4 color;
 
-uniform sampler2D mtexture;
+uniform sampler2D shadowMap;
 
-in vec2 UV;
+in vec2 textureCoordinates;
 
 void main(){
-    color = vec4(texture(mtexture, UV).x);
+    color = vec4(texture(shadowMap, textureCoordinates).x);
 }

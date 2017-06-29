@@ -56,6 +56,11 @@ class GlRenderTexture implements RenderTarget {
         glViewport(0, 0, mWidth, mHeight);
     }
 
+    @Override
+    public Size getSize() {
+        return new Size(mWidth, mHeight);
+    }
+
     int bind() {
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, mTextureHandle);
