@@ -1,6 +1,7 @@
 package tech.niemandkun.opengl.graphics;
 
-import tech.niemandkun.opengl.math.*;
+import tech.niemandkun.opengl.math.Matrix4;
+import tech.niemandkun.opengl.math.Vector3;
 
 public abstract class Light extends GraphicsSystem.Component {
     @Override

@@ -1,7 +1,6 @@
 package tech.niemandkun.opengl.briefexample;
 
 import tech.niemandkun.opengl.engine.Actor;
-import tech.niemandkun.opengl.graphics.Camera;
 import tech.niemandkun.opengl.graphics.support.PerspectiveCamera;
 import tech.niemandkun.opengl.io.*;
 import tech.niemandkun.opengl.math.*;
