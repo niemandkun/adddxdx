@@ -1,6 +1,7 @@
 package tech.niemandkun.opengl.briefexample;
 
-import tech.niemandkun.opengl.math.*;
+import tech.niemandkun.opengl.math.Color;
+import tech.niemandkun.opengl.math.Vector3;
 
 import static tech.niemandkun.opengl.math.FMath.PI;
 

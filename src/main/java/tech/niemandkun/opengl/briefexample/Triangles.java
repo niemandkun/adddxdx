@@ -2,7 +2,7 @@ package tech.niemandkun.opengl.briefexample;
 
 import tech.niemandkun.opengl.engine.Actor;
 import tech.niemandkun.opengl.graphics.Mesh;
-import tech.niemandkun.opengl.graphics.MeshRenderer;
+import tech.niemandkun.opengl.graphics.support.MeshSkin;
 import tech.niemandkun.opengl.io.*;
 import tech.niemandkun.opengl.math.Color;
 import tech.niemandkun.opengl.math.Vector3;
@@ -61,7 +61,7 @@ public class Triangles extends Actor {
                 Color.MATERIAL_DEEP_ORANGE,
         };
 
-        addComponent(new MeshRenderer(new Mesh(vertices, normals, colors)));
+        addComponent(new MeshSkin(new Mesh(vertices, normals, colors)));
 
         addComponent(new KeyboardController() {
             @Override

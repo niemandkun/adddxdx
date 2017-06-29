@@ -1,15 +1,17 @@
-package tech.niemandkun.opengl.graphics;
+package tech.niemandkun.opengl.graphics.support;
 
-public class MeshRenderer extends GraphicsSystem.Component implements Renderable {
+import tech.niemandkun.opengl.graphics.*;
+
+public class MeshSkin extends GraphicsSystem.Component implements Renderable {
     private final Material mMaterial;
     private final Mesh mMesh;
 
-    public MeshRenderer(Mesh mesh) {
+    public MeshSkin(Mesh mesh) {
         mMaterial = null;
         mMesh = mesh;
     }
 
-    public MeshRenderer(Mesh mesh, Material material) {
+    public MeshSkin(Mesh mesh, Material material) {
         mMaterial = material;
         mMesh = mesh;
     }
@@ -22,12 +24,12 @@ public class MeshRenderer extends GraphicsSystem.Component implements Renderable
     }
 
     @Override
-    void connect(GraphicsSystem system) {
+    protected void connect(GraphicsSystem system) {
         system.addRenderable(this);
     }
 
     @Override
-    void disconnect(GraphicsSystem system) {
+    protected void disconnect(GraphicsSystem system) {
         system.removeRenderable(this);
     }
 }

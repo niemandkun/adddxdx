@@ -9,8 +9,8 @@ import java.util.Set;
 
 public class GraphicsSystem extends ActiveSystem<GraphicsSystem.Component> {
     public abstract static class Component extends tech.niemandkun.opengl.engine.Component {
-        abstract void connect(GraphicsSystem system);
-        abstract void disconnect(GraphicsSystem system);
+        protected abstract void connect(GraphicsSystem system);
+        protected abstract void disconnect(GraphicsSystem system);
     }
 
     private final Set<Renderable> mRenderables;
@@ -40,11 +40,11 @@ public class GraphicsSystem extends ActiveSystem<GraphicsSystem.Component> {
         return mLight;
     }
 
-    void addRenderable(Renderable renderable) {
+    public void addRenderable(Renderable renderable) {
         mRenderables.add(renderable);
     }
 
-    void removeRenderable(Renderable renderable) {
+    public void removeRenderable(Renderable renderable) {
         mRenderables.remove(renderable);
     }
 

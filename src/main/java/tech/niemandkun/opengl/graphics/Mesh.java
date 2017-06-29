@@ -7,7 +7,7 @@ import tech.niemandkun.opengl.math.Vector3;
 public class Mesh {
     private final VertexArray mVertexArray;
 
-    VertexArray getVertexArray() { return mVertexArray; }
+    public VertexArray getVertexArray() { return mVertexArray; }
 
     public Mesh(@NotNull Vector3[] vertices) {
         mVertexArray = new VertexArray(vertices, null, null, null);
