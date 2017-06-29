@@ -17,6 +17,8 @@ import static org.lwjgl.opengl.GL30.glGenVertexArrays;
 
 class GlRenderer implements Renderer {
 
+    private final static int SHADOW_MAP_VIEWPORT_SIZE = 128;
+
     private class VboDescriptor {
         final GlVertexBufferObject vbo;
         boolean dirty;
@@ -33,7 +35,6 @@ class GlRenderer implements Renderer {
 
     private final Material mDefaultMaterial;
     private final Material mShadowMaterial;
-    private final Material mSkyMaterial;
 
     // DEBUG: /////////////////////////////////////////////////////////////////////////////////////////////////////////
     private final Material mDebugGuiMaterial;
@@ -45,7 +46,6 @@ class GlRenderer implements Renderer {
     GlRenderer(RenderTarget renderTarget, MaterialFactory materialFactory) {
         mDefaultMaterial = materialFactory.get(DefaultMaterial.class);
         mShadowMaterial = materialFactory.get(ShadowMaterial.class);
-        mSkyMaterial = materialFactory.get(SkyMaterial.class);
 
         mOutputRenderTarget = renderTarget;
         mOutputRenderTarget.init();
@@ -113,23 +113,12 @@ class GlRenderer implements Renderer {
         for (Renderable renderable : renderables)
             renderable.render(this, settings);
 
-        // SKY: ///////////////////////////////////////////////////////////////////////////////////////////////////////
-
-        mSkyMaterial.getShader().enable();
-        mSkyMaterial.setupShader(RenderSettings.empty().extractFromCamera(camera));
-
-        glEnableVertexAttribArray(0);
-        glBindBuffer(GL_ARRAY_BUFFER, mQuadBufferHandle);
-        glVertexAttribPointer(0, 3, GL_FLOAT, false, 0, 0);
-        glDrawArrays(GL_TRIANGLES, 0, 6);
-        glDisableVertexAttribArray(0);
-
         // DEBUG: /////////////////////////////////////////////////////////////////////////////////////////////////////
 
         mDebugGuiMaterial.getShader().enable();
         mDebugGuiMaterial.setupShader(RenderSettings.empty().putShadowMapTexture(0));
 
-        glViewport(0, 0, 128, 128);
+        glViewport(0, 0, SHADOW_MAP_VIEWPORT_SIZE, SHADOW_MAP_VIEWPORT_SIZE);
 
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, mShadowMap.getTextureHandle());

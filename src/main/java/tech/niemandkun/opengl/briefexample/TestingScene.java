@@ -5,6 +5,7 @@ import tech.niemandkun.opengl.engine.Scene;
 public class TestingScene extends Scene {
     @Override
     public void onCreate() {
+        spawnActor(SkyFrame.class);
         spawnActor(Player.class);
         spawnActor(Walls.class);
         spawnActor(Cylinder.class);
