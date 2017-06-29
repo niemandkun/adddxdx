@@ -2,7 +2,8 @@ package tech.niemandkun.opengl.briefexample;
 
 import tech.niemandkun.opengl.engine.Actor;
 import tech.niemandkun.opengl.graphics.Mesh;
-import tech.niemandkun.opengl.graphics.support.*;
+import tech.niemandkun.opengl.graphics.support.DefaultMaterial;
+import tech.niemandkun.opengl.graphics.support.MeshSkin;
 
 import static tech.niemandkun.opengl.math.FMath.HALF_PI;
 
