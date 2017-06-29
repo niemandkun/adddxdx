@@ -6,13 +6,7 @@ import tech.niemandkun.opengl.graphics.ShaderFactory;
 import tech.niemandkun.opengl.io.*;
 import tech.niemandkun.opengl.math.Size;
 
-public class TestingEngine implements Runnable {
-    @Override
-    public void run() {
-        ServiceLocator locator = createLocator();
-        Story.basedOn(Setting.from(locator)).reveal(TestingScene.class);
-    }
-
+public class EntryPoint {
     private static ServiceLocator createLocator() {
         Platform platform = Platform.builder()
                 .onWindow().setResizable(false)
@@ -34,6 +28,7 @@ public class TestingEngine implements Runnable {
     }
 
     public static void main(String[] args) {
-        new TestingEngine().run();
+        ServiceLocator locator = createLocator();
+        Story.basedOn(Setting.from(locator)).reveal(TestingScene.class);
     }
 }
