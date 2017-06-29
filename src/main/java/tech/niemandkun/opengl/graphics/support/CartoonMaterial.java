@@ -1,6 +1,10 @@
 package tech.niemandkun.opengl.graphics.support;
 
+import tech.niemandkun.opengl.graphics.ShaderDescription;
+
 public class CartoonMaterial extends DefaultMaterial {
     @Override
-    public String getShaderName() { return "cartoon"; }
+    public ShaderDescription getShaderDescription() {
+        return ShaderDescription.forFiles("default", "cartoon");
+    }
 }

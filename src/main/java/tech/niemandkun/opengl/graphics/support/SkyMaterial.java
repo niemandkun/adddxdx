@@ -11,5 +11,5 @@ public class SkyMaterial extends Material {
     }
 
     @Override
-    public String getShaderName() { return "sky"; }
+    public ShaderDescription getShaderDescription() { return ShaderDescription.forFile("sky"); }
 }

@@ -24,7 +24,7 @@ public class MaterialFactory implements Destroyable {
 
         if (instance == null) {
             instance = instantiateMaterial(material);
-            instance.setShader(buildShader(instance.getShaderName()));
+            instance.setShader(buildShader(instance.getShaderDescription()));
             mMaterials.put(material, instance);
         }
 
@@ -39,12 +39,12 @@ public class MaterialFactory implements Destroyable {
         }
     }
 
-    private Shader buildShader(String shaderName) {
+    private Shader buildShader(ShaderDescription shaderDescription) {
         try {
 
             return mShaderCompiler
-                    .setFragmentShader(open(shaderName + FRAGMENT_SHADER_EXT))
-                    .setVertexShader(open(shaderName + VERTEX_SHADER_EXT))
+                    .setFragmentShader(open(shaderDescription.getFragmentShaderName() + FRAGMENT_SHADER_EXT))
+                    .setVertexShader(open(shaderDescription.getVertexShaderName() + VERTEX_SHADER_EXT))
                     .compile();
 
         } catch (ShaderCompileException e) {

@@ -9,5 +9,5 @@ public class DebugGuiMaterial extends Material {
     }
 
     @Override
-    public String getShaderName() { return "debug"; }
+    public ShaderDescription getShaderDescription() { return ShaderDescription.forFile("debug"); }
 }

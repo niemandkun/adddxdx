@@ -18,11 +18,11 @@ public abstract class Material {
         mShader = shader;
     }
 
-    public final void setupShader(RenderSettings settings) {
+    void setupShader(RenderSettings settings) {
         setupShader(settings, getShader());
     }
 
     public abstract void setupShader(RenderSettings settings, Shader shader);
 
-    public abstract String getShaderName();
+    public abstract ShaderDescription getShaderDescription();
 }

@@ -14,5 +14,5 @@ public class ShadowMaterial extends Material {
     }
 
     @Override
-    public String getShaderName() { return "shadow"; }
+    public ShaderDescription getShaderDescription() { return ShaderDescription.forFile("shadow"); }
 }

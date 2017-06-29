@@ -19,5 +19,5 @@ public class DefaultMaterial extends Material {
     }
 
     @Override
-    public String getShaderName() { return "default"; }
+    public ShaderDescription getShaderDescription() { return ShaderDescription.forFile("default"); }
 }
