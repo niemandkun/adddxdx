@@ -2,6 +2,7 @@ package tech.niemandkun.opengl.briefexample;
 
 import tech.niemandkun.opengl.engine.Actor;
 import tech.niemandkun.opengl.graphics.*;
+import tech.niemandkun.opengl.graphics.support.CartoonMaterial;
 import tech.niemandkun.opengl.graphics.support.DefaultMaterial;
 import tech.niemandkun.opengl.io.*;
 import tech.niemandkun.opengl.math.Color;
@@ -61,9 +62,7 @@ public class Triangles extends Actor {
                 Color.MATERIAL_DEEP_ORANGE,
         };
 
-        Mesh mesh = new Mesh(vertices, normals, colors);
-        Material material = getScene().getMaterialFactory().get(DefaultMaterial.class);
-        addComponent(new MeshRenderer(mesh, material));
+        addComponent(new MeshRenderer(new Mesh(vertices, normals, colors)));
 
         addComponent(new KeyboardController() {
             @Override

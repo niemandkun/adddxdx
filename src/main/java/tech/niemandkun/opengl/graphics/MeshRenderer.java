@@ -4,6 +4,11 @@ public class MeshRenderer extends GraphicsSystem.Component implements Renderable
     private final Material mMaterial;
     private final Mesh mMesh;
 
+    public MeshRenderer(Mesh mesh) {
+        mMaterial = null;
+        mMesh = mesh;
+    }
+
     public MeshRenderer(Mesh mesh, Material material) {
         mMaterial = material;
         mMesh = mesh;

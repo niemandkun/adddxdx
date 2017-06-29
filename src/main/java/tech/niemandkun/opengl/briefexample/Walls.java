@@ -97,10 +97,6 @@ public class Walls extends Actor {
                 wallColor, wallColor, wallColor,
         };
 
-        Mesh mesh = new Mesh(vertices, normals, colors);
-        Material material = getScene().getMaterialFactory().get(DefaultMaterial.class);
-        MeshRenderer renderer = new MeshRenderer(mesh, material);
-
-        addComponent(renderer);
+        addComponent(new MeshRenderer(new Mesh(vertices, normals, colors)));
     }
 }
