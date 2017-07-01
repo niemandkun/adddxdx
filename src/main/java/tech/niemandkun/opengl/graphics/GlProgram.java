@@ -74,8 +74,8 @@ class GlProgram implements Shader {
     private int getUniformLocationOpenGl(String uniformName) {
         int uniformLocation = glGetUniformLocation(mHandle, uniformName);
 
-//        if (uniformLocation == -1)
-//            throw new IllegalArgumentException("Uniform parameter with name '" + uniformName + "' is not found.");
+        if (uniformLocation == -1)
+            throw new IllegalArgumentException("Uniform parameter with name '" + uniformName + "' is not found.");
 
         return uniformLocation;
     }

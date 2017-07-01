@@ -30,7 +30,7 @@ public abstract class GlTexture implements Destroyable {
     }
 
     void init() {
-        if (mHandle != NULL_HANDLE)
+        if (isInitialized())
             throw new UnsupportedOperationException("Trying to init texture, but it is already initialized.");
 
         mHandle = doInit(mSize);
@@ -39,7 +39,7 @@ public abstract class GlTexture implements Destroyable {
     protected abstract int doInit(Size size);
 
     int bind(int textureUnit) {
-        if (mHandle == NULL_HANDLE)
+        if (!isInitialized())
             throw new UnsupportedOperationException("Trying to bind not initialized texture. Expected init() call.");
 
         glActiveTexture(GL_TEXTURE0 + textureUnit);
@@ -49,7 +49,11 @@ public abstract class GlTexture implements Destroyable {
 
     @Override
     public void destroy() {
-        if (mHandle != NULL_HANDLE)
+        if (isInitialized())
             glDeleteTextures(mHandle);
+    }
+
+    boolean isInitialized() {
+        return mHandle != NULL_HANDLE;
     }
 }

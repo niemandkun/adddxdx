@@ -3,9 +3,11 @@ package tech.niemandkun.opengl.graphics.support.materials;
 import tech.niemandkun.opengl.graphics.*;
 import tech.niemandkun.opengl.math.Matrix4;
 
-public class DefaultMaterial extends Material {
+public class DefaultMaterial extends TexturedMaterial {
     @Override
     public void setupShader(RenderSettings settings, Shader shader) {
+        super.setupShader(settings, shader);
+
         Matrix4 modelViewMatrix = settings.getViewMatrix().cross(settings.getModelMatrix());
         Matrix4 mvpMatrix = settings.getProjectionMatrix().cross(modelViewMatrix);
         Matrix4 lightMatrix = settings.getLightMatrix().cross(settings.getModelMatrix());

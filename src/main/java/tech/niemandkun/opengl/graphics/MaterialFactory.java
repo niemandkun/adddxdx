@@ -12,26 +12,29 @@ public class MaterialFactory implements Destroyable {
 
     private final ShaderCompiler mShaderCompiler;
 
-    private final Map<Class<? extends Material>, Material> mMaterials;
+    private final Map<ShaderDescription, Shader> mShaders;
 
     public MaterialFactory() {
         mShaderCompiler = Shader.getCompiler();
-        mMaterials = new HashMap<>();
+        mShaders = new HashMap<>();
     }
 
-    public Material get(Class<? extends Material> material) {
-        Material instance = mMaterials.get(material);
+    public <TMaterial extends Material> TMaterial get(Class<TMaterial> material) {
+        TMaterial instance = instantiateMaterial(material);
+        ShaderDescription description = instance.getShaderDescription();
+        Shader shader = mShaders.get(description);
 
-        if (instance == null) {
-            instance = instantiateMaterial(material);
-            instance.setShader(buildShader(instance.getShaderDescription()));
-            mMaterials.put(material, instance);
+        if (shader == null) {
+            shader = buildShader(description);
+            mShaders.put(description, shader);
         }
+
+        instance.setShader(shader);
 
         return instance;
     }
 
-    private Material instantiateMaterial(Class<? extends Material> material) {
+    private <TMaterial extends Material> TMaterial instantiateMaterial(Class<TMaterial> material) {
         try {
             return material.newInstance();
         } catch (InstantiationException | IllegalAccessException e) {
@@ -59,7 +62,6 @@ public class MaterialFactory implements Destroyable {
 
     @Override
     public void destroy() {
-        for (Material material : mMaterials.values())
-            material.getShader().destroy();
+        mShaders.values().forEach(Shader::destroy);
     }
 }
