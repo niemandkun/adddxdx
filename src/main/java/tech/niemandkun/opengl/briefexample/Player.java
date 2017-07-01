@@ -35,7 +35,7 @@ public class Player extends Actor {
         addComponent(new MouseController() {
             float rotationY;
             float rotationX;
-            float maxRotationX = PI / 2;
+            float maxRotationX = PI / 2 - 0.001f;
 
             @Override public void onPointerMoved(Mouse mouse, MouseEvent event) {
                 rotationX = clamp(rotationX + event.getPointerMovement().getY() / 200, -maxRotationX, maxRotationX);
@@ -44,6 +44,8 @@ public class Player extends Actor {
                 transform.setRotation(Vector3.ZERO);
                 transform.rotate(0, rotationY, 0);
                 transform.rotate(rotationX, 0, 0);
+
+                System.out.println(transform.getRotation());
             }
         });
     }
