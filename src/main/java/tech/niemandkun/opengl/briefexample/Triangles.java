@@ -1,8 +1,10 @@
 package tech.niemandkun.opengl.briefexample;
 
 import tech.niemandkun.opengl.engine.Actor;
+import tech.niemandkun.opengl.graphics.Material;
 import tech.niemandkun.opengl.graphics.Mesh;
 import tech.niemandkun.opengl.graphics.support.components.MeshSkin;
+import tech.niemandkun.opengl.graphics.support.materials.CartoonMaterial;
 import tech.niemandkun.opengl.io.*;
 import tech.niemandkun.opengl.math.Color;
 import tech.niemandkun.opengl.math.Vector3;

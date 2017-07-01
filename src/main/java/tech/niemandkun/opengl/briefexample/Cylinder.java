@@ -18,6 +18,5 @@ public class Cylinder extends Actor {
 
         getTransform().scale(1, 1, 2);
         getTransform().rotate(HALF_PI, 0, 0);
-        getTransform().translate(4, 1, 0);
     }
 }
