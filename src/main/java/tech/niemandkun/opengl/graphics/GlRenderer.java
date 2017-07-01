@@ -108,8 +108,6 @@ class GlRenderer implements Renderer {
             mScreenObject.allocate();
 
         mScreenObject.draw();
-
-        System.out.println(glGetError());
     }
 
     private void deallocateObsoleteVBOs() {
