@@ -26,7 +26,7 @@ public class Image implements Destroyable {
             IntBuffer height = stack.mallocInt(1);
             IntBuffer channelsCount = stack.mallocInt(1);
 
-            mImageBytes = stbi_load(file.getAbsolutePath(), width, height, channelsCount, STBI_rgb);
+            mImageBytes = stbi_load(file.getAbsolutePath(), width, height, channelsCount, STBI_rgb_alpha);
 
             mSize = new Size(width.get(0), height.get(0));
             mChannelsCount = channelsCount.get(0);

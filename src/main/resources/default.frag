@@ -25,7 +25,7 @@ in vec3 fragmentNormal_viewspace;
 in vec3 lightDirection_viewspace;
 in vec3 cameraDirection_viewspace;
 
-layout(location = 0) out vec3 color;
+layout(location = 0) out vec4 color;
 
 uniform vec3 fogColor;
 uniform float fogExtinction;
@@ -42,7 +42,8 @@ uniform sampler2D shadowMap;
 uniform sampler2D mainTexture;
 
 void main() {
-    vec3 materialDiffuseColor = materialColor * texture(mainTexture, fragmentUvPosition).xyz;
+    vec4 textureSample = texture(mainTexture, fragmentUvPosition);
+    vec3 materialDiffuseColor = materialColor * textureSample.rgb;
     vec3 materialAmbientColor = ambientLight * lightColor * materialDiffuseColor;
 
     vec3 normal = normalize(fragmentNormal_viewspace);
@@ -71,5 +72,5 @@ void main() {
 
     float distance = length(cameraDirection_viewspace);
     float fogAmount = fogExtinction * (1.0 - exp(-distance * fogDensity));
-    color = mix(materialColor, fogColor, fogAmount);
+    color = vec4(mix(materialColor, fogColor, fogAmount), textureSample.a);
 }

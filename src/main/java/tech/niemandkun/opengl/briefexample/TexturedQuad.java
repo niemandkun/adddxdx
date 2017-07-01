@@ -17,10 +17,14 @@ public class TexturedQuad extends Actor {
     @Override
     public void onCreate() {
         super.onCreate();
+
         Mesh mesh = getScene().getPrimitivesFactory().create(PrimitiveType.QUAD);
+
         CartoonMaterial material = getScene().getMaterialFactory().get(CartoonMaterial.class);
-        material.setTexture(new Texture(mImage = Image.load(open("test.bmp"))));
+        material.setTexture(new Texture(mImage = Image.load(open("test.png"))));
+
         addComponent(new MeshSkin(mesh, material));
+
         getTransform().rotate(0, FMath.PI, 0);
         getTransform().translate(0, 1, 0);
     }

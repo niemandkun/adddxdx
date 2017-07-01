@@ -16,7 +16,7 @@ public class Texture extends GlTexture {
 
     @Override
     protected int getGlTextureFormat() {
-        return GL_RGB;
+        return GL_RGBA;
     }
 
     @Override
