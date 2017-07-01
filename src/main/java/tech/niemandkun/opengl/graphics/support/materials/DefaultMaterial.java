@@ -1,9 +1,18 @@
 package tech.niemandkun.opengl.graphics.support.materials;
 
 import tech.niemandkun.opengl.graphics.*;
+import tech.niemandkun.opengl.math.Color;
 import tech.niemandkun.opengl.math.Matrix4;
 
 public class DefaultMaterial extends TexturedMaterial {
+    private final static String UNIFORM_MATERIAL_COLOR = "materialColor";
+
+    private Color mColor = Color.WHITE;
+
+    public void setColor(Color color) {
+        mColor = color;
+    }
+
     @Override
     public void setupShader(RenderSettings settings, Shader shader) {
         super.setupShader(settings, shader);
@@ -18,6 +27,7 @@ public class DefaultMaterial extends TexturedMaterial {
         shader.setUniform(UNIFORM_LIGHT_MATRIX, lightMatrix);
         shader.setUniform(UNIFORM_LIGHT_DIRECTION, settings.getLightDirection());
         shader.setUniform(UNIFORM_SHADOW_MAP, settings.getShadowMapTexture());
+        shader.setUniform(UNIFORM_MATERIAL_COLOR, mColor.toVector3());
     }
 
     @Override

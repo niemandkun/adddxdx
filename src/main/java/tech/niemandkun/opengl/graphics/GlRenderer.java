@@ -2,7 +2,8 @@ package tech.niemandkun.opengl.graphics;
 
 import com.sun.istack.internal.NotNull;
 import com.sun.istack.internal.Nullable;
-import tech.niemandkun.opengl.graphics.support.materials.*;
+import tech.niemandkun.opengl.graphics.support.materials.DefaultMaterial;
+import tech.niemandkun.opengl.graphics.support.materials.ShadowMaterial;
 import tech.niemandkun.opengl.graphics.support.primitives.PrimitiveType;
 import tech.niemandkun.opengl.graphics.support.primitives.PrimitivesFactory;
 import tech.niemandkun.opengl.math.Size;
@@ -10,9 +11,11 @@ import tech.niemandkun.opengl.math.Size;
 import java.util.*;
 
 class GlRenderer implements Renderer {
+    private final static String SCREEN_SHADER_NAME = "screen";
+    private final static String SCREEN_SHADER_TEXTURE = "screenTexture";
     private final static int PIXEL_EFFECT_LEVEL = 5;
 
-    private final Material mScreenMaterial;
+    private final Shader mScreenShader;
     private final GlVertexBufferObject mScreenObject;
 
     private class VboDescriptor {
@@ -36,7 +39,7 @@ class GlRenderer implements Renderer {
     GlRenderer(RenderTarget renderTarget, MaterialFactory materialFactory, PrimitivesFactory primitivesFactory) {
         mDefaultMaterial = materialFactory.get(DefaultMaterial.class);
         mShadowMaterial = materialFactory.get(ShadowMaterial.class);
-        mScreenMaterial = materialFactory.get(QuadMaterial.class);
+        mScreenShader = materialFactory.getShader(ShaderDescription.forFile(SCREEN_SHADER_NAME));
 
         mOutputRenderTarget = renderTarget;
         mOutputRenderTarget.init();
@@ -98,9 +101,8 @@ class GlRenderer implements Renderer {
         mOutputRenderTarget.enable();
         mOutputRenderTarget.clear();
 
-        mScreenMaterial.getShader().enable();
-        mScreenMaterial.setupShader(RenderSettings.empty()
-                .putShadowMapTexture(mInternalRenderTarget.getTexture().bind(0)));
+        mScreenShader.enable();
+        mScreenShader.setUniform(SCREEN_SHADER_TEXTURE, mInternalRenderTarget.getTexture().bind(0));
 
         if (!mScreenObject.isAllocated())
             mScreenObject.allocate();

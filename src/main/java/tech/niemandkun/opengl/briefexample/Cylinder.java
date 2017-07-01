@@ -1,13 +1,11 @@
 package tech.niemandkun.opengl.briefexample;
 
 import tech.niemandkun.opengl.engine.Actor;
-import tech.niemandkun.opengl.fio.Image;
-import tech.niemandkun.opengl.graphics.Material;
 import tech.niemandkun.opengl.graphics.Mesh;
 import tech.niemandkun.opengl.graphics.support.components.MeshSkin;
 import tech.niemandkun.opengl.graphics.support.materials.CartoonMaterial;
 import tech.niemandkun.opengl.graphics.support.primitives.PrimitiveType;
-import tech.niemandkun.opengl.graphics.support.textures.Texture;
+import tech.niemandkun.opengl.math.Color;
 
 import java.io.File;
 
@@ -20,6 +18,7 @@ public class Cylinder extends Actor {
 
         Mesh mesh = getScene().getPrimitivesFactory().create(PrimitiveType.CYLINDER);
         CartoonMaterial material = getScene().getMaterialFactory().get(CartoonMaterial.class);
+        material.setColor(Color.MATERIAL_TEAL);
         addComponent(new MeshSkin(mesh, material));
 
         getTransform().scale(1, 1, 2);

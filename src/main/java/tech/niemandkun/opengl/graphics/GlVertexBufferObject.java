@@ -10,8 +10,7 @@ import static tech.niemandkun.opengl.graphics.VertexArray.*;
 class GlVertexBufferObject {
     private final static int VERTEX_POSITION_ATTR_ID = 0;
     private final static int VERTEX_NORMAL_ATTR_ID = 1;
-    private final static int VERTEX_COLOR_ATTR_ID = 2;
-    private final static int VERTEX_UV_ATTR_ID = 3;
+    private final static int VERTEX_UV_ATTR_ID = 2;
     private final static int SIZEOF_FLOAT = 4;
 
     private final static int NULL_HANDLE = -1;
@@ -73,12 +72,6 @@ class GlVertexBufferObject {
             glEnableVertexAttribArray(VERTEX_NORMAL_ATTR_ID);
             glVertexAttribPointer(VERTEX_NORMAL_ATTR_ID, NORMAL_COMPONENTS_PER_VERTEX, GL_FLOAT, false, stride, offset);
             offset += NORMAL_COMPONENTS_PER_VERTEX * SIZEOF_FLOAT;
-        }
-
-        if (mVertexArray.hasColorData()) {
-            glEnableVertexAttribArray(VERTEX_COLOR_ATTR_ID);
-            glVertexAttribPointer(VERTEX_COLOR_ATTR_ID, COLOR_COMPONENTS_PER_VERTEX, GL_FLOAT, false, stride, offset);
-            offset += COLOR_COMPONENTS_PER_VERTEX * SIZEOF_FLOAT;
         }
 
         if (mVertexArray.hasUvData()) {

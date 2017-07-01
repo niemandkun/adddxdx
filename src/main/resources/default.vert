@@ -2,8 +2,7 @@
 
 layout(location = 0) in vec3 vertexPosition_modelspace;
 layout(location = 1) in vec3 vertexNormal_modelspace;
-layout(location = 2) in vec3 vertexColor;
-layout(location = 3) in vec2 vertexUvPosition;
+layout(location = 2) in vec2 vertexUvPosition;
 
 uniform mat4 mvpMatrix;
 uniform mat4 mvMatrix;
@@ -13,7 +12,6 @@ uniform mat4 lightMatrix;
 uniform vec3 lightDirection;
 
 out vec3 shadowMapPosition;
-out vec3 fragmentColor;
 out vec2 fragmentUvPosition;
 out vec3 fragmentNormal_viewspace;
 out vec3 lightDirection_viewspace;
@@ -27,8 +25,6 @@ void main() {
     gl_Position = mvpMatrix * vertexPosition_vec4;
 
     shadowMapPosition = (lightMatrix * vertexPosition_vec4).xyz;
-
-    fragmentColor = vertexColor;
 
     fragmentUvPosition = vertexUvPosition;
 

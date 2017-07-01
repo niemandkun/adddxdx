@@ -3,8 +3,8 @@ package tech.niemandkun.opengl.briefexample;
 import tech.niemandkun.opengl.engine.Actor;
 import tech.niemandkun.opengl.graphics.Material;
 import tech.niemandkun.opengl.graphics.Mesh;
-import tech.niemandkun.opengl.graphics.support.materials.DebugGuiMaterial;
 import tech.niemandkun.opengl.graphics.support.components.MeshSkin;
+import tech.niemandkun.opengl.graphics.support.materials.DebugGuiMaterial;
 import tech.niemandkun.opengl.math.Vector3;
 
 public class DebugGui extends Actor {

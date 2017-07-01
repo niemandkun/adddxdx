@@ -2,9 +2,9 @@
 
 layout(location = 0) out vec4 color;
 
-uniform sampler2D mtexture;
+uniform sampler2D screenTexture;
 in vec2 textureCoordinates;
 
 void main() {
-    color = texture(mtexture, textureCoordinates);
+    color = texture(screenTexture, textureCoordinates);
 }

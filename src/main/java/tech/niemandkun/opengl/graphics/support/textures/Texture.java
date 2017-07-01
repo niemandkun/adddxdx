@@ -16,7 +16,7 @@ public class Texture extends GlTexture {
 
     @Override
     protected int getGlTextureFormat() {
-        return mImage.getChannelsCount() == 3 ? GL_RGB : GL_RGBA;
+        return GL_RGB;
     }
 
     @Override
@@ -30,7 +30,7 @@ public class Texture extends GlTexture {
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
         glTexImage2D(GL_TEXTURE_2D, 0,
-                glTextureFormat, mImage.getSize().getWidth(), mImage.getSize().getHeight(), 0,
+                glTextureFormat, size.getWidth(), size.getHeight(), 0,
                 glTextureFormat, GL_UNSIGNED_BYTE, mImage.getImageBytes());
 
         return textureHandle;

@@ -1,14 +1,14 @@
 #version 330 core
 
 in vec3 shadowMapPosition;
-in vec3 fragmentColor;
 in vec2 fragmentUvPosition;
 in vec3 fragmentNormal_viewspace;
 in vec3 lightDirection_viewspace;
 in vec3 cameraDirection_viewspace;
 
-out vec3 color;
+layout(location = 0) out vec3 color;
 
+uniform vec3 materialColor;
 uniform sampler2D shadowMap;
 uniform sampler2D mainTexture;
 
@@ -35,7 +35,7 @@ void main() {
     vec3 lightColor = vec3(0.5);
     vec3 ambientLight = vec3(0.5);
 
-    vec3 diffuseColor = fragmentColor * texture(mainTexture, fragmentUvPosition).xyz;
+    vec3 diffuseColor = materialColor * texture(mainTexture, fragmentUvPosition).xyz;
     vec3 ambientColor = ambientLight * diffuseColor;
     vec3 specularColor = vec3(0.2);
 

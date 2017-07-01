@@ -3,6 +3,7 @@ package tech.niemandkun.opengl.briefexample;
 import tech.niemandkun.opengl.engine.Actor;
 import tech.niemandkun.opengl.graphics.Mesh;
 import tech.niemandkun.opengl.graphics.support.components.MeshSkin;
+import tech.niemandkun.opengl.graphics.support.materials.DefaultMaterial;
 import tech.niemandkun.opengl.math.Color;
 import tech.niemandkun.opengl.math.Vector3;
 
@@ -80,23 +81,11 @@ public class Walls extends Actor {
                 new Vector3(1, 0, 0),
         };
 
-        Color floorColor = new Color(0x99DCAAFF);
         Color wallColor = new Color(0xDCDCAAFF);
 
-        Color[] colors = {
-                floorColor, floorColor, floorColor,
-                floorColor, floorColor, floorColor,
+        DefaultMaterial material = getScene().getMaterialFactory().get(DefaultMaterial.class);
+        material.setColor(wallColor);
 
-                wallColor, wallColor, wallColor,
-                wallColor, wallColor, wallColor,
-
-                wallColor, wallColor, wallColor,
-                wallColor, wallColor, wallColor,
-
-                wallColor, wallColor, wallColor,
-                wallColor, wallColor, wallColor,
-        };
-
-        addComponent(new MeshSkin(new Mesh(vertices, normals, colors)));
+        addComponent(new MeshSkin(new Mesh(vertices, normals), material));
     }
 }

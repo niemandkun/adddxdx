@@ -21,7 +21,11 @@ public class MaterialFactory implements Destroyable {
 
     public <TMaterial extends Material> TMaterial get(Class<TMaterial> material) {
         TMaterial instance = instantiateMaterial(material);
-        ShaderDescription description = instance.getShaderDescription();
+        instance.setShader(getShader(instance.getShaderDescription()));
+        return instance;
+    }
+
+    Shader getShader(ShaderDescription description) {
         Shader shader = mShaders.get(description);
 
         if (shader == null) {
@@ -29,9 +33,7 @@ public class MaterialFactory implements Destroyable {
             mShaders.put(description, shader);
         }
 
-        instance.setShader(shader);
-
-        return instance;
+        return shader;
     }
 
     private <TMaterial extends Material> TMaterial instantiateMaterial(Class<TMaterial> material) {

@@ -3,9 +3,7 @@ package tech.niemandkun.opengl.graphics;
 import tech.niemandkun.opengl.engine.Destroyable;
 import tech.niemandkun.opengl.math.Size;
 
-import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
-import static org.lwjgl.opengl.GL11.glBindTexture;
-import static org.lwjgl.opengl.GL11.glDeleteTextures;
+import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL13.GL_TEXTURE0;
 import static org.lwjgl.opengl.GL13.glActiveTexture;
 

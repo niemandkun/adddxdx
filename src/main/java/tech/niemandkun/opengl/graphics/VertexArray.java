@@ -2,10 +2,10 @@ package tech.niemandkun.opengl.graphics;
 
 import com.sun.istack.internal.NotNull;
 import com.sun.istack.internal.Nullable;
-import tech.niemandkun.opengl.math.*;
+import tech.niemandkun.opengl.math.Vector2;
+import tech.niemandkun.opengl.math.Vector3;
 
 class VertexArray {
-    final static int COLOR_COMPONENTS_PER_VERTEX = 3;
     final static int POSITION_COMPONENTS_PER_VERTEX = 3;
     final static int NORMAL_COMPONENTS_PER_VERTEX = 3;
     final static int UV_COMPONENTS_PER_VERTEX = 2;
@@ -13,7 +13,6 @@ class VertexArray {
     private final float[] mVertexBuffer;
 
     private final boolean mHasNormalData;
-    private final boolean mHasColorData;
     private final boolean mHasUvData;
 
     private final int mVertexSize;
@@ -21,31 +20,26 @@ class VertexArray {
     float[] getVertexBuffer() { return mVertexBuffer; }
 
     boolean hasNormalData() { return mHasNormalData; }
-    boolean hasColorData() { return mHasColorData; }
     boolean hasUvData() { return mHasUvData; }
 
     int getVertexSize() { return mVertexSize; }
 
-    VertexArray(@NotNull Vector3[] vertices, @Nullable Vector3[] normals,
-                @Nullable Color[] colors, @Nullable Vector2[] uvCoordinates) {
+    VertexArray(@NotNull Vector3[] vertices, @Nullable Vector3[] normals, @Nullable Vector2[] uvCoordinates) {
 
         if (vertices == null) throw new IllegalArgumentException("Expected vertices data, but got null.");
 
-        if (!validateArraysLength(vertices, normals, colors, uvCoordinates))
+        if (!validateArraysLength(vertices, normals, uvCoordinates))
             throw new IllegalArgumentException("Length of all arrays data should match.");
 
         mHasNormalData = normals != null;
-        mHasColorData = colors != null;
         mHasUvData = uvCoordinates != null;
 
-        mVertexBuffer = packToFloatArray(vertices, normals, colors, uvCoordinates);
+        mVertexBuffer = packToFloatArray(vertices, normals, uvCoordinates);
         mVertexSize = mVertexBuffer.length / vertices.length;
     }
 
-    private float[] packToFloatArray(Vector3[] vertices, Vector3[] normals,
-                                     Color[] colors, Vector2[] uvCoordinates) {
-
-        float[] vertexBuffer = new float[calculateTotalLength(vertices, normals, colors, uvCoordinates)];
+    private float[] packToFloatArray(Vector3[] vertices, Vector3[] normals, Vector2[] uvCoordinates) {
+        float[] vertexBuffer = new float[calculateTotalLength(vertices, normals, uvCoordinates)];
         float[] buffer = new float[POSITION_COMPONENTS_PER_VERTEX];
 
         int positionArrayOffset = 0;
@@ -58,12 +52,6 @@ class VertexArray {
             if (normals != null) {
                 normals[i].toFloatArray(buffer);
                 for (int j = 0; j < NORMAL_COMPONENTS_PER_VERTEX; ++j)
-                    vertexBuffer[positionArrayOffset++] = buffer[j];
-            }
-
-            if (colors != null) {
-                colors[i].toVector3().toFloatArray(buffer);
-                for (int j = 0; j < COLOR_COMPONENTS_PER_VERTEX; ++j)
                     vertexBuffer[positionArrayOffset++] = buffer[j];
             }
 
@@ -86,13 +74,11 @@ class VertexArray {
         return isValid;
     }
 
-    private static int calculateTotalLength(Vector3[] vertices, Vector3[] normals,
-                                            Color[] colors, Vector2[] uvCoordinates) {
+    private static int calculateTotalLength(Vector3[] vertices, Vector3[] normals, Vector2[] uvCoordinates) {
         int totalLength = 0;
 
         if (vertices != null) totalLength += vertices.length * POSITION_COMPONENTS_PER_VERTEX;
         if (normals != null) totalLength += normals.length * NORMAL_COMPONENTS_PER_VERTEX;
-        if (colors != null) totalLength += colors.length * COLOR_COMPONENTS_PER_VERTEX;
         if (uvCoordinates != null) totalLength += uvCoordinates.length * UV_COMPONENTS_PER_VERTEX;
 
         return totalLength;

@@ -1,6 +1,7 @@
 package tech.niemandkun.opengl.graphics.support.primitives;
 
 import tech.niemandkun.opengl.graphics.Mesh;
+import tech.niemandkun.opengl.math.Vector2;
 import tech.niemandkun.opengl.math.Vector3;
 
 import java.util.HashMap;
@@ -32,14 +33,34 @@ public class PrimitivesFactory {
     }
 
     private Mesh createQuad() {
-        return new Mesh(new Vector3[] {
+        Vector3[] vertices = {
                 new Vector3(-1.0f, -1.0f, 0.0f),
                 new Vector3(1.0f, -1.0f, 0.0f),
                 new Vector3(-1.0f,  1.0f, 0.0f),
                 new Vector3(-1.0f,  1.0f, 0.0f),
                 new Vector3(1.0f, -1.0f, 0.0f),
                 new Vector3(1.0f,  1.0f, 0.0f),
-        });
+        };
+
+        Vector3[] normals = {
+                new Vector3(0, 0, 1),
+                new Vector3(0, 0, 1),
+                new Vector3(0, 0, 1),
+                new Vector3(0, 0, 1),
+                new Vector3(0, 0, 1),
+                new Vector3(0, 0, 1),
+        };
+
+        Vector2[] uvCoordinates = {
+                new Vector2(0, 0),
+                new Vector2(1, 0),
+                new Vector2(0, 1),
+                new Vector2(0, 1),
+                new Vector2(1, 0),
+                new Vector2(1, 1),
+        };
+
+        return new Mesh(vertices, normals, uvCoordinates);
     }
 
     private Mesh createCylinder() {

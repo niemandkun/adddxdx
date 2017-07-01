@@ -1,7 +1,6 @@
 #version 330 core
 
 in vec3 shadowMapPosition;
-in vec3 fragmentColor;
 in vec2 fragmentUvPosition;
 in vec3 fragmentNormal_viewspace;
 in vec3 lightDirection_viewspace;
@@ -9,6 +8,7 @@ in vec3 cameraDirection_viewspace;
 
 layout(location = 0) out vec3 color;
 
+uniform vec3 materialColor;
 uniform sampler2D shadowMap;
 uniform sampler2D mainTexture;
 
@@ -42,7 +42,7 @@ void main() {
     float lightIntencity = 1.0f;
     float shininess = 5;
 
-    vec3 materialDiffuseColor = fragmentColor * texture(mainTexture, fragmentUvPosition).xyz;
+    vec3 materialDiffuseColor = materialColor * texture(mainTexture, fragmentUvPosition).xyz;
     vec3 materialAmbientColor = ambientLight * materialDiffuseColor;
     vec3 materialSpecularColor = vec3(0.1);
 

@@ -7,10 +7,9 @@ import tech.niemandkun.opengl.graphics.support.components.MeshSkin;
 import tech.niemandkun.opengl.graphics.support.materials.CartoonMaterial;
 import tech.niemandkun.opengl.graphics.support.primitives.PrimitiveType;
 import tech.niemandkun.opengl.graphics.support.textures.Texture;
+import tech.niemandkun.opengl.math.FMath;
 
 import java.io.File;
-
-import static tech.niemandkun.opengl.math.FMath.HALF_PI;
 
 public class TexturedQuad extends Actor {
     private Image mImage;
@@ -20,9 +19,10 @@ public class TexturedQuad extends Actor {
         super.onCreate();
         Mesh mesh = getScene().getPrimitivesFactory().create(PrimitiveType.QUAD);
         CartoonMaterial material = getScene().getMaterialFactory().get(CartoonMaterial.class);
-
         material.setTexture(new Texture(mImage = Image.load(open("test.bmp"))));
         addComponent(new MeshSkin(mesh, material));
+        getTransform().rotate(0, FMath.PI, 0);
+        getTransform().translate(0, 1, 0);
     }
 
     private File open(String filename) {
