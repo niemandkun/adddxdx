@@ -10,7 +10,7 @@ import static org.lwjgl.opengl.GL14.*;
 
 class GlDepthTexture extends GlTexture {
     @Override
-    int getGlTextureFormat() {
+    protected int getGlTextureFormat() {
         return GL_DEPTH_COMPONENT16;
     }
 
@@ -19,7 +19,7 @@ class GlDepthTexture extends GlTexture {
     }
 
     @Override
-    int doInit(Size size) {
+    protected int doInit(Size size) {
         int textureHandle = glGenTextures();
         glBindTexture(GL_TEXTURE_2D, textureHandle);
         glTexImage2D(GL_TEXTURE_2D, 0,  GL_DEPTH_COMPONENT16, size.getWidth(), size.getHeight(), 0, GL_DEPTH_COMPONENT, GL_FLOAT, 0);

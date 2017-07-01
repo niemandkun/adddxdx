@@ -9,7 +9,7 @@ import static org.lwjgl.opengl.GL11.glDeleteTextures;
 import static org.lwjgl.opengl.GL13.GL_TEXTURE0;
 import static org.lwjgl.opengl.GL13.glActiveTexture;
 
-abstract class GlTexture implements Destroyable {
+public abstract class GlTexture implements Destroyable {
     private static final int NULL_HANDLE = -1;
     private final Size mSize;
     private int mHandle;
@@ -18,13 +18,13 @@ abstract class GlTexture implements Destroyable {
         return mHandle;
     }
 
-    abstract int getGlTextureFormat();
+    protected abstract int getGlTextureFormat();
 
     Size getSize() {
         return mSize;
     }
 
-    GlTexture(Size size) {
+    protected GlTexture(Size size) {
         mHandle = NULL_HANDLE;
         mSize = size;
     }
@@ -36,7 +36,7 @@ abstract class GlTexture implements Destroyable {
         mHandle = doInit(mSize);
     }
 
-    abstract int doInit(Size size);
+    protected abstract int doInit(Size size);
 
     int bind(int textureUnit) {
         if (mHandle == NULL_HANDLE)

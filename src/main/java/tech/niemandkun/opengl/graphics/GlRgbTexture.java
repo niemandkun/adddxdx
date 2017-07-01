@@ -6,7 +6,7 @@ import static org.lwjgl.opengl.GL11.*;
 
 class GlRgbTexture extends GlTexture {
     @Override
-    int getGlTextureFormat() {
+    protected int getGlTextureFormat() {
         return GL_RGB;
     }
 
@@ -15,7 +15,7 @@ class GlRgbTexture extends GlTexture {
     }
 
     @Override
-    int doInit(Size size) {
+    protected int doInit(Size size) {
         int textureHandle = glGenTextures();
         glBindTexture(GL_TEXTURE_2D, textureHandle);
         glTexImage2D(GL_TEXTURE_2D, 0,  GL_RGB, size.getWidth(), size.getHeight(), 0, GL_RGB, GL_UNSIGNED_BYTE, 0);
