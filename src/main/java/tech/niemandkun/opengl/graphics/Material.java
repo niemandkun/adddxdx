@@ -2,10 +2,6 @@ package tech.niemandkun.opengl.graphics;
 
 public abstract class Material {
     protected final static String UNIFORM_MVP_MATRIX = "mvpMatrix";
-    protected final static String UNIFORM_MV_MATRIX = "mvMatrix";
-    protected final static String UNIFORM_V_MATRIX = "vMatrix";
-    protected final static String UNIFORM_LIGHT_DIRECTION = "lightDirection";
-    protected final static String UNIFORM_LIGHT_MATRIX = "lightMatrix";
     protected final static String UNIFORM_SHADOW_MAP = "shadowMap";
 
     private Shader mShader;

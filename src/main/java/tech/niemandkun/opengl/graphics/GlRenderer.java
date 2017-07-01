@@ -1,7 +1,5 @@
 package tech.niemandkun.opengl.graphics;
 
-import com.sun.istack.internal.NotNull;
-import com.sun.istack.internal.Nullable;
 import tech.niemandkun.opengl.graphics.support.materials.DefaultMaterial;
 import tech.niemandkun.opengl.graphics.support.materials.ShadowMaterial;
 import tech.niemandkun.opengl.graphics.support.primitives.PrimitiveType;
@@ -56,9 +54,9 @@ class GlRenderer implements Renderer {
         mVBOs = new HashMap<>();
     }
 
-    void renderAll(@NotNull Camera camera, @Nullable Light light, @NotNull Collection<Renderable> renderables) {
-        prepareShadowMap(light, renderables);
-        renderToInternalTarget(camera, light, renderables);
+    void renderAll(Camera camera, RenderSettings settings, Collection<Renderable> renderables) {
+        prepareShadowMap(settings.getLight(), renderables);
+        renderToInternalTarget(camera, settings, renderables);
         renderToOutputTarget();
         deallocateObsoleteVBOs();
     }
@@ -79,22 +77,20 @@ class GlRenderer implements Renderer {
         }
     }
 
-    private void renderToInternalTarget(Camera camera, Light light, Collection<Renderable> renderables) {
+    private void renderToInternalTarget(Camera camera, RenderSettings settings, Collection<Renderable> renderables) {
         mInternalRenderTarget.enable();
         mInternalRenderTarget.clear();
 
         camera.adjustAspectRatio(mOutputRenderTarget.getSize());
 
-        RenderSettings settings = RenderSettings.empty()
+        RenderSettings newSettings = settings
                 .extractFromCamera(camera)
                 .putShadowMapTexture(mShadowMap.getTexture().bind(0));
 
-        if (light != null) settings = settings.extractFromLight(light);
-
-        settings = settings.asOriginal();
+        newSettings = newSettings.asOriginal();
 
         for (Renderable renderable : renderables)
-            renderable.render(this, settings);
+            renderable.render(this, newSettings);
     }
 
     private void renderToOutputTarget() {

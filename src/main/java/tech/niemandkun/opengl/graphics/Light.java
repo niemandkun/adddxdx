@@ -1,24 +1,16 @@
 package tech.niemandkun.opengl.graphics;
 
-import tech.niemandkun.opengl.math.Matrix4;
-import tech.niemandkun.opengl.math.Vector3;
+import tech.niemandkun.opengl.math.*;
 
-public abstract class Light extends GraphicsSystem.Component {
-    @Override
-    public final void connect(GraphicsSystem system) {
-        if (system.getLight() == null) system.setLight(this);
-    }
+public interface Light {
+    Vector3 getDirection();
+    Color getColor();
+    float getAmbientIntensity();
 
-    @Override
-    public final void disconnect(GraphicsSystem system) {
-        if (this.equals(system.getLight())) system.setLight(null);
-    }
+    Matrix4 getViewMatrix();
+    Matrix4 getProjectionMatrix();
 
-    public final Matrix4 getViewProjectionMatrix() {
+    default Matrix4 getViewProjectionMatrix() {
         return getProjectionMatrix().cross(getViewMatrix());
     }
-
-    public abstract Matrix4 getViewMatrix();
-    public abstract Matrix4 getProjectionMatrix();
-    public abstract Vector3 getDirection();
 }

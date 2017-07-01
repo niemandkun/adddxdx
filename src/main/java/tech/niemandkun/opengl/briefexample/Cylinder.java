@@ -18,7 +18,8 @@ public class Cylinder extends Actor {
 
         Mesh mesh = getScene().getPrimitivesFactory().create(PrimitiveType.CYLINDER);
         CartoonMaterial material = getScene().getMaterialFactory().get(CartoonMaterial.class);
-        material.setColor(Color.MATERIAL_TEAL);
+        material.setColor(Color.TEAL);
+        material.setSpecularColor(Color.DARK_GREY);
         addComponent(new MeshSkin(mesh, material));
 
         getTransform().scale(1, 1, 2);

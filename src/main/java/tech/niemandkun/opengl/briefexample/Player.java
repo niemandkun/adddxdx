@@ -1,6 +1,7 @@
 package tech.niemandkun.opengl.briefexample;
 
 import tech.niemandkun.opengl.engine.Actor;
+import tech.niemandkun.opengl.graphics.support.components.Fog;
 import tech.niemandkun.opengl.graphics.support.components.PerspectiveCamera;
 import tech.niemandkun.opengl.io.*;
 import tech.niemandkun.opengl.math.Transform;
@@ -14,6 +15,7 @@ public class Player extends Actor {
     public void onCreate() {
         super.onCreate();
         addComponent(new PerspectiveCamera());
+        addComponent(new Fog());
 
         final Transform transform = getTransform();
         transform.translate(0, 1, 0);

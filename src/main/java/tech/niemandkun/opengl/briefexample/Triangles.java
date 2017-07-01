@@ -47,7 +47,7 @@ public class Triangles extends Actor {
         };
 
         DefaultMaterial material = getScene().getMaterialFactory().get(DefaultMaterial.class);
-        material.setColor(Color.MATERIAL_DEEP_ORANGE);
+        material.setColor(Color.ORANGE);
 
         addComponent(new MeshSkin(new Mesh(vertices, normals), material));
 

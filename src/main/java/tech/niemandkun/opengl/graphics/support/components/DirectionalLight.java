@@ -1,11 +1,10 @@
 package tech.niemandkun.opengl.graphics.support.components;
 
-import tech.niemandkun.opengl.graphics.Light;
 import tech.niemandkun.opengl.math.*;
 
 import static tech.niemandkun.opengl.math.FMath.PI;
 
-public class DirectionalLight extends Light {
+public class DirectionalLight extends BaseLight {
     @Override
     public Matrix4 getViewMatrix() {
         Matrix4 viewMatrix = getActor().getTransform().getMatrix();

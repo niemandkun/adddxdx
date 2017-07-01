@@ -3,15 +3,21 @@ package tech.niemandkun.opengl.math;
 import java.io.Serializable;
 
 public class Color implements Serializable {
-    public static final Color WHITE = new Color(0xffffffff);
-    public static final Color BLACK = new Color(0x000000ff);
+    public static final Color WHITE = new Color(0xFFFFFFFF);
+    public static final Color BLACK = new Color(0x000000FF);
+    public static final Color GREY = new Color(0x999999FF);
+    public static final Color LIGHT_GREY = new Color(0xDCDCDCFF);
+    public static final Color DARK_GREY = new Color(0x202020FF);
 
-    public static final Color MATERIAL_PURPLE = new Color(0x9c26b0ff);
-    public static final Color MATERIAL_LIGHT_BLUE = new Color(0x02a8f4ff);
-    public static final Color MATERIAL_TEAL = new Color(0x009687ff);
-    public static final Color MATERIAL_GREEN = new Color(0x4caf4fff);
-    public static final Color MATERIAL_YELLOW = new Color(0xffef58ff);
-    public static final Color MATERIAL_DEEP_ORANGE = new Color(0xff5622ff);
+    public static final Color RED = new Color(0xFF0000FF);
+    public static final Color GREEN = new Color(0x00FF00FF);
+    public static final Color BLUE = new Color(0x0000FFFF);
+    public static final Color PURPLE = new Color(0x9C26B0FF);
+    public static final Color LIGHT_BLUE = new Color(0x02A8F4FF);
+    public static final Color TEAL = new Color(0x009687FF);
+    public static final Color LIGHT_GREEN = new Color(0x4CAF4FFF);
+    public static final Color YELLOW = new Color(0xFFEF58FF);
+    public static final Color ORANGE = new Color(0xFF5622FF);
 
     private static final ColorStringFormatter FORMATTER = new ColorStringFormatter();
 
@@ -33,7 +39,7 @@ public class Color implements Serializable {
     }
 
     public Color(int red, int green, int blue) {
-        this(red, green, blue, 0xff);
+        this(red, green, blue, 0xFF);
     }
 
     public Color(int color) {
@@ -131,7 +137,7 @@ public class Color implements Serializable {
 
             int a = color.length() == RGBA_STRING_LENGTH
                     ? Integer.parseInt(color.substring(ALPHA_OFFSET, RGBA_STRING_LENGTH), BASE_10)
-                    : (byte) 0xff;
+                    : (byte) 0xFF;
 
             return new Color(r, g, b, a);
         }

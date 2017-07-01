@@ -15,14 +15,23 @@ public class GraphicsSystem extends ActiveSystem<GraphicsSystem.Component> {
     }
 
     private final Set<Renderable> mRenderables;
-    private Light mLight;
     private Camera mCamera;
+    private Light mLight;
+    private Fog mFog;
 
     private final GlRenderer mRenderer;
 
     public GraphicsSystem(Window window, MaterialFactory materialFactory, PrimitivesFactory primitivesFactory) {
         mRenderables = new HashSet<>();
         mRenderer = new GlRenderer(new GlWindowRenderTarget(window), materialFactory, primitivesFactory);
+    }
+
+    public void setFog(Fog fog) {
+        mFog = fog;
+    }
+
+    public Fog getFog() {
+        return mFog;
     }
 
     void setCamera(Camera camera) {
@@ -33,11 +42,11 @@ public class GraphicsSystem extends ActiveSystem<GraphicsSystem.Component> {
         return mCamera;
     }
 
-    void setLight(Light light) {
+    public void setLight(Light light) {
         mLight = light;
     }
 
-    Light getLight() {
+    public Light getLight() {
         return mLight;
     }
 
@@ -61,6 +70,7 @@ public class GraphicsSystem extends ActiveSystem<GraphicsSystem.Component> {
 
     @Override
     public void update(Duration timeSinceLastUpdate) {
-        mRenderer.renderAll(mCamera, mLight, mRenderables);
+        RenderSettings settings = RenderSettings.empty().putLight(mLight).putFog(mFog);
+        mRenderer.renderAll(mCamera, settings, mRenderables);
     }
 }
