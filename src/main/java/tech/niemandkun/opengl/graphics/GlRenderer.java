@@ -9,8 +9,6 @@ import tech.niemandkun.opengl.math.Size;
 
 import java.util.*;
 
-import static org.lwjgl.opengl.GL11.glGetError;
-
 class GlRenderer implements Renderer {
     private final static int PIXEL_EFFECT_LEVEL = 5;
 

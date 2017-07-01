@@ -49,7 +49,7 @@ void main() {
     vec3 shadowMapCoords = (shadowMapPosition.xyz + vec3(1)) / 2;
 
     for (int i = 0; i < 16; ++i) {
-        if (texture(shadowMap, shadowMapCoords.xy + poissonDisk[i] / 700).x < shadowMapCoords.z - bias)
+        if (texture(shadowMap, shadowMapCoords.xy + poissonDisk[i] / 1000).x < shadowMapCoords.z - bias)
             visibility -= 0.0625f;
     }
 
