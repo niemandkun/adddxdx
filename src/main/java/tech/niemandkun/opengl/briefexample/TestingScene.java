@@ -12,7 +12,7 @@ public class TestingScene extends Scene {
         spawnActor(Cylinder.class).getTransform().translate(5, 1, 5);
         spawnActor(Cylinder.class).getTransform().translate(0, 1, 5);
         spawnActor(Cylinder.class).getTransform().translate(-1, 1, -3);
-        spawnActor(PieceOfGlass.class);
+        spawnActor(PieceOfGlass.class).getTransform().translate(2.5f, 0, 0);
         spawnActor(Triangles.class);
         spawnActor(TestingLight.class);
         spawnActor(DebugGui.class);
