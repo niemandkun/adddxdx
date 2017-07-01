@@ -95,4 +95,28 @@ public class Quaternion {
 
         return new Vector3((float) x, (float) y, (float) z);
     }
+
+    @Override
+    public boolean equals(Object other) {
+        if (this == other) return true;
+        if (other == null || getClass() != other.getClass()) return false;
+
+        Quaternion that = (Quaternion) other;
+
+        return that.r == r && that.i == i && that.j == j && that.k == k;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Float.hashCode(r);
+        result = 31 * result + Float.hashCode(i);
+        result = 31 * result + Float.hashCode(j);
+        result = 31 * result + Float.hashCode(k);
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("(%f, %f, %f, %f)", r, i, j, k);
+    }
 }
