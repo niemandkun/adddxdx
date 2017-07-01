@@ -6,7 +6,7 @@ in vec3 fragmentNormal_viewspace;
 in vec3 lightDirection_viewspace;
 in vec3 cameraDirection_viewspace;
 
-out vec3 color;
+layout(location = 0) out vec3 color;
 
 uniform sampler2D shadowMap;
 

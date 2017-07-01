@@ -2,8 +2,7 @@ package tech.niemandkun.opengl.briefexample;
 
 import tech.niemandkun.opengl.engine.Actor;
 import tech.niemandkun.opengl.graphics.Mesh;
-import tech.niemandkun.opengl.graphics.support.DefaultMaterial;
-import tech.niemandkun.opengl.graphics.support.MeshSkin;
+import tech.niemandkun.opengl.graphics.support.*;
 
 import static tech.niemandkun.opengl.math.FMath.HALF_PI;
 
@@ -12,7 +11,8 @@ public class Cylinder extends Actor {
     public void onCreate() {
         CylinderGenerator generator = new CylinderGenerator();
         Mesh mesh = new Mesh(generator.getVertices(), generator.getNormals(), generator.getColors());
-        addComponent(new MeshSkin(mesh, getScene().getMaterialFactory().get(DefaultMaterial.class)));
+        //addComponent(new MeshSkin(mesh, getScene().getMaterialFactory().get(DefaultMaterial.class)));
+        addComponent(new MeshSkin(mesh, getScene().getMaterialFactory().get(CartoonMaterial.class)));
 
         getTransform().scale(1, 1, 2);
         getTransform().rotate(HALF_PI, 0, 0);
