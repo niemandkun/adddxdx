@@ -1,14 +1,16 @@
 package tech.niemandkun.opengl.graphics;
 
-import tech.niemandkun.opengl.graphics.support.textures.Texture;
-
 public abstract class TexturedMaterial extends Material {
-    private final static String UNIFORM_TEXTURE = "texture";
+    private final static String UNIFORM_TEXTURE = "mainTexture";
     private final static int TEXTURE_UNIT_TO_USE = 2;
 
     private GlTexture mTexture;
 
-    public void setTexture(Texture texture) {
+    public TexturedMaterial() {
+        mTexture = new StubTexture();
+    }
+
+    public void setTexture(GlTexture texture) {
         mTexture = texture;
     }
 

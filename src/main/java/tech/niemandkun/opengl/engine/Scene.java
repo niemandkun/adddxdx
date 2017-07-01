@@ -52,6 +52,8 @@ public abstract class Scene implements FullLifecycle {
         actor.setScene(this);
         actor.onCreate();
 
+        mActors.add(actor);
+
         return actor;
     }
 

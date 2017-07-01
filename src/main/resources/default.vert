@@ -14,6 +14,7 @@ uniform vec3 lightDirection;
 
 out vec3 shadowMapPosition;
 out vec3 fragmentColor;
+out vec2 fragmentUvPosition;
 out vec3 fragmentNormal_viewspace;
 out vec3 lightDirection_viewspace;
 out vec3 cameraDirection_viewspace;
@@ -28,6 +29,8 @@ void main() {
     shadowMapPosition = (lightMatrix * vertexPosition_vec4).xyz;
 
     fragmentColor = vertexColor;
+
+    fragmentUvPosition = vertexUvPosition;
 
     fragmentNormal_viewspace = (mvMatrix * vertexNormal_vec4).xyz;
 
