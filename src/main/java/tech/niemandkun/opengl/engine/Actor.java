@@ -25,8 +25,8 @@ public class Actor implements ShortLifecycle {
         mComponents.put(component.getClass(), component);
     }
 
-    public Component getComponent(Class<? extends Component> componentClass) {
-        return mComponents.get(componentClass);
+    public <TComponent extends Component> TComponent getComponent(Class<TComponent> componentClass) {
+        return (TComponent) mComponents.get(componentClass);
     }
 
     public void removeComponent(Class<? extends Component> componentClass) {

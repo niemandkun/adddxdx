@@ -1,5 +1,6 @@
 package tech.niemandkun.opengl.graphics;
 
+import sun.security.provider.SHA;
 import tech.niemandkun.opengl.engine.Destroyable;
 
 import java.io.File;
@@ -9,6 +10,7 @@ import java.util.Map;
 public class MaterialFactory implements Destroyable {
     private final static String FRAGMENT_SHADER_EXT = ".frag";
     private final static String VERTEX_SHADER_EXT = ".vert";
+    private final static String SHADERS_DIR = "shaders/";
 
     private final ShaderCompiler mShaderCompiler;
 
@@ -44,13 +46,13 @@ public class MaterialFactory implements Destroyable {
         }
     }
 
-    private Shader buildShader(ShaderDescription shaderDescription) {
+    private Shader buildShader(ShaderDescription desc) {
         try {
 
             return mShaderCompiler
-                    .setFragmentShader(open(shaderDescription.getFragmentShaderName() + FRAGMENT_SHADER_EXT))
-                    .setVertexShader(open(shaderDescription.getVertexShaderName() + VERTEX_SHADER_EXT))
-                    .compile();
+                .setFragmentShader(open(SHADERS_DIR + desc.getFragmentShaderName() + FRAGMENT_SHADER_EXT))
+                .setVertexShader(open(SHADERS_DIR + desc.getVertexShaderName() + VERTEX_SHADER_EXT))
+                .compile();
 
         } catch (ShaderCompileException e) {
             System.out.println(e.getMessage());

@@ -66,7 +66,7 @@ class GlRenderer implements Renderer {
         mShadowMap.clear();
 
         if (light != null) {
-            RenderSettings settings = RenderSettings.empty()
+            RenderSettings settings = RenderSettings.forShadowPass()
                     .putMaterial(mShadowMaterial)
                     .putViewMatrix(light.getViewMatrix())
                     .putProjectionMatrix(light.getProjectionMatrix())
