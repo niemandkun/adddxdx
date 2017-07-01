@@ -4,9 +4,6 @@ import tech.niemandkun.opengl.io.Window;
 import tech.niemandkun.opengl.math.*;
 
 import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.GL14.GL_FUNC_ADD;
-import static org.lwjgl.opengl.GL14.glBlendEquation;
-import static org.lwjgl.opengl.GL14.glBlendFuncSeparate;
 import static org.lwjgl.opengl.GL30.GL_FRAMEBUFFER;
 import static org.lwjgl.opengl.GL30.glBindFramebuffer;
 

@@ -1,6 +1,5 @@
 package tech.niemandkun.opengl.graphics;
 
-import sun.security.provider.SHA;
 import tech.niemandkun.opengl.engine.Destroyable;
 
 import java.io.File;
