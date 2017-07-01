@@ -1,4 +1,4 @@
-package tech.niemandkun.opengl.graphics.support;
+package tech.niemandkun.opengl.graphics.support.materials;
 
 import tech.niemandkun.opengl.graphics.*;
 

@@ -1,4 +1,4 @@
-package tech.niemandkun.opengl.graphics.support;
+package tech.niemandkun.opengl.graphics.support.components;
 
 import tech.niemandkun.opengl.graphics.Light;
 import tech.niemandkun.opengl.math.*;

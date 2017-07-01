@@ -1,11 +1,13 @@
 package tech.niemandkun.opengl.engine;
 
 import tech.niemandkun.opengl.graphics.MaterialFactory;
+import tech.niemandkun.opengl.graphics.support.primitives.PrimitivesFactory;
 import tech.niemandkun.opengl.io.Window;
 
 import java.util.Collection;
 
 public interface Setting {
+    PrimitivesFactory getPrimitivesFactory();
     MaterialFactory getMaterialFactory();
     Scenario getScenario();
     Window getWindow();

@@ -2,26 +2,20 @@ package tech.niemandkun.opengl.graphics;
 
 import com.sun.istack.internal.NotNull;
 import com.sun.istack.internal.Nullable;
-import tech.niemandkun.opengl.graphics.support.*;
+import tech.niemandkun.opengl.graphics.support.materials.*;
+import tech.niemandkun.opengl.graphics.support.primitives.PrimitiveType;
+import tech.niemandkun.opengl.graphics.support.primitives.PrimitivesFactory;
 import tech.niemandkun.opengl.math.Size;
-import tech.niemandkun.opengl.math.Vector3;
 
 import java.util.*;
 
-import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.GL13.GL_TEXTURE0;
-import static org.lwjgl.opengl.GL13.glActiveTexture;
-import static org.lwjgl.opengl.GL30.*;
-import static org.lwjgl.opengl.GL32.glFramebufferTexture;
+import static org.lwjgl.opengl.GL11.glGetError;
 
 class GlRenderer implements Renderer {
-    private final int mFramebufferHandle;
-    private final int mTextureHandle;
-    private final int mWidth;
-    private final int mHeight;
-    private final int mDepthRenderBuffer;
-    private final Material mQuadMaterial;
-    private final GlVertexBufferObject mQuad;
+    private final static int PIXEL_EFFECT_LEVEL = 5;
+
+    private final Material mScreenMaterial;
+    private final GlVertexBufferObject mScreenObject;
 
     private class VboDescriptor {
         final GlVertexBufferObject vbo;
@@ -34,73 +28,37 @@ class GlRenderer implements Renderer {
 
     private final RenderTarget mOutputRenderTarget;
     private final GlRenderTexture mShadowMap;
+    private final GlRenderTexture mInternalRenderTarget;
 
     private final Map<VertexArray, VboDescriptor> mVBOs;
 
     private final Material mDefaultMaterial;
     private final Material mShadowMaterial;
 
-    GlRenderer(RenderTarget renderTarget, MaterialFactory materialFactory) {
+    GlRenderer(RenderTarget renderTarget, MaterialFactory materialFactory, PrimitivesFactory primitivesFactory) {
         mDefaultMaterial = materialFactory.get(DefaultMaterial.class);
         mShadowMaterial = materialFactory.get(ShadowMaterial.class);
-        mQuadMaterial = materialFactory.get(QuadMaterial.class);
+        mScreenMaterial = materialFactory.get(QuadMaterial.class);
 
         mOutputRenderTarget = renderTarget;
         mOutputRenderTarget.init();
 
-        mShadowMap = new GlRenderTexture(Size.square(2048));
+        mShadowMap = new GlRenderTexture(new GlDepthTexture(Size.square(2048)));
         mShadowMap.init();
 
+        Size internalRenderSize = renderTarget.getSize().shrink(PIXEL_EFFECT_LEVEL);
+        mInternalRenderTarget = new GlRenderTexture(new GlRgbTexture(internalRenderSize));
+        mInternalRenderTarget.init();
+
+        mScreenObject = new GlVertexBufferObject(primitivesFactory.create(PrimitiveType.QUAD).getVertexArray());
+
         mVBOs = new HashMap<>();
-
-        // NEW: ///////////////////////////////////////////////////////////////////////////////////////////////////////
-
-        //mWidth = 568;
-        //mHeight = 320;
-
-        mWidth = renderTarget.getSize().getWidth() / 5;
-        mHeight = renderTarget.getSize().getHeight() / 5;
-
-        mFramebufferHandle = glGenFramebuffers();
-        glBindFramebuffer(GL_FRAMEBUFFER, mFramebufferHandle);
-
-        mTextureHandle = glGenTextures();
-        glBindTexture(GL_TEXTURE_2D, mTextureHandle);
-        glTexImage2D(GL_TEXTURE_2D, 0,  GL_RGB, mWidth, mHeight, 0, GL_RGB, GL_FLOAT, 0);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-
-        glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, mTextureHandle, 0);
-
-//        mDepthRenderBuffer = 0;
-        mDepthRenderBuffer = glGenRenderbuffers();
-        glBindRenderbuffer(GL_RENDERBUFFER, mDepthRenderBuffer);
-        glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, mWidth, mHeight);
-        glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, mDepthRenderBuffer);
-
-
-        glDrawBuffer(GL_COLOR_ATTACHMENT0);
-
-        if(glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
-            throw new IllegalStateException("Error initializing framebuffer for render texture.");
-
-        mQuad = new GlVertexBufferObject(new VertexArray(
-                new Vector3[] {
-                        new Vector3(-1.0f, -1.0f, 0.0f),
-                        new Vector3(1.0f, -1.0f, 0.0f),
-                        new Vector3(-1.0f,  1.0f, 0.0f),
-                        new Vector3(-1.0f,  1.0f, 0.0f),
-                        new Vector3(1.0f, -1.0f, 0.0f),
-                        new Vector3(1.0f,  1.0f, 0.0f),
-                }, null, null, null)
-        );
-
-        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
     }
 
     void renderAll(@NotNull Camera camera, @Nullable Light light, @NotNull Collection<Renderable> renderables) {
         prepareShadowMap(light, renderables);
-        renderToOutputTarget(camera, light, renderables);
+        renderToInternalTarget(camera, light, renderables);
+        renderToOutputTarget();
         deallocateObsoleteVBOs();
     }
 
@@ -120,18 +78,15 @@ class GlRenderer implements Renderer {
         }
     }
 
-    private void renderToOutputTarget(Camera camera, Light light, Collection<Renderable> renderables) {
-        mOutputRenderTarget.enable();
-        glBindFramebuffer(GL_FRAMEBUFFER, mFramebufferHandle);
-        glViewport(0, 0, mWidth, mHeight);
-        //mOutputRenderTarget.enable();
-        mOutputRenderTarget.clear();
+    private void renderToInternalTarget(Camera camera, Light light, Collection<Renderable> renderables) {
+        mInternalRenderTarget.enable();
+        mInternalRenderTarget.clear();
 
         camera.adjustAspectRatio(mOutputRenderTarget.getSize());
 
         RenderSettings settings = RenderSettings.empty()
                 .extractFromCamera(camera)
-                .putShadowMapTexture(mShadowMap.bind());
+                .putShadowMapTexture(mShadowMap.getTexture().bind(0));
 
         if (light != null) settings = settings.extractFromLight(light);
 
@@ -139,17 +94,20 @@ class GlRenderer implements Renderer {
 
         for (Renderable renderable : renderables)
             renderable.render(this, settings);
+    }
 
+    private void renderToOutputTarget() {
         mOutputRenderTarget.enable();
         mOutputRenderTarget.clear();
-//
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, mTextureHandle);
-        mQuadMaterial.getShader().enable();
-        mQuadMaterial.setupShader(RenderSettings.empty().putShadowMapTexture(0));
 
-        if (!mQuad.isAllocated()) mQuad.allocate();
-        mQuad.draw();
+        mScreenMaterial.getShader().enable();
+        mScreenMaterial.setupShader(RenderSettings.empty()
+                .putShadowMapTexture(mInternalRenderTarget.getTexture().bind(0)));
+
+        if (!mScreenObject.isAllocated())
+            mScreenObject.allocate();
+
+        mScreenObject.draw();
 
         System.out.println(glGetError());
     }

@@ -1,6 +1,7 @@
 package tech.niemandkun.opengl.engine;
 
 import tech.niemandkun.opengl.graphics.MaterialFactory;
+import tech.niemandkun.opengl.graphics.support.primitives.PrimitivesFactory;
 
 import java.util.*;
 
@@ -11,6 +12,7 @@ public abstract class Scene implements FullLifecycle {
     void setSetting(Setting setting) { mSetting = setting; }
 
     /** User available scene API */
+    public PrimitivesFactory getPrimitivesFactory() { return mSetting.getPrimitivesFactory(); }
     public MaterialFactory getMaterialFactory() { return mSetting.getMaterialFactory(); }
     public Scenario getScenario() { return mSetting.getScenario(); }
     public Collection<? extends Actor> getActors() { return mActors; }

@@ -1,6 +1,7 @@
 package tech.niemandkun.opengl.graphics;
 
 import tech.niemandkun.opengl.engine.ActiveSystem;
+import tech.niemandkun.opengl.graphics.support.primitives.PrimitivesFactory;
 import tech.niemandkun.opengl.io.Window;
 
 import java.time.Duration;
@@ -19,9 +20,9 @@ public class GraphicsSystem extends ActiveSystem<GraphicsSystem.Component> {
 
     private final GlRenderer mRenderer;
 
-    public GraphicsSystem(Window window, MaterialFactory materialFactory) {
+    public GraphicsSystem(Window window, MaterialFactory materialFactory, PrimitivesFactory primitivesFactory) {
         mRenderables = new HashSet<>();
-        mRenderer = new GlRenderer(new GlWindowRenderTarget(window), materialFactory);
+        mRenderer = new GlRenderer(new GlWindowRenderTarget(window), materialFactory, primitivesFactory);
     }
 
     void setCamera(Camera camera) {

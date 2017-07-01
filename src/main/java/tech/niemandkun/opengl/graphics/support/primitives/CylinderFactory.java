@@ -1,28 +1,20 @@
-package tech.niemandkun.opengl.briefexample;
+package tech.niemandkun.opengl.graphics.support.primitives;
 
+import tech.niemandkun.opengl.graphics.Mesh;
 import tech.niemandkun.opengl.math.Color;
 import tech.niemandkun.opengl.math.Vector3;
 
 import static tech.niemandkun.opengl.math.FMath.PI;
 
-class CylinderGenerator {
+class CylinderFactory {
     private final static int RESOLUTION = 100;
 
-    private final Vector3[] mVertices;
-    public Vector3[] getVertices() { return mVertices; }
-
-    private final Color[] mColors;
-    public Color[] getColors() { return mColors; }
-
-    private final Vector3[] mNormals;
-    public Vector3[] getNormals() { return mNormals; }
-
-    CylinderGenerator() {
+    Mesh createCylinder() {
         int trianglesCount = 4 * RESOLUTION;
         float step = 2 * PI / RESOLUTION;
 
-        mVertices = new Vector3[trianglesCount * 3];
-        mNormals = new Vector3[trianglesCount * 3];
+        Vector3[] mVertices = new Vector3[trianglesCount * 3];
+        Vector3[] mNormals = new Vector3[trianglesCount * 3];
         int offset = 0;
 
         for (int i = 0; i < RESOLUTION; ++i) {
@@ -68,9 +60,11 @@ class CylinderGenerator {
             offset += 12;
         }
 
-        mColors = new Color[mVertices.length];
+        Color[] mColors = new Color[mVertices.length];
 
         for (int i = 0; i < mColors.length; ++i)
             mColors[i] = Color.MATERIAL_TEAL;
+
+        return new Mesh(mVertices, mNormals, mColors);
     }
 }

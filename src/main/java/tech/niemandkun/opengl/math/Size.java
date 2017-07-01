@@ -17,6 +17,14 @@ public class Size {
         mHeight = height;
     }
 
+    public Size shrink(int times) {
+        return new Size(mWidth / times, mHeight / times);
+    }
+
+    public Size grow(int times) {
+        return new Size(mWidth * times, mHeight * times);
+    }
+
     public static Size square(int size) {
         return new Size(size, size);
     }

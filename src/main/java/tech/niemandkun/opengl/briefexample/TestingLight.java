@@ -1,7 +1,7 @@
 package tech.niemandkun.opengl.briefexample;
 
 import tech.niemandkun.opengl.engine.Actor;
-import tech.niemandkun.opengl.graphics.support.DirectionalLight;
+import tech.niemandkun.opengl.graphics.support.components.DirectionalLight;
 
 public class TestingLight extends Actor {
     @Override

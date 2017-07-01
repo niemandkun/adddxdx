@@ -3,6 +3,7 @@ package tech.niemandkun.opengl.briefexample;
 import tech.niemandkun.opengl.engine.*;
 import tech.niemandkun.opengl.graphics.GraphicsSystem;
 import tech.niemandkun.opengl.graphics.MaterialFactory;
+import tech.niemandkun.opengl.graphics.support.primitives.PrimitivesFactory;
 import tech.niemandkun.opengl.io.*;
 import tech.niemandkun.opengl.math.Size;
 
@@ -15,13 +16,16 @@ public class EntryPoint {
                 .onFramebuffer().setMultiSampling(4)
                 .build();
 
+        Window window = platform.getWindow();
         MaterialFactory materialFactory = new MaterialFactory();
-        GraphicsSystem graphicsSystem = new GraphicsSystem(platform.getWindow(), materialFactory);
+        PrimitivesFactory primitivesFactory = new PrimitivesFactory();
+        GraphicsSystem graphicsSystem = new GraphicsSystem(window, materialFactory, primitivesFactory);
 
         ServiceLocator locator = new ServiceLocator();
         locator.registerSingleton(Window.class, platform.getWindow());
         locator.registerSingleton(InputSystem.class, platform.getInputSystem());
         locator.registerSingleton(MaterialFactory.class, materialFactory);
+        locator.registerSingleton(PrimitivesFactory.class, primitivesFactory);
         locator.registerSingleton(GraphicsSystem.class, graphicsSystem);
 
         return locator;

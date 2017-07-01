@@ -1,6 +1,7 @@
 package tech.niemandkun.opengl.engine;
 
 import tech.niemandkun.opengl.graphics.MaterialFactory;
+import tech.niemandkun.opengl.graphics.support.primitives.PrimitivesFactory;
 import tech.niemandkun.opengl.io.Window;
 
 import java.lang.reflect.ParameterizedType;
@@ -8,11 +9,13 @@ import java.lang.reflect.Type;
 import java.util.*;
 
 class CustomSetting implements Setting {
+    @Override public PrimitivesFactory getPrimitivesFactory() { return mPrimitivesFactory; }
     @Override public MaterialFactory getMaterialFactory() { return mMaterialFactory; }
     @Override public Scenario getScenario() { return mScenario; }
     @Override public Window getWindow() { return mWindow; }
     @Override public Clock getClock() { return null; }
 
+    private final PrimitivesFactory mPrimitivesFactory;
     private final MaterialFactory mMaterialFactory;
     private final Scenario mScenario;
     private final Window mWindow;
@@ -25,6 +28,7 @@ class CustomSetting implements Setting {
 
     CustomSetting(ServiceLocator locator) {
         mScenario = new Scenario(this);
+        mPrimitivesFactory = locator.get(PrimitivesFactory.class);
         mMaterialFactory = locator.get(MaterialFactory.class);
         mActiveSystems = locator.getAll(ActiveSystem.class);
         mWindow = locator.get(Window.class);
