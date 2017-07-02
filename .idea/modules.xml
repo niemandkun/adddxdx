@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/opengl.iml" filepath="$PROJECT_DIR$/.idea/modules/opengl.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/opengl_main.iml" filepath="$PROJECT_DIR$/.idea/modules/opengl_main.iml" group="opengl" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/opengl_test.iml" filepath="$PROJECT_DIR$/.idea/modules/opengl_test.iml" group="opengl" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/adddxdx.iml" filepath="$PROJECT_DIR$/.idea/modules/adddxdx.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/adddxdx_main.iml" filepath="$PROJECT_DIR$/.idea/modules/adddxdx_main.iml" group="adddxdx" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/adddxdx_test.iml" filepath="$PROJECT_DIR$/.idea/modules/adddxdx_test.iml" group="adddxdx" />
     </modules>
   </component>
 </project>

@@ -2,8 +2,12 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel>
+      <module name="adddxdx_main" target="1.8" />
+      <module name="adddxdx_test" target="1.8" />
       <module name="opengl_main" target="1.8" />
       <module name="opengl_test" target="1.8" />
+      <module name="xorrdxrdx_main" target="1.8" />
+      <module name="xorrdxrdx_test" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>
