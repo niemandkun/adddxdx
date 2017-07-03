@@ -83,6 +83,10 @@ public class Transform {
         mRotation = rotation;
     }
 
+    public void setScale(float scale) {
+        mScale = new Vector3(scale, scale, scale);
+    }
+
     public void setScale(float x, float y, float z) {
         mScale = new Vector3(x, y, z);
     }
