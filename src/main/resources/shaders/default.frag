@@ -61,6 +61,9 @@ uniform sampler2D mainTexture;
 
 void main() {
     vec4 textureSample = texture(mainTexture, fragmentUvPosition);
+
+    if (textureSample.a == 0) discard;
+
     vec3 materialDiffuseColor = materialColor * textureSample.rgb;
     vec3 materialAmbientColor = ambientLight * lightColor * materialDiffuseColor;
 

@@ -60,9 +60,11 @@ uniform sampler2D shadowMap;
 uniform sampler2D mainTexture;
 
 void main() {
-    vec3 totalLightColor = (1 - ambientLight) * lightColor;
-
     vec4 textureSample = texture(mainTexture, fragmentUvPosition);
+
+    if (textureSample.a == 0) discard;
+
+    vec3 totalLightColor = (1 - ambientLight) * lightColor;
     vec3 diffuseColor = materialColor * textureSample.rgb;
     vec3 ambientColor = ambientLight * lightColor * diffuseColor;
 
