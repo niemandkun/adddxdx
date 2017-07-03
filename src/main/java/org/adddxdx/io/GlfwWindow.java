@@ -20,10 +20,10 @@ package org.adddxdx.io;
 
 import com.sun.istack.internal.NotNull;
 import com.sun.istack.internal.Nullable;
+import org.adddxdx.math.Size;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.system.MemoryStack;
-import org.adddxdx.math.Size;
 
 import java.nio.IntBuffer;
 
