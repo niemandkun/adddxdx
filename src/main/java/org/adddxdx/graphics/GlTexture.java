@@ -36,7 +36,7 @@ public abstract class GlTexture implements Destroyable {
 
     protected abstract int getGlTextureFormat();
 
-    Size getSize() {
+    public Size getSize() {
         return mSize;
     }
 

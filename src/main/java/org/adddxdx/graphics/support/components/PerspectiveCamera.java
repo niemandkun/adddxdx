@@ -40,6 +40,16 @@ public class PerspectiveCamera extends Camera {
     }
 
     @Override
+    public Vector3 getLocation() {
+        return getActor().getTransform().getLocation();
+    }
+
+    @Override
+    public Vector3 getDirection() {
+        return getActor().getTransform().getViewDirection();
+    }
+
+    @Override
     public Matrix4 getViewMatrix() {
         Matrix4 viewMatrix = getActor().getTransform().getMatrix();
         Matrix4 cameraTransform = Matrix4.getRotationMatrix(0, FMath.PI, 0);

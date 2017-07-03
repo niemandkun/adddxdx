@@ -43,6 +43,12 @@ abstract class BaseLight extends GraphicsSystem.Component implements Light {
         return viewMatrix.cross(rotationFix).inverse();
     }
 
+    @Override
+    public Vector3 getLocation() {
+        return getActor().getTransform().getLocation();
+    }
+
+    @Override
     public Vector3 getDirection() {
         return getActor().getTransform().getViewDirection();
     }

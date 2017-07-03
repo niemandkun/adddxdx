@@ -91,9 +91,8 @@ class GlRenderer implements Renderer {
 
         if (light != null) {
             RenderSettings settings = RenderSettings.forShadowPass()
+                    .putView(light)
                     .putMaterial(mShadowMaterial)
-                    .putViewMatrix(light.getViewMatrix())
-                    .putProjectionMatrix(light.getProjectionMatrix())
                     .asOriginal();
 
             for (Renderable renderable : renderables)
@@ -108,10 +107,9 @@ class GlRenderer implements Renderer {
         camera.adjustAspectRatio(mOutputRenderTarget.getSize());
 
         RenderSettings newSettings = settings
-                .extractFromCamera(camera)
-                .putShadowMapTexture(mShadowMap.getTexture().bind(0));
-
-        newSettings = newSettings.asOriginal();
+                .putView(camera)
+                .putShadowMapTexture(mShadowMap.getTexture().bind(0))
+                .asOriginal();
 
         for (Renderable renderable : renderables)
             renderable.render(this, newSettings);
