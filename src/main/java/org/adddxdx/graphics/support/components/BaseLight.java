@@ -38,9 +38,7 @@ abstract class BaseLight extends GraphicsSystem.Component implements Light {
 
     @Override
     public Matrix4 getViewMatrix() {
-        Matrix4 viewMatrix = getActor().getTransform().getMatrix();
-        Matrix4 rotationFix = Matrix4.getRotationMatrix(0, FMath.PI, 0);
-        return viewMatrix.cross(rotationFix).inverse();
+        return getActor().getTransform().getMatrix().inverse();
     }
 
     @Override

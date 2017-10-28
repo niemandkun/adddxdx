@@ -39,6 +39,10 @@ public class Transform {
         mLocation = mLocation.add(direction);
     }
 
+    public void scale(float factor) {
+        scale(new Vector3(factor, factor, factor));
+    }
+
     public void scale(float x, float y, float z) {
         scale(new Vector3(x, y, z));
     }
@@ -100,7 +104,7 @@ public class Transform {
     @NotNull public Vector3 getScale() { return mScale; }
 
     @NotNull public Vector3 getViewDirection() {
-        return mRotation.apply(Vector3.ORT_Z);
+        return mRotation.apply(Vector3.FORWARD);
     }
 
     @NotNull public Matrix4 getMatrix() {

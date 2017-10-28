@@ -20,19 +20,33 @@ package org.adddxdx.briefexample;
 
 import org.adddxdx.engine.Actor;
 import org.adddxdx.graphics.support.components.Fog;
-import org.adddxdx.graphics.support.components.PerspectiveCamera;
+import org.adddxdx.graphics.support.components.OrthoCamera;
 import org.adddxdx.io.*;
 import org.adddxdx.math.*;
 
 public class Player extends Actor {
+
+    private static final float CAMERA_X_ANGLE = -FMath.PI / 6;
+    private static final float CAMERA_Y_ANGLE = 7 * FMath.PI / 8;
+    private static final float CAMERA_Z_ANGLE = 0;
+
+    private static final int CAMERA_X_POS = 0;
+    private static final int CAMERA_Y_POS = 5;
+    private static final int CAMERA_Z_POS = -10;
+
     @Override
     public void onCreate() {
         super.onCreate();
-        addComponent(new PerspectiveCamera());
+
+        OrthoCamera camera = new OrthoCamera();
+        camera.setHeight(12);
+
+        addComponent(camera);
         addComponent(new Fog());
 
         final Transform transform = getTransform();
-        transform.translate(0, 1, 0);
+        transform.translate(CAMERA_X_POS, CAMERA_Y_POS, CAMERA_Z_POS);
+        transform.setRotation(CAMERA_X_ANGLE, CAMERA_Y_ANGLE, CAMERA_Z_ANGLE);
 
         addComponent(new KeyboardController() {
             @Override public void checkKeyboardState(Keyboard keyboard) {
@@ -45,21 +59,6 @@ public class Player extends Actor {
                 if (keyboard.isPressed(Key.S)) transform.translate(backward);
                 if (keyboard.isPressed(Key.A)) transform.translate(left);
                 if (keyboard.isPressed(Key.D)) transform.translate(right);
-            }
-        });
-
-        addComponent(new MouseController() {
-            float rotationY;
-            float rotationX;
-            float maxRotationX = FMath.PI / 2 - 0.001f;
-
-            @Override public void onPointerMoved(Mouse mouse, MouseEvent event) {
-                rotationX = FMath.clamp(rotationX + event.getPointerMovement().getY() / 200, -maxRotationX, maxRotationX);
-                rotationY -= event.getPointerMovement().getX() / 200;
-
-                transform.setRotation(Vector3.ZERO);
-                transform.rotate(0, rotationY, 0);
-                transform.rotate(rotationX, 0, 0);
             }
         });
     }

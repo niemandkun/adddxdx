@@ -46,9 +46,7 @@ public abstract class Camera extends GraphicsSystem.Component implements View {
 
     @Override
     public Matrix4 getViewMatrix() {
-        Matrix4 viewMatrix = getActor().getTransform().getMatrix();
-        Matrix4 cameraTransform = Matrix4.getRotationMatrix(0, FMath.PI, 0);
-        return viewMatrix.cross(cameraTransform).inverse();
+        return getActor().getTransform().getMatrix().inverse();
     }
 
     public abstract void adjustAspectRatio(Size targetSize);

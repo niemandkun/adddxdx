@@ -24,7 +24,7 @@ import org.adddxdx.math.Projection;
 import org.adddxdx.math.Size;
 
 public class OrthoCamera extends Camera {
-    private static final float DEFAULT_NEAR_PLANE = -1f;
+    private static final float DEFAULT_NEAR_PLANE = -100f;
     private static final float DEFAULT_FAR_PLANE = 100f;
     private static final float DEFAULT_HEIGHT = 2;
 

@@ -20,6 +20,8 @@ package org.adddxdx.engine;
 
 import com.sun.istack.internal.NotNull;
 import org.adddxdx.math.Transform;
+import org.adddxdx.math.Transform2d;
+import org.lwjgl.system.CallbackI;
 
 import java.util.*;
 
@@ -29,6 +31,14 @@ public class Actor implements ShortLifecycle {
 
     private final Transform mTransform = new Transform();
     public Transform getTransform() { return mTransform; }
+
+    private Transform2d mTransform2d = null;
+    public Transform2d getTransform2d() {
+        if (mTransform2d == null) {
+            mTransform2d = new Transform2d(mTransform);
+        }
+        return mTransform2d;
+    }
 
     private Scene mScene;
     public Scene getScene() { return mScene; }
