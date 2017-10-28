@@ -23,10 +23,12 @@ import org.adddxdx.math.Size;
 class VideoMode {
     private final Size mSize;
     private final int mRefreshRate;
+    private final boolean mIsVsyncEnabled;
 
-    VideoMode(Size size, int refreshRate) {
+    VideoMode(Size size, int refreshRate, boolean isVsyncEnabled) {
         mSize = size;
         mRefreshRate = refreshRate;
+        mIsVsyncEnabled = isVsyncEnabled;
     }
 
     Size getSize() {
@@ -35,5 +37,9 @@ class VideoMode {
 
     int getRefreshRate() {
         return mRefreshRate;
+    }
+
+    public boolean isVsyncEnabled() {
+        return mIsVsyncEnabled;
     }
 }

@@ -88,7 +88,7 @@ class GlfwWindow implements Window {
         }
 
         glfwMakeContextCurrent(mHandle);
-        glfwSwapInterval(1);
+        glfwSwapInterval(videoMode.isVsyncEnabled() ? 1 : 0);
         glfwShowWindow(mHandle);
 
         glfwSetInputMode(mHandle, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
