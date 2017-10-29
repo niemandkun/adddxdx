@@ -22,7 +22,6 @@ import org.adddxdx.engine.Actor;
 import org.adddxdx.fio.Image;
 import org.adddxdx.graphics.Mesh;
 import org.adddxdx.graphics.support.components.MeshSkin;
-import org.adddxdx.graphics.support.materials.CartoonMaterial;
 import org.adddxdx.graphics.support.materials.DefaultMaterial;
 import org.adddxdx.graphics.support.primitives.PrimitiveType;
 import org.adddxdx.graphics.support.textures.Texture;

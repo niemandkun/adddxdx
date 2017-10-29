@@ -18,8 +18,8 @@
 
 package org.adddxdx.io;
 
-import org.lwjgl.glfw.*;
 import org.adddxdx.math.Vector2;
+import org.lwjgl.glfw.*;
 
 import java.util.*;
 

@@ -20,13 +20,28 @@ package org.adddxdx.briefexample;
 
 import org.adddxdx.engine.Actor;
 import org.adddxdx.graphics.support.components.DirectionalLight;
+import org.adddxdx.io.Mouse;
+import org.adddxdx.io.MouseController;
+import org.adddxdx.io.MouseEvent;
+import org.adddxdx.math.FMath;
 
 public class TestingLight extends Actor {
     @Override
     public void onCreate() {
         super.onCreate();
         addComponent(new DirectionalLight());
-        getTransform().rotate(0, -0.3f, 0);
-        getTransform().rotate(0.4f, 0, 0);
+        getTransform().setRotation(0.4f, 0, 0);
+        getTransform().rotate(0, FMath.PI, 0);
+
+        addComponent(new MouseController() {
+            float rotationY = FMath.PI;
+
+            @Override public void onPointerMoved(Mouse mouse, MouseEvent event) {
+                rotationY -= event.getPointerMovement().getX() / 200;
+
+                getTransform().setRotation(0.4f, 0, 0);
+                getTransform().rotate(0, rotationY, 0);
+            }
+        });
     }
 }

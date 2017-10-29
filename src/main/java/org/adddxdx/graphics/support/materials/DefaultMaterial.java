@@ -71,10 +71,10 @@ public class DefaultMaterial extends TexturedMaterial {
     public void setupShader(RenderSettings settings, Shader shader) {
         super.setupShader(settings, shader);
 
-        Matrix4 modelViewMatrix = settings.getViewMatrix().cross(settings.getModelMatrix());
-        Matrix4 mvpMatrix = settings.getProjectionMatrix().cross(modelViewMatrix);
+        Matrix4 modelViewMatrix = settings.getView().getViewMatrix().cross(settings.getModelMatrix());
+        Matrix4 mvpMatrix = settings.getView().getProjectionMatrix().cross(modelViewMatrix);
 
-        shader.setUniform(UNIFORM_V_MATRIX, settings.getViewMatrix());
+        shader.setUniform(UNIFORM_V_MATRIX, settings.getView().getViewMatrix());
         shader.setUniform(UNIFORM_MV_MATRIX, modelViewMatrix);
         shader.setUniform(UNIFORM_MVP_MATRIX, mvpMatrix);
 

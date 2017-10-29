@@ -40,13 +40,6 @@ public class PerspectiveCamera extends Camera {
     }
 
     @Override
-    public Matrix4 getViewMatrix() {
-        Matrix4 viewMatrix = getActor().getTransform().getMatrix();
-        Matrix4 cameraTransform = Matrix4.getRotationMatrix(0, FMath.PI, 0);
-        return viewMatrix.cross(cameraTransform).inverse();
-    }
-
-    @Override
     public Matrix4 getProjectionMatrix() {
         return Projection.perspective(mFieldOfView, mAspectRatio, mNearPlane, mFarPlane);
     }

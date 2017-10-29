@@ -27,14 +27,14 @@ public class Vector3 implements Vector<Vector3> {
     public static final Vector3 ZERO = new Vector3(0, 0, 0);
     public static final Vector3 ONE = new Vector3(1, 1, 1);
 
-    public static final Vector3 LEFT = ORT_X;
-    public static final Vector3 RIGHT = LEFT.negate();
+    public static final Vector3 RIGHT = ORT_X;
+    public static final Vector3 LEFT = RIGHT.negate();
 
     public static final Vector3 UP = ORT_Y;
     public static final Vector3 DOWN = UP.negate();
 
-    public static final Vector3 FORWARD = ORT_Z;
-    public static final Vector3 BACKWARD = FORWARD.negate();
+    public static final Vector3 BACKWARD = ORT_Z;
+    public static final Vector3 FORWARD = BACKWARD.negate();
 
     private final float x;
     private final float y;

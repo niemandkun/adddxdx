@@ -24,8 +24,8 @@ import org.adddxdx.math.Matrix4;
 public class ShadowMaterial extends Material {
     @Override
     public void setupShader(RenderSettings settings, Shader shader) {
-        Matrix4 mvpMatrix = settings.getProjectionMatrix()
-                .cross(settings.getViewMatrix())
+        Matrix4 mvpMatrix = settings.getView().getProjectionMatrix()
+                .cross(settings.getView().getViewMatrix())
                 .cross(settings.getModelMatrix());
 
         shader.setUniform(UNIFORM_MVP_MATRIX, mvpMatrix);

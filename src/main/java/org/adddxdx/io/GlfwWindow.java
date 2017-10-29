@@ -20,10 +20,10 @@ package org.adddxdx.io;
 
 import com.sun.istack.internal.NotNull;
 import com.sun.istack.internal.Nullable;
+import org.adddxdx.math.Size;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.system.MemoryStack;
-import org.adddxdx.math.Size;
 
 import java.nio.IntBuffer;
 
@@ -88,7 +88,7 @@ class GlfwWindow implements Window {
         }
 
         glfwMakeContextCurrent(mHandle);
-        glfwSwapInterval(1);
+        glfwSwapInterval(videoMode.isVsyncEnabled() ? 1 : 0);
         glfwShowWindow(mHandle);
 
         glfwSetInputMode(mHandle, GLFW_CURSOR, GLFW_CURSOR_DISABLED);

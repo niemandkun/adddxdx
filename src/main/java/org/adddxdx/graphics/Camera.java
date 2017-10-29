@@ -18,10 +18,12 @@
 
 package org.adddxdx.graphics;
 
+import org.adddxdx.math.FMath;
 import org.adddxdx.math.Matrix4;
 import org.adddxdx.math.Size;
+import org.adddxdx.math.Vector3;
 
-public abstract class Camera extends GraphicsSystem.Component {
+public abstract class Camera extends GraphicsSystem.Component implements View {
     @Override
     public final void connect(GraphicsSystem system) {
         if (system.getCamera() == null) system.setCamera(this);
@@ -32,12 +34,20 @@ public abstract class Camera extends GraphicsSystem.Component {
         if (this.equals(system.getCamera())) system.setCamera(null);
     }
 
-    public final Matrix4 getViewProjectionMatrix() {
-        return getProjectionMatrix().cross(getViewMatrix());
+    @Override
+    public Vector3 getLocation() {
+        return getActor().getTransform().getLocation();
     }
 
-    public abstract Matrix4 getViewMatrix();
-    public abstract Matrix4 getProjectionMatrix();
+    @Override
+    public Vector3 getDirection() {
+        return getActor().getTransform().getViewDirection();
+    }
+
+    @Override
+    public Matrix4 getViewMatrix() {
+        return getActor().getTransform().getMatrix().inverse();
+    }
 
     public abstract void adjustAspectRatio(Size targetSize);
 }

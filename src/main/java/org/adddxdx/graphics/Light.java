@@ -18,17 +18,9 @@
 
 package org.adddxdx.graphics;
 
-import org.adddxdx.math.*;
+import org.adddxdx.math.Color;
 
-public interface Light {
-    Vector3 getDirection();
+public interface Light extends View {
     Color getColor();
     float getAmbientIntensity();
-
-    Matrix4 getViewMatrix();
-    Matrix4 getProjectionMatrix();
-
-    default Matrix4 getViewProjectionMatrix() {
-        return getProjectionMatrix().cross(getViewMatrix());
-    }
 }

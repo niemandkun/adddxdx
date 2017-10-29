@@ -16,18 +16,18 @@
  * along with adddxdx.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.adddxdx.graphics.support.materials;
+package org.adddxdx.graphics;
 
-import org.adddxdx.graphics.*;
 import org.adddxdx.math.Matrix4;
+import org.adddxdx.math.Vector3;
 
-public class SkyMaterial extends Material {
-    @Override
-    public void setupShader(RenderSettings settings, Shader shader) {
-        Matrix4 m = settings.getView().getProjectionMatrix().cross(settings.getView().getViewMatrix()).inverse();
-        shader.setUniform("inverseProjectionViewMatrix", m);
+public interface View {
+    Vector3 getDirection();
+    Vector3 getLocation();
+    Matrix4 getViewMatrix();
+    Matrix4 getProjectionMatrix();
+
+    default Matrix4 getViewProjectionMatrix() {
+        return getProjectionMatrix().cross(getViewMatrix());
     }
-
-    @Override
-    public ShaderDescription getShaderDescription() { return ShaderDescription.forFile("sky"); }
 }

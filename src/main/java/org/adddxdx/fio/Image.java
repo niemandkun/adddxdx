@@ -18,9 +18,9 @@
 
 package org.adddxdx.fio;
 
-import org.lwjgl.system.MemoryStack;
 import org.adddxdx.engine.Destroyable;
 import org.adddxdx.math.Size;
+import org.lwjgl.system.MemoryStack;
 
 import java.io.File;
 import java.nio.ByteBuffer;

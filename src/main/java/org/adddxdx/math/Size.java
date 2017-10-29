@@ -30,6 +30,10 @@ public class Size {
         return mHeight;
     }
 
+    public float getAspectRatio() {
+        return (float) mWidth / mHeight;
+    }
+
     public Size(int width, int height) {
         mWidth = width;
         mHeight = height;

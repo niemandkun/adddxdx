@@ -31,7 +31,6 @@ public class EntryPoint {
                 .onWindow().setResizable(false)
                 .onVideoMode().setSize(new Size(1920, 1080))
                 .onContext().setMajorVersion(3).setMinorVersion(3)
-                .onFramebuffer().setMultiSampling(4)
                 .build();
 
         Window window = platform.getWindow();

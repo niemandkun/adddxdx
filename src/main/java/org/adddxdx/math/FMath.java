@@ -29,4 +29,12 @@ public class FMath {
         if (source > max) return max;
         return source;
     }
+
+    public static float cos(float x) {
+        return (float) Math.cos(x);
+    }
+
+    public static float sin(float x) {
+        return (float) Math.sin(x);
+    }
 }

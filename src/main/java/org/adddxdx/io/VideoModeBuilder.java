@@ -25,6 +25,7 @@ import static org.lwjgl.glfw.GLFW.GLFW_DONT_CARE;
 public class VideoModeBuilder {
     private Size mSize = new Size(800, 600);
     private int mRefreshRate = GLFW_DONT_CARE;
+    private boolean mIsVsyncEnabled = true;
 
     private final PlatformBuilder mBuilder;
 
@@ -38,7 +39,7 @@ public class VideoModeBuilder {
     public Platform build() { return mBuilder.build(); }
 
     VideoMode getVideoMode() {
-        return new VideoMode(mSize, mRefreshRate);
+        return new VideoMode(mSize, mRefreshRate, mIsVsyncEnabled);
     }
 
     public VideoModeBuilder setSize(Size size) {
@@ -48,6 +49,11 @@ public class VideoModeBuilder {
 
     public VideoModeBuilder setRefreshRate(int refreshRate) {
         mRefreshRate = refreshRate;
+        return this;
+    }
+
+    public VideoModeBuilder setVsyncEnabled(boolean vsyncEnabled) {
+        mIsVsyncEnabled = vsyncEnabled;
         return this;
     }
 }

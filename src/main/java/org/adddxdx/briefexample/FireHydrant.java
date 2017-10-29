@@ -19,31 +19,33 @@
 package org.adddxdx.briefexample;
 
 import org.adddxdx.engine.Actor;
-import org.adddxdx.graphics.Mesh;
-import org.adddxdx.graphics.support.components.MeshSkin;
-import org.adddxdx.graphics.support.materials.DefaultMaterial;
-import org.adddxdx.graphics.support.primitives.PrimitiveType;
-import org.adddxdx.math.Color;
-import org.adddxdx.math.FMath;
+import org.adddxdx.fio.Image;
+import org.adddxdx.graphics.support.components.Sprite;
+import org.adddxdx.graphics.support.textures.Texture;
 
 import java.io.File;
 
-public class Cylinder extends Actor {
+public class FireHydrant extends Actor {
+    private final static float SCALE = 0.4f;
+
+    private Image mImage;
+
     @Override
     public void onCreate() {
         super.onCreate();
-
-        Mesh mesh = getScene().getPrimitivesFactory().create(PrimitiveType.CYLINDER);
-        DefaultMaterial material = getScene().getMaterialFactory().get(DefaultMaterial.class);
-        material.setColor(Color.TEAL);
-        material.setSpecularColor(Color.DARK_GREY);
-        addComponent(new MeshSkin(mesh, material));
-
-        getTransform().scale(1, 1, 2);
-        getTransform().rotate(FMath.HALF_PI, 0, 0);
+        mImage = Image.load(open("textures/hydrant.png"));
+        addComponent(new Sprite(new Texture(mImage), getScene().getMaterialFactory(), getScene().getPrimitivesFactory()));
+        getTransform().setScale(SCALE);
+        getTransform().setLocation(0, SCALE, 0);
     }
 
     private File open(String filename) {
         return new File(getClass().getClassLoader().getResource(filename).getFile());
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mImage.destroy();
     }
 }

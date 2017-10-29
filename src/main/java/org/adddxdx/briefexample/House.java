@@ -19,28 +19,30 @@
 package org.adddxdx.briefexample;
 
 import org.adddxdx.engine.Actor;
+import org.adddxdx.fio.WavefrontObject;
 import org.adddxdx.graphics.Mesh;
 import org.adddxdx.graphics.support.components.MeshSkin;
 import org.adddxdx.graphics.support.materials.DefaultMaterial;
-import org.adddxdx.graphics.support.primitives.PrimitiveType;
 import org.adddxdx.math.Color;
 import org.adddxdx.math.FMath;
 
 import java.io.File;
 
-public class Cylinder extends Actor {
+public class House extends Actor {
+
     @Override
     public void onCreate() {
         super.onCreate();
 
-        Mesh mesh = getScene().getPrimitivesFactory().create(PrimitiveType.CYLINDER);
+        Mesh mesh = WavefrontObject.fromFile(open("models/house.obj")).getMesh();
+
         DefaultMaterial material = getScene().getMaterialFactory().get(DefaultMaterial.class);
-        material.setColor(Color.TEAL);
-        material.setSpecularColor(Color.DARK_GREY);
+        material.setColor(Color.LIGHT_BLUE);
+
         addComponent(new MeshSkin(mesh, material));
 
-        getTransform().scale(1, 1, 2);
-        getTransform().rotate(FMath.HALF_PI, 0, 0);
+        getTransform().rotate(FMath.HALF_PI, FMath.PI, 0);
+        getTransform().translate(-5, 0, 3);
     }
 
     private File open(String filename) {
