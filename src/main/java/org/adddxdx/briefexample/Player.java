@@ -30,9 +30,9 @@ public class Player extends Actor {
     private static final float CAMERA_Y_ANGLE = 7 * FMath.PI / 8;
     private static final float CAMERA_Z_ANGLE = 0;
 
-    private static final int CAMERA_X_POS = 0;
-    private static final int CAMERA_Y_POS = 5;
-    private static final int CAMERA_Z_POS = -10;
+    private static final int CAMERA_X_POS = -2;
+    private static final int CAMERA_Y_POS = 0;
+    private static final int CAMERA_Z_POS = 2;
 
     @Override
     public void onCreate() {
