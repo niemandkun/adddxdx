@@ -19,16 +19,20 @@
 package org.adddxdx.briefexample;
 
 import org.adddxdx.engine.Actor;
+import org.adddxdx.fio.Image;
 import org.adddxdx.fio.WavefrontObject;
 import org.adddxdx.graphics.Mesh;
 import org.adddxdx.graphics.support.components.MeshSkin;
 import org.adddxdx.graphics.support.materials.DefaultMaterial;
+import org.adddxdx.graphics.support.textures.Texture;
 import org.adddxdx.math.Color;
 import org.adddxdx.math.FMath;
 
 import java.io.File;
 
 public class House extends Actor {
+
+    private Image mImage;
 
     @Override
     public void onCreate() {
@@ -37,7 +41,9 @@ public class House extends Actor {
         Mesh mesh = WavefrontObject.fromFile(open("models/house.obj")).getMesh();
 
         DefaultMaterial material = getScene().getMaterialFactory().get(DefaultMaterial.class);
-        material.setColor(Color.LIGHT_BLUE);
+
+        mImage = Image.load(open("textures/house.tga"));
+        material.setTexture(new Texture(mImage));
 
         addComponent(new MeshSkin(mesh, material));
 
@@ -47,5 +53,10 @@ public class House extends Actor {
 
     private File open(String filename) {
         return new File(getClass().getClassLoader().getResource(filename).getFile());
+    }
+
+    @Override
+    public void onDestroy() {
+        mImage.destroy();
     }
 }

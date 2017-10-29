@@ -72,7 +72,7 @@ public class WavefrontObject {
     }
 
     private Vector2 parseVector2(String[] args) {
-        return new Vector2(Float.parseFloat(args[0]), Float.parseFloat(args[1]));
+        return new Vector2(Float.parseFloat(args[0]), 1 - Float.parseFloat(args[1]));
     }
 
     public static WavefrontObject fromFile(File file) {
