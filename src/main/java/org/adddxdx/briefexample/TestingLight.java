@@ -19,6 +19,7 @@
 package org.adddxdx.briefexample;
 
 import org.adddxdx.engine.Actor;
+import org.adddxdx.graphics.Light;
 import org.adddxdx.graphics.support.components.DirectionalLight;
 import org.adddxdx.io.Mouse;
 import org.adddxdx.io.MouseController;
@@ -29,7 +30,11 @@ public class TestingLight extends Actor {
     @Override
     public void onCreate() {
         super.onCreate();
-        addComponent(new DirectionalLight());
+
+        DirectionalLight light = new DirectionalLight();
+        light.setAmbientIntensity(0.5f);
+
+        addComponent(light);
         getTransform().setRotation(0.4f, 0, 0);
         getTransform().rotate(0, FMath.PI, 0);
 

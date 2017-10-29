@@ -44,6 +44,7 @@ public class Story implements Destroyable {
             currentAct.onMainLoop();
             activeSystems.forEach(ActiveSystem::fixedUpdate);
             window.update();
+            mSetting.getClock().tick();
         }
 
         destroy();

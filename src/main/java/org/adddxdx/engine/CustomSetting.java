@@ -31,12 +31,13 @@ class CustomSetting implements Setting {
     @Override public MaterialFactory getMaterialFactory() { return mMaterialFactory; }
     @Override public Scenario getScenario() { return mScenario; }
     @Override public Window getWindow() { return mWindow; }
-    @Override public Clock getClock() { return null; }
+    @Override public Clock getClock() { return mClock; }
 
     private final PrimitivesFactory mPrimitivesFactory;
     private final MaterialFactory mMaterialFactory;
     private final Scenario mScenario;
     private final Window mWindow;
+    private final Clock mClock;
 
     @Override public Collection<ActiveSystem> getActiveSystems() { return mActiveSystems; }
     @Override public Collection<SystemInfo> getAllSystems() { return mAllSystems; }
@@ -50,6 +51,7 @@ class CustomSetting implements Setting {
         mMaterialFactory = locator.get(MaterialFactory.class);
         mActiveSystems = locator.getAll(ActiveSystem.class);
         mWindow = locator.get(Window.class);
+        mClock = locator.get(Clock.class);
 
         mAllSystems = getSystems(locator.getAll(System.class));
     }

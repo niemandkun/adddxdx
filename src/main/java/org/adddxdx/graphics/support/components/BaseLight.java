@@ -61,11 +61,11 @@ abstract class BaseLight extends GraphicsSystem.Component implements Light {
         return mAmbientIntensity;
     }
 
-    void setColor(Color color) {
+    public void setColor(Color color) {
         mColor = color;
     }
 
-    void setAmbientIntensity(float ambientIntensity) {
+    public void setAmbientIntensity(float ambientIntensity) {
         mAmbientIntensity = ambientIntensity;
     }
 }

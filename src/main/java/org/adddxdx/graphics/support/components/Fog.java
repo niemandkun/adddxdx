@@ -22,19 +22,19 @@ import org.adddxdx.graphics.GraphicsSystem;
 import org.adddxdx.math.Color;
 
 public class Fog extends GraphicsSystem.Component implements org.adddxdx.graphics.Fog {
-    private Color mColor = new Color(0x667F99FF);
+    private Color mColor = new Color(0xFFFFFFFF);
     private float mExtinction = 0.6f;
     private float mDensity = 0.03f;
 
-    void setColor(Color color) {
+    public void setColor(Color color) {
         mColor = color;
     }
 
-    void setExtinction(float extinction) {
+    public void setExtinction(float extinction) {
         mExtinction = extinction;
     }
 
-    void setDensity(float density) {
+    public void setDensity(float density) {
         mDensity = density;
     }
 

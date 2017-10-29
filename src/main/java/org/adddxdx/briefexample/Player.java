@@ -21,6 +21,7 @@ package org.adddxdx.briefexample;
 import org.adddxdx.engine.Actor;
 import org.adddxdx.graphics.support.components.Fog;
 import org.adddxdx.graphics.support.components.OrthoCamera;
+import org.adddxdx.graphics.support.components.PerspectiveCamera;
 import org.adddxdx.io.*;
 import org.adddxdx.math.*;
 
@@ -30,9 +31,9 @@ public class Player extends Actor {
     private static final float CAMERA_Y_ANGLE = 7 * FMath.PI / 8;
     private static final float CAMERA_Z_ANGLE = 0;
 
-    private static final int CAMERA_X_POS = -2;
-    private static final int CAMERA_Y_POS = 0;
-    private static final int CAMERA_Z_POS = 2;
+    private static final int CAMERA_X_POS = 8;
+    private static final int CAMERA_Y_POS = 12;
+    private static final int CAMERA_Z_POS = -15;
 
     @Override
     public void onCreate() {
@@ -40,15 +41,20 @@ public class Player extends Actor {
 
         OrthoCamera camera = new OrthoCamera();
         camera.setHeight(12);
-
         addComponent(camera);
-        addComponent(new Fog());
+
+        Fog fog = new Fog();
+        fog.setDensity(0.04f);
+        fog.setExtinction(0.4f);
+        addComponent(fog);
 
         final Transform transform = getTransform();
         transform.translate(CAMERA_X_POS, CAMERA_Y_POS, CAMERA_Z_POS);
         transform.setRotation(CAMERA_X_ANGLE, CAMERA_Y_ANGLE, CAMERA_Z_ANGLE);
 
         addComponent(new KeyboardController() {
+            float mCameraAngle = CAMERA_Y_ANGLE;
+
             @Override public void checkKeyboardState(Keyboard keyboard) {
                 Vector3 forward = transform.getViewDirection().setY(0).normalize().div(8);
                 Vector3 backward = forward.negate();
@@ -59,6 +65,12 @@ public class Player extends Actor {
                 if (keyboard.isPressed(Key.S)) transform.translate(backward);
                 if (keyboard.isPressed(Key.A)) transform.translate(left);
                 if (keyboard.isPressed(Key.D)) transform.translate(right);
+
+                if (keyboard.isPressed(Key.R)) mCameraAngle += 0.001f;
+                if (keyboard.isPressed(Key.T)) mCameraAngle -= 0.001f;
+
+                float cameraDelta = FMath.sin(getScene().getClock().getTime() * 0.001f) * 0.02f;
+                transform.setRotation(CAMERA_X_ANGLE, mCameraAngle + cameraDelta, CAMERA_Z_ANGLE);
             }
         });
     }

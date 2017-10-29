@@ -25,7 +25,7 @@ public class TestingScene extends Scene {
     public void onCreate() {
         spawnActor(SkyFrame.class);
         spawnActor(Player.class);
-        spawnActor(Walls.class);
+        spawnActor(Floor.class);
         spawnActor(Cylinder.class).getTransform().translate(5, 1, 0);
         spawnActor(Cylinder.class).getTransform().translate(5, 1, 5);
         spawnActor(Cylinder.class).getTransform().translate(0, 1, 5);
