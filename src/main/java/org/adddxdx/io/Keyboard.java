@@ -18,6 +18,8 @@
 
 package org.adddxdx.io;
 
+import java.time.Duration;
+
 public interface Keyboard {
     interface KeyPressListener {
         void onKeyPressed(Keyboard keyboard, KeyboardEvent event);
@@ -34,7 +36,7 @@ public interface Keyboard {
     void removeKeyReleasedListener(KeyReleaseListener listener);
 
     interface Observer {
-        void checkKeyboardState(Keyboard keyboard);
+        void checkKeyboardState(Duration timePassed, Keyboard keyboard);
     }
 
     void addObserver(Observer observer);

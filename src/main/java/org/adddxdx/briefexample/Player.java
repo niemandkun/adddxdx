@@ -24,6 +24,8 @@ import org.adddxdx.graphics.support.components.OrthoCamera;
 import org.adddxdx.io.*;
 import org.adddxdx.math.*;
 
+import java.time.Duration;
+
 public class Player extends Actor {
 
     private static final float CAMERA_X_ANGLE = -FMath.PI / 6;
@@ -53,9 +55,10 @@ public class Player extends Actor {
 
         addComponent(new KeyboardController() {
             float mCameraAngle = CAMERA_Y_ANGLE;
+            float mCameraSpeed = 10f / 1000;
 
-            @Override public void checkKeyboardState(Keyboard keyboard) {
-                Vector3 forward = transform.getViewDirection().setY(0).normalize().div(8);
+            @Override public void checkKeyboardState(Duration delta, Keyboard keyboard) {
+                Vector3 forward = transform.getViewDirection().setY(0).normalize().mul(mCameraSpeed * delta.toMillis());
                 Vector3 backward = forward.negate();
                 Vector3 left = forward.rotateAroundOy(FMath.PI / 2);
                 Vector3 right = left.negate();

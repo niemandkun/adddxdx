@@ -86,23 +86,24 @@ class GlfwMouse implements Mouse {
             GlfwMouseEvent event = mEventQueue.remove();
             switch (event.getAction()) {
                 case GlfwMouseEvent.ACTION_MOVE:
-                    for (MovementListener listener : mMovementListeners)
+                    for (MovementListener listener : mMovementListeners) {
                         listener.onPointerMoved(this, event);
+                    }
                     break;
-
                 case GlfwMouseEvent.ACTION_PRESS:
-                    for (ButtonPressListener listener : mButtonPressListeners)
+                    for (ButtonPressListener listener : mButtonPressListeners) {
                         listener.onButtonPressed(this, event);
+                    }
                     break;
-
                 case GlfwMouseEvent.ACTION_RELEASE:
-                    for (ButtonReleaseListener listener : mButtonReleaseListeners)
+                    for (ButtonReleaseListener listener : mButtonReleaseListeners) {
                         listener.onButtonReleased(this, event);
+                    }
                     break;
-
                 case GlfwMouseEvent.ACTION_SCROLL:
-                    for (ScrollListener listener : mScrollListeners)
+                    for (ScrollListener listener : mScrollListeners) {
                         listener.onWheelScrolled(this, event);
+                    }
                     break;
             }
         }

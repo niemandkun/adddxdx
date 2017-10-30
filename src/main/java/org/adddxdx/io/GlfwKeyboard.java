@@ -80,28 +80,42 @@ class GlfwKeyboard implements Keyboard, GLFWKeyCallbackI {
     @Override
     public void invoke(long window, int keycode, int scancode, int action, int modifiers) {
         if (mEventQueue.size() >= MAX_EVENTS_COUNT) return;
-
         boolean isRepeated = action == GLFW_REPEAT;
         mEventQueue.add(new GlfwKeyboardEvent(action, keycode, scancode, modifiers, isRepeated));
-
-        if (action == GLFW_PRESS) mPressedKeys.add(keycode);
-        if (action == GLFW_RELEASE) mPressedKeys.remove(keycode);
+        if (action == GLFW_PRESS)  {
+            mPressedKeys.add(keycode);
+        } else if (action == GLFW_RELEASE) {
+            mPressedKeys.remove(keycode);
+        }
     }
 
-    void update() {
+    void update(Duration timeSinceLastUpdate) {
+        deliverEvents();
+        for (Observer observer : mKeyboardObservers) {
+            observer.checkKeyboardState(timeSinceLastUpdate, this);
+        }
+    }
+
+    private void deliverEvents() {
         while (!mEventQueue.isEmpty()) {
             GlfwKeyboardEvent event = mEventQueue.remove();
-
             if (event.getAction() == GLFW_RELEASE) {
-                for (KeyReleaseListener listener : mKeyReleaseListeners)
-                    listener.onKeyReleased(this, event);
+                runKeyReleaseListeners(event);
             } else {
-                for (KeyPressListener listener : mKeyPressListeners)
-                    listener.onKeyPressed(this, event);
+                runKeyPressListeners(event);
             }
         }
+    }
 
-        for (Observer observer : mKeyboardObservers)
-            observer.checkKeyboardState(this);
+    private void runKeyPressListeners(GlfwKeyboardEvent event) {
+        for (KeyPressListener listener : mKeyPressListeners) {
+            listener.onKeyPressed(this, event);
+        }
+    }
+
+    private void runKeyReleaseListeners(GlfwKeyboardEvent event) {
+        for (KeyReleaseListener listener : mKeyReleaseListeners) {
+            listener.onKeyReleased(this, event);
+        }
     }
 }
