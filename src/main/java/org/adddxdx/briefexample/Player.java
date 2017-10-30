@@ -69,7 +69,7 @@ public class Player extends Actor {
                 if (keyboard.isPressed(Key.R)) mCameraAngle += 0.001f;
                 if (keyboard.isPressed(Key.T)) mCameraAngle -= 0.001f;
 
-                float cameraDelta = FMath.sin(getScene().getClock().getTime() * 0.001f) * 0.02f;
+                float cameraDelta = FMath.sin(getScene().getClock().getTime() * 0.001f) * 0.001f;
                 transform.setRotation(CAMERA_X_ANGLE, mCameraAngle + cameraDelta, CAMERA_Z_ANGLE);
             }
         });
