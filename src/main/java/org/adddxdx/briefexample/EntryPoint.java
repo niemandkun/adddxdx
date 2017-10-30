@@ -29,7 +29,7 @@ public class EntryPoint {
     private static ServiceLocator createLocator() {
         Platform platform = Platform.builder()
                 .onWindow().setResizable(false).setMaximized(true)
-                .onVideoMode().setSize(new Size(1368, 768)).setVsyncEnabled(false)
+                .onVideoMode().setSize(new Size(1920, 1080)).setVsyncEnabled(false)
                 .onContext().setMajorVersion(3).setMinorVersion(3)
                 .build();
 
