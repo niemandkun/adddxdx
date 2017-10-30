@@ -18,12 +18,14 @@
 
 package org.adddxdx.briefexample;
 
+import org.adddxdx.clocks.Animator;
 import org.adddxdx.engine.Actor;
 import org.adddxdx.graphics.Mesh;
 import org.adddxdx.graphics.support.components.MeshSkin;
 import org.adddxdx.graphics.support.materials.DefaultMaterial;
 import org.adddxdx.io.*;
 import org.adddxdx.math.Color;
+import org.adddxdx.math.FMath;
 import org.adddxdx.math.Vector3;
 
 import java.time.Duration;
@@ -71,16 +73,8 @@ public class Triangles extends Actor {
 
         addComponent(new MeshSkin(new Mesh(vertices, normals), material));
 
-        addComponent(new KeyboardController() {
-            float mRotationSpeed = 10f / 1000;
-
-            @Override
-            public void checkKeyboardState(Duration delta, Keyboard keyboard) {
-                float deltaAngle = mRotationSpeed * delta.toMillis();
-                if (keyboard.isPressed(Key.Q)) getTransform().rotate(0, -deltaAngle, 0);
-                if (keyboard.isPressed(Key.E)) getTransform().rotate(0, deltaAngle, 0);
-            }
-        });
+        addComponent(Animator.ofFloat(y -> getTransform().setRotation(0, y, 0))
+                .from(0f).to(2 * FMath.PI).in(Duration.ofSeconds(4)).repeat().build());
 
         getTransform().translate(0, 1, -5);
     }

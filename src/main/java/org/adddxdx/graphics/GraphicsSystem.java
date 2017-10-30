@@ -28,11 +28,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class GraphicsSystem extends ActiveSystem<GraphicsSystem.Component> {
-    public abstract static class Component extends org.adddxdx.engine.Component {
-        protected abstract void connect(GraphicsSystem system);
-        protected abstract void disconnect(GraphicsSystem system);
-    }
-
     private final Set<Renderable> mRenderables;
     private Camera mCamera;
     private Light mLight;
@@ -93,5 +88,10 @@ public class GraphicsSystem extends ActiveSystem<GraphicsSystem.Component> {
     public void update(Duration timeSinceLastUpdate) {
         RenderSettings settings = RenderSettings.empty().putLight(mLight).putFog(mFog);
         mRenderer.renderAll(mCamera, settings, mRenderables);
+    }
+
+    public abstract static class Component extends org.adddxdx.engine.Component {
+        protected abstract void connect(GraphicsSystem system);
+        protected abstract void disconnect(GraphicsSystem system);
     }
 }

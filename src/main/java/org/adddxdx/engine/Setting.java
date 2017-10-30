@@ -18,6 +18,7 @@
 
 package org.adddxdx.engine;
 
+import org.adddxdx.clocks.TicksMeasureSystem;
 import org.adddxdx.graphics.GraphicsSystem;
 import org.adddxdx.graphics.MaterialFactory;
 import org.adddxdx.graphics.support.primitives.PrimitivesFactory;
@@ -46,6 +47,6 @@ public interface Setting {
                 .putSingle(Scenario.class, ScenarioImpl::new)
                 .put(new PrimitivesFactory())
                 .put(new MaterialFactory())
-                .put(new ClockImpl());
+                .put(new TicksMeasureSystem());
     }
 }

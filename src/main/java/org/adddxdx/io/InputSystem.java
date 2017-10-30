@@ -25,11 +25,6 @@ import java.time.Duration;
 public class InputSystem extends ActiveSystem<InputSystem.Component> {
     private static final Duration INPUT_UPDATE_INTERVAL = Duration.ofMillis(25);
 
-    public abstract static class Component extends org.adddxdx.engine.Component {
-        abstract void connect(Keyboard keyboard, Mouse mouse);
-        abstract void disconnect(Keyboard keyboard, Mouse mouse);
-    }
-
     private final GlfwKeyboard mKeyboard;
     private final GlfwMouse mMouse;
 
@@ -57,5 +52,10 @@ public class InputSystem extends ActiveSystem<InputSystem.Component> {
     public void update(Duration timeSinceLastUpdate) {
         mKeyboard.update(timeSinceLastUpdate);
         mMouse.update();
+    }
+
+    public abstract static class Component extends org.adddxdx.engine.Component {
+        abstract void connect(Keyboard keyboard, Mouse mouse);
+        abstract void disconnect(Keyboard keyboard, Mouse mouse);
     }
 }

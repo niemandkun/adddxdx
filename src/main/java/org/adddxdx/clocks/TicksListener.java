@@ -16,8 +16,8 @@
  * along with adddxdx.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.adddxdx.engine;
+package org.adddxdx.clocks;
 
-interface ClockHandle {
-    void tick();
+public abstract class TicksListener extends TicksMeasureSystem.Component {
+
 }

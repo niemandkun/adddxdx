@@ -18,26 +18,44 @@
 
 package org.adddxdx.briefexample;
 
+import org.adddxdx.clocks.Animator;
 import org.adddxdx.engine.Actor;
-import org.adddxdx.graphics.Mesh;
 import org.adddxdx.graphics.support.components.MeshSkin;
 import org.adddxdx.graphics.support.materials.DefaultMaterial;
 import org.adddxdx.graphics.support.primitives.PrimitiveType;
 import org.adddxdx.math.FMath;
+import org.adddxdx.math.Vector3;
+
+import java.time.Duration;
 
 public class PieceOfGlass extends Actor {
     @Override
     public void onCreate() {
         super.onCreate();
 
-        Mesh mesh = getResources().getPrimitive(PrimitiveType.QUAD);
         DefaultMaterial material = getResources().getMaterial(DefaultMaterial.class);
         material.setTexture(getResources().getTexture("textures/glass.png"));
 
-        addComponent(new MeshSkin(mesh, material));
-        getComponent(MeshSkin.class).setCastShadows(false);
+        MeshSkin meshSkin = new MeshSkin(getResources().getPrimitive(PrimitiveType.QUAD), material);
+        meshSkin.setCastShadows(false);
+
+        addComponent(meshSkin);
+
+        Vector3[] wayPoints = {
+                new Vector3(2, 1, 1),
+                new Vector3(-2, 1, 1),
+                new Vector3(-2, 1, -1),
+                new Vector3(2, 1, -1),
+        };
+
+        addComponent(Animator.ofVector3(getTransform()::setLocation)
+                .from(wayPoints[0])
+                .to(wayPoints[1]).in(Duration.ofSeconds(1))
+                .to(wayPoints[2]).in(Duration.ofSeconds(1))
+                .to(wayPoints[3]).in(Duration.ofSeconds(1))
+                .repeatIn(Duration.ofSeconds(1))
+                .build());
 
         getTransform().rotate(0, FMath.PI, 0);
-        getTransform().translate(0, 1, 0);
     }
 }

@@ -19,12 +19,15 @@
 package org.adddxdx.engine;
 
 import com.sun.istack.internal.NotNull;
+
+import org.adddxdx.fio.WavefrontObject;
 import org.adddxdx.math.Transform;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Actor implements ShortLifecycle {
-    private final Map<Class<? extends Component>, Component> mComponents;
+    private final Map<Class<? extends Component>, List<Component>> mComponents;
     private final Transform mTransform;
     private Scene mScene;
 
@@ -34,7 +37,9 @@ public class Actor implements ShortLifecycle {
     }
 
     public Collection<? extends Component> getComponents() {
-        return mComponents.values();
+        return mComponents.values().stream()
+                .flatMap(Collection::stream)
+                .collect(Collectors.toCollection(ArrayList::new));
     }
 
     public Transform getTransform() {
@@ -54,24 +59,37 @@ public class Actor implements ShortLifecycle {
     }
 
     public void addComponent(@NotNull Component component) {
-        if (component.getActor() != null)
+        if (component.getActor() != null) {
             throw new IllegalArgumentException("Trying to add a Component, but it has already been added to an Actor.");
-
+        }
+        List<Component> components = mComponents.get(component.getClass());
+        if (components == null) {
+            components = new ArrayList<>();
+        }
         component.setActor(this);
         component.onCreate();
-        mComponents.put(component.getClass(), component);
+        components.add(component);
+        mComponents.put(component.getClass(), components);
     }
 
-    public <TComponent extends Component> TComponent getComponent(Class<TComponent> componentClass) {
-        return (TComponent) mComponents.get(componentClass);
+    public void removeComponent(Component component) {
+        List<Component> components = mComponents.get(component.getClass());
+        if (components != null) {
+            component.onDestroy();
+            component.setActor(null);
+            components.remove(component);
+        }
     }
 
     public void removeComponent(Class<? extends Component> componentClass) {
-        if (!mComponents.containsKey(componentClass)) return;
-
-        Component component = mComponents.get(componentClass);
-        component.onDestroy();
-        component.setActor(null);
+        List<Component> components = mComponents.get(componentClass);
+        if (components == null) {
+            return;
+        }
+        for (Component component : components) {
+            component.onDestroy();
+            component.setActor(null);
+        }
         mComponents.remove(componentClass);
     }
 
@@ -82,9 +100,11 @@ public class Actor implements ShortLifecycle {
 
     @Override
     public void onDestroy() {
-        for (Component component : mComponents.values())
-            component.onDestroy();
-
+        for (List<Component> components : mComponents.values()) {
+            for (Component component : components) {
+                component.onDestroy();
+            }
+        }
         mComponents.clear();
     }
 }

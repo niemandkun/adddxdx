@@ -35,7 +35,6 @@ public class Story {
         Collection<ActiveSystem> activeSystems = mSetting.getAll(ActiveSystem.class);
         Scenario scenario = mSetting.get(Scenario.class);
         Window window = mSetting.get(Window.class);
-        ClockHandle clockHandle = mSetting.get(ClockHandle.class);
 
         scenario.push(actFirst);
 
@@ -45,7 +44,6 @@ public class Story {
             currentAct.onMainLoop();
             activeSystems.forEach(ActiveSystem::fixedUpdate);
             window.update();
-            clockHandle.tick();
         }
     }
 }
