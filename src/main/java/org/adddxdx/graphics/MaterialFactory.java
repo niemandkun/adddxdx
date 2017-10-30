@@ -44,7 +44,7 @@ public class MaterialFactory implements Destroyable {
         return instance;
     }
 
-    Shader getShader(ShaderDescription description) {
+    public Shader getShader(ShaderDescription description) {
         Shader shader = mShaders.get(description);
 
         if (shader == null) {

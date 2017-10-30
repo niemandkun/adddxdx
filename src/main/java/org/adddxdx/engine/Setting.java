@@ -18,25 +18,34 @@
 
 package org.adddxdx.engine;
 
+import org.adddxdx.graphics.GraphicsSystem;
 import org.adddxdx.graphics.MaterialFactory;
 import org.adddxdx.graphics.support.primitives.PrimitivesFactory;
+import org.adddxdx.io.InputSystem;
+import org.adddxdx.io.Keyboard;
+import org.adddxdx.io.Mouse;
+import org.adddxdx.io.Platform;
 import org.adddxdx.io.Window;
 
 import java.util.Collection;
+import java.util.List;
 
 public interface Setting {
-    PrimitivesFactory getPrimitivesFactory();
-    MaterialFactory getMaterialFactory();
-    Scenario getScenario();
-    Window getWindow();
-    Clock getClock();
+    <TService> TService get(Class<TService> clazz);
+    <TService> Collection<TService> getAll(Class<TService> clazz);
+    List<SystemInfo> describeInternals();
 
-    Collection<ActiveSystem> getActiveSystems();
-    Collection<SystemInfo> getAllSystems();
-
-    /* etc */
-
-    static Setting from(ServiceLocator locator) {
-        return new CustomSetting(locator);
+    static SettingBuilder preparedFor(Platform platform) {
+        return new SettingImplBuilder()
+                .putSingle(InputSystem.class, platform::getInputSystem)
+                .putSingle(Keyboard.class, platform::getKeyboard)
+                .putSingle(Window.class, platform::getWindow)
+                .putSingle(Mouse.class, platform::getMouse)
+                .putSingle(GraphicsSystem.class, GraphicsSystem::new)
+                .putSingle(Resources.class, ResourcesImpl::new)
+                .putSingle(Scenario.class, ScenarioImpl::new)
+                .put(new PrimitivesFactory())
+                .put(new MaterialFactory())
+                .put(new ClockImpl());
     }
 }

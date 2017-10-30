@@ -36,7 +36,7 @@ public class VideoModeBuilder {
     public WindowSettingsBuilder onWindow() { return mBuilder.onWindow(); }
     public FramebufferSettingsBuilder onFramebuffer() { return mBuilder.onFramebuffer(); }
     public ContextSettingsBuilder onContext() { return mBuilder.onContext(); }
-    public Platform build() { return mBuilder.build(); }
+    public Platform andEverythingElseIsDefault() { return mBuilder.andEverythingElseIsDefault(); }
 
     VideoMode getVideoMode() {
         return new VideoMode(mSize, mRefreshRate, mIsVsyncEnabled);

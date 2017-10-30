@@ -24,15 +24,34 @@ import org.adddxdx.math.Transform;
 import java.util.*;
 
 public class Actor implements ShortLifecycle {
-    private final Map<Class<? extends Component>, Component> mComponents = new HashMap<>();
-    public Collection<? extends Component> getComponents() { return mComponents.values(); }
-
-    private final Transform mTransform = new Transform();
-    public Transform getTransform() { return mTransform; }
-
+    private final Map<Class<? extends Component>, Component> mComponents;
+    private final Transform mTransform;
     private Scene mScene;
-    public Scene getScene() { return mScene; }
-    void setScene(Scene scene) { mScene = scene; }
+
+    public Actor() {
+        mComponents = new HashMap<>();
+        mTransform = new Transform();
+    }
+
+    public Collection<? extends Component> getComponents() {
+        return mComponents.values();
+    }
+
+    public Transform getTransform() {
+        return mTransform;
+    }
+
+    public Scene getScene() {
+        return mScene;
+    }
+
+    void setScene(Scene scene) {
+        mScene = scene;
+    }
+
+    public Resources getResources() {
+        return mScene.getResources();
+    }
 
     public void addComponent(@NotNull Component component) {
         if (component.getActor() != null)
@@ -57,7 +76,9 @@ public class Actor implements ShortLifecycle {
     }
 
     @Override
-    public void onCreate() { }
+    public void onCreate() {
+
+    }
 
     @Override
     public void onDestroy() {

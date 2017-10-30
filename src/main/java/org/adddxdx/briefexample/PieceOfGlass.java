@@ -19,41 +19,25 @@
 package org.adddxdx.briefexample;
 
 import org.adddxdx.engine.Actor;
-import org.adddxdx.fio.Image;
 import org.adddxdx.graphics.Mesh;
 import org.adddxdx.graphics.support.components.MeshSkin;
 import org.adddxdx.graphics.support.materials.DefaultMaterial;
 import org.adddxdx.graphics.support.primitives.PrimitiveType;
-import org.adddxdx.graphics.support.textures.Texture;
 import org.adddxdx.math.FMath;
 
-import java.io.File;
-
 public class PieceOfGlass extends Actor {
-    private Image mImage;
-
     @Override
     public void onCreate() {
         super.onCreate();
 
-        Mesh mesh = getScene().getPrimitivesFactory().create(PrimitiveType.QUAD);
-
-        DefaultMaterial material = getScene().getMaterialFactory().get(DefaultMaterial.class);
-        material.setTexture(new Texture(mImage = Image.load(open("textures/glass.png"))));
+        Mesh mesh = getResources().getPrimitive(PrimitiveType.QUAD);
+        DefaultMaterial material = getResources().getMaterial(DefaultMaterial.class);
+        material.setTexture(getResources().getTexture("textures/glass.png"));
 
         addComponent(new MeshSkin(mesh, material));
         getComponent(MeshSkin.class).setCastShadows(false);
 
         getTransform().rotate(0, FMath.PI, 0);
         getTransform().translate(0, 1, 0);
-    }
-
-    private File open(String filename) {
-        return new File(getClass().getClassLoader().getResource(filename).getFile());
-    }
-
-    @Override
-    public void onDestroy() {
-        mImage.destroy();
     }
 }

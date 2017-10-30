@@ -27,12 +27,7 @@ import org.adddxdx.graphics.support.textures.Texture;
 import org.adddxdx.math.Vector2;
 import org.adddxdx.math.Vector3;
 
-import java.io.File;
-
 public class Floor extends Actor {
-
-    Image mImage;
-
     @Override
     public void onCreate() {
         super.onCreate();
@@ -64,19 +59,9 @@ public class Floor extends Actor {
                 new Vector2(-10, -10),
         };
 
-        DefaultMaterial material = getScene().getMaterialFactory().get(DefaultMaterial.class);
-        material.setTexture(new Texture(mImage = Image.load(getTexture())));
+        DefaultMaterial material = getResources().getMaterial(DefaultMaterial.class);
+        material.setTexture(getResources().getTexture("textures/dust.jpg"));
 
         addComponent(new MeshSkin(new Mesh(vertices, normals, uvs), material));
-    }
-
-    private File getTexture() {
-        return new File(getClass().getClassLoader().getResource("textures/dust.jpg").getFile());
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mImage.destroy();
     }
 }

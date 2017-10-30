@@ -40,7 +40,7 @@ public class DebugGui extends Actor {
         };
 
         Mesh mesh = new Mesh(vertices);
-        Material material = getScene().getMaterialFactory().get(DebugGuiMaterial.class);
+        Material material = getResources().getMaterial(DebugGuiMaterial.class);
         addComponent(new MeshSkin(mesh, material));
     }
 }

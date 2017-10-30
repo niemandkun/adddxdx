@@ -22,14 +22,12 @@ import java.time.Duration;
 import java.time.Instant;
 
 public abstract class ActiveSystem<TComponent extends Component> implements System<TComponent> {
-    private Instant lastUpdate = null;
+    private Instant lastUpdate = Instant.now();
 
     protected Duration getUpdateInterval() { return Duration.ZERO; }
 
     void fixedUpdate() {
         Instant now = Instant.now();
-        if (lastUpdate == null) lastUpdate = now;
-
         Duration timeSinceLastUpdate = Duration.between(lastUpdate, now);
 
         if (timeSinceLastUpdate.compareTo(getUpdateInterval()) > 0) {

@@ -24,7 +24,7 @@ public interface Platform {
     Window getWindow();
     Mouse getMouse();
 
-    static PlatformBuilder builder() {
+    static PlatformBuilder tweaker() {
         return new GlfwPlatformBuilder();
     }
 }

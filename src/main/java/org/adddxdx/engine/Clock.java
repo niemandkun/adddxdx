@@ -18,14 +18,6 @@
 
 package org.adddxdx.engine;
 
-public class Clock {
-    private long mTicks = 0;
-
-    void tick() {
-        mTicks++;
-    }
-
-    public long getTime() {
-        return mTicks;
-    }
+public interface Clock {
+    long getTime();
 }

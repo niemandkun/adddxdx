@@ -29,7 +29,7 @@ public abstract class Component implements ShortLifecycle{
 
     @Override
     public void onCreate() {
-        Collection<SystemInfo> systems = getScene().getAllSystems();
+        Collection<SystemInfo> systems = getScene().getSetting().describeInternals();
 
         for (SystemInfo system : systems)
             if (system.isAcceptingComponent(getClass()))
@@ -38,7 +38,7 @@ public abstract class Component implements ShortLifecycle{
 
     @Override
     public void onDestroy() {
-        Collection<SystemInfo> systems = getScene().getAllSystems();
+        Collection<SystemInfo> systems = getScene().getSetting().describeInternals();
 
         for (SystemInfo system : systems)
             if (system.isAcceptingComponent(getClass()))

@@ -16,21 +16,19 @@
  * along with adddxdx.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.adddxdx.briefexample;
+package org.adddxdx.engine;
 
-import org.adddxdx.engine.Setting;
-import org.adddxdx.engine.Story;
-import org.adddxdx.io.Platform;
-import org.adddxdx.math.Size;
+import org.adddxdx.graphics.Material;
+import org.adddxdx.graphics.Mesh;
+import org.adddxdx.graphics.Shader;
+import org.adddxdx.graphics.ShaderDescription;
+import org.adddxdx.graphics.support.primitives.PrimitiveType;
+import org.adddxdx.graphics.support.textures.Texture;
 
-public class EntryPoint {
-    public static void main(String[] args) {
-        Platform myLaptop = Platform.tweaker()
-                .onWindow().setResizable(false).setMaximized(true)
-                .onVideoMode().setSize(new Size(1920, 1080)).setVsyncEnabled(false)
-                .onContext().setMajorVersion(3).setMinorVersion(3)
-                .andEverythingElseIsDefault();
-
-        Story.basedOn(Setting.preparedFor(myLaptop).withAttentionAndCare()).reveal(TestingScene.class);
-    }
+public interface Resources {
+    <TMaterial extends Material> TMaterial getMaterial(Class<TMaterial> clazz);
+    Shader getShader(ShaderDescription shaderDescription);
+    Mesh getPrimitive(PrimitiveType primitiveType);
+    Mesh getMesh(String path);
+    Texture getTexture(String path);
 }

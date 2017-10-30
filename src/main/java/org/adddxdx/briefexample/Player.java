@@ -21,7 +21,6 @@ package org.adddxdx.briefexample;
 import org.adddxdx.engine.Actor;
 import org.adddxdx.graphics.support.components.Fog;
 import org.adddxdx.graphics.support.components.OrthoCamera;
-import org.adddxdx.graphics.support.components.PerspectiveCamera;
 import org.adddxdx.io.*;
 import org.adddxdx.math.*;
 

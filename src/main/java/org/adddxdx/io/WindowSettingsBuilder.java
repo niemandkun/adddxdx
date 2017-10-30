@@ -39,7 +39,7 @@ public class WindowSettingsBuilder {
     public VideoModeBuilder onVideoMode() { return mBuilder.onVideoMode(); }
     public FramebufferSettingsBuilder onFramebuffer() { return mBuilder.onFramebuffer(); }
     public ContextSettingsBuilder onContext() { return mBuilder.onContext(); }
-    public Platform build() { return mBuilder.build(); }
+    public Platform andEverythingElseIsDefault() { return mBuilder.andEverythingElseIsDefault(); }
 
     String getTitle() {
         return title;

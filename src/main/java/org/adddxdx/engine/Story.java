@@ -22,7 +22,7 @@ import org.adddxdx.io.Window;
 
 import java.util.Collection;
 
-public class Story implements Destroyable {
+public class Story {
     private final Setting mSetting;
 
     public static Story basedOn(Setting setting) { return new Story(setting); }
@@ -32,28 +32,20 @@ public class Story implements Destroyable {
     }
 
     public void reveal(Class<? extends Scene> actFirst) {
-        Scenario scenario = mSetting.getScenario();
-        Window window = mSetting.getWindow();
-        Scene currentAct;
+        Collection<ActiveSystem> activeSystems = mSetting.getAll(ActiveSystem.class);
+        Scenario scenario = mSetting.get(Scenario.class);
+        Window window = mSetting.get(Window.class);
+        ClockHandle clockHandle = mSetting.get(ClockHandle.class);
 
         scenario.push(actFirst);
 
-        Collection<ActiveSystem> activeSystems = mSetting.getActiveSystems();
+        Scene currentAct;
 
-        while (window.isOpen() && (currentAct = scenario.peekScene()) != null) {
+        while (window.isOpen() && (currentAct = scenario.peek()) != null) {
             currentAct.onMainLoop();
             activeSystems.forEach(ActiveSystem::fixedUpdate);
             window.update();
-            mSetting.getClock().tick();
+            clockHandle.tick();
         }
-
-        destroy();
-    }
-
-    @Override
-    public void destroy() {
-        mSetting.getScenario().popAll();
-        mSetting.getWindow().destroy();
-        mSetting.getMaterialFactory().destroy();
     }
 }

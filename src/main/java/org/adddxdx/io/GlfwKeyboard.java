@@ -20,6 +20,7 @@ package org.adddxdx.io;
 
 import org.lwjgl.glfw.GLFWKeyCallbackI;
 
+import java.time.Duration;
 import java.util.*;
 
 import static org.lwjgl.glfw.GLFW.*;

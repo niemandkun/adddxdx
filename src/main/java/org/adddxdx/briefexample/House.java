@@ -19,44 +19,23 @@
 package org.adddxdx.briefexample;
 
 import org.adddxdx.engine.Actor;
-import org.adddxdx.fio.Image;
-import org.adddxdx.fio.WavefrontObject;
 import org.adddxdx.graphics.Mesh;
 import org.adddxdx.graphics.support.components.MeshSkin;
 import org.adddxdx.graphics.support.materials.DefaultMaterial;
-import org.adddxdx.graphics.support.textures.Texture;
-import org.adddxdx.math.Color;
 import org.adddxdx.math.FMath;
 
-import java.io.File;
-
 public class House extends Actor {
-
-    private Image mImage;
-
     @Override
     public void onCreate() {
         super.onCreate();
 
-        Mesh mesh = WavefrontObject.fromFile(open("models/house.obj")).getMesh();
-
-        DefaultMaterial material = getScene().getMaterialFactory().get(DefaultMaterial.class);
-
-        mImage = Image.load(open("textures/house.tga"));
-        material.setTexture(new Texture(mImage));
+        Mesh mesh = getResources().getMesh("models/house.obj");
+        DefaultMaterial material = getResources().getMaterial(DefaultMaterial.class);
+        material.setTexture(getResources().getTexture("textures/house.tga"));
 
         addComponent(new MeshSkin(mesh, material));
 
         getTransform().rotate(FMath.HALF_PI, FMath.PI, 0);
         getTransform().translate(-5, 0, 3);
-    }
-
-    private File open(String filename) {
-        return new File(getClass().getClassLoader().getResource(filename).getFile());
-    }
-
-    @Override
-    public void onDestroy() {
-        mImage.destroy();
     }
 }

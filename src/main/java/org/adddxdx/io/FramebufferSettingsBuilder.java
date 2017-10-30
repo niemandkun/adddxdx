@@ -36,7 +36,7 @@ public class FramebufferSettingsBuilder {
     public VideoModeBuilder onVideoMode() { return mBuilder.onVideoMode(); }
     public WindowSettingsBuilder onWindow() { return mBuilder.onWindow(); }
     public ContextSettingsBuilder onContext() { return mBuilder.onContext(); }
-    public Platform build() { return mBuilder.build(); }
+    public Platform andEverythingElseIsDefault() { return mBuilder.andEverythingElseIsDefault(); }
 
     FramebufferSettings getFramebufferSettings() {
         return new FramebufferSettings(mRedBits, mGreenBits, mBlueBits, mAlphaBits,

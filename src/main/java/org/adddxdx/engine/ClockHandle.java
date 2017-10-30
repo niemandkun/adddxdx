@@ -16,21 +16,8 @@
  * along with adddxdx.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.adddxdx.briefexample;
+package org.adddxdx.engine;
 
-import org.adddxdx.engine.Setting;
-import org.adddxdx.engine.Story;
-import org.adddxdx.io.Platform;
-import org.adddxdx.math.Size;
-
-public class EntryPoint {
-    public static void main(String[] args) {
-        Platform myLaptop = Platform.tweaker()
-                .onWindow().setResizable(false).setMaximized(true)
-                .onVideoMode().setSize(new Size(1920, 1080)).setVsyncEnabled(false)
-                .onContext().setMajorVersion(3).setMinorVersion(3)
-                .andEverythingElseIsDefault();
-
-        Story.basedOn(Setting.preparedFor(myLaptop).withAttentionAndCare()).reveal(TestingScene.class);
-    }
+interface ClockHandle {
+    void tick();
 }

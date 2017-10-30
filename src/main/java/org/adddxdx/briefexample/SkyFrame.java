@@ -19,7 +19,6 @@
 package org.adddxdx.briefexample;
 
 import org.adddxdx.engine.Actor;
-import org.adddxdx.graphics.Mesh;
 import org.adddxdx.graphics.support.components.MeshSkin;
 import org.adddxdx.graphics.support.materials.SkyMaterial;
 import org.adddxdx.graphics.support.primitives.PrimitiveType;
@@ -28,7 +27,9 @@ public class SkyFrame extends Actor {
     @Override
     public void onCreate() {
         super.onCreate();
-        Mesh mesh = getScene().getPrimitivesFactory().create(PrimitiveType.QUAD);
-        addComponent(new MeshSkin(mesh, getScene().getMaterialFactory().get(SkyMaterial.class)));
+        addComponent(new MeshSkin(
+                getResources().getPrimitive(PrimitiveType.QUAD),
+                getResources().getMaterial(SkyMaterial.class))
+        );
     }
 }

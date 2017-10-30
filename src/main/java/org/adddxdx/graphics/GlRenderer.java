@@ -18,13 +18,15 @@
 
 package org.adddxdx.graphics;
 
+import org.adddxdx.engine.Resources;
 import org.adddxdx.graphics.support.materials.DefaultMaterial;
 import org.adddxdx.graphics.support.materials.ShadowMaterial;
 import org.adddxdx.graphics.support.primitives.PrimitiveType;
-import org.adddxdx.graphics.support.primitives.PrimitivesFactory;
 import org.adddxdx.math.Size;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 class GlRenderer implements Renderer {
     private final static String SCREEN_SHADER_NAME = "screen";
@@ -54,10 +56,10 @@ class GlRenderer implements Renderer {
     private final Material mDefaultMaterial;
     private final Material mShadowMaterial;
 
-    GlRenderer(RenderTarget renderTarget, MaterialFactory materialFactory, PrimitivesFactory primitivesFactory) {
-        mDefaultMaterial = materialFactory.get(DefaultMaterial.class);
-        mShadowMaterial = materialFactory.get(ShadowMaterial.class);
-        mScreenShader = materialFactory.getShader(ShaderDescription.forFile(SCREEN_SHADER_NAME));
+    GlRenderer(RenderTarget renderTarget, Resources resources) {
+        mDefaultMaterial = resources.getMaterial(DefaultMaterial.class);
+        mShadowMaterial = resources.getMaterial(ShadowMaterial.class);
+        mScreenShader = resources.getShader(ShaderDescription.forFile(SCREEN_SHADER_NAME));
 
         mOutputRenderTarget = renderTarget;
         mOutputRenderTarget.init();
@@ -73,7 +75,7 @@ class GlRenderer implements Renderer {
         mInternalRenderTarget = new GlRenderTexture(new GlRgbTexture(internalRenderSize));
         mInternalRenderTarget.init();
 
-        mScreenObject = new GlVertexBufferObject(primitivesFactory.create(PrimitiveType.QUAD).getVertexArray());
+        mScreenObject = new GlVertexBufferObject(resources.getPrimitive(PrimitiveType.QUAD).getVertexArray());
 
         mVBOs = new HashMap<>();
     }

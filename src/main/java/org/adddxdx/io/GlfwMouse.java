@@ -21,6 +21,7 @@ package org.adddxdx.io;
 import org.adddxdx.math.Vector2;
 import org.lwjgl.glfw.*;
 
+import java.time.Duration;
 import java.util.*;
 
 import static org.lwjgl.glfw.GLFW.GLFW_PRESS;

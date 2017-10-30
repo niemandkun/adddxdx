@@ -19,7 +19,8 @@
 package org.adddxdx.graphics;
 
 import org.adddxdx.engine.ActiveSystem;
-import org.adddxdx.graphics.support.primitives.PrimitivesFactory;
+import org.adddxdx.engine.Setting;
+import org.adddxdx.engine.Resources;
 import org.adddxdx.io.Window;
 
 import java.time.Duration;
@@ -39,9 +40,11 @@ public class GraphicsSystem extends ActiveSystem<GraphicsSystem.Component> {
 
     private final GlRenderer mRenderer;
 
-    public GraphicsSystem(Window window, MaterialFactory materialFactory, PrimitivesFactory primitivesFactory) {
+    public GraphicsSystem(Setting setting) {
+        Window window = setting.get(Window.class);
+        Resources resources = setting.get(Resources.class);
         mRenderables = new HashSet<>();
-        mRenderer = new GlRenderer(new GlWindowRenderTarget(window), materialFactory, primitivesFactory);
+        mRenderer = new GlRenderer(new GlWindowRenderTarget(window), resources);
     }
 
     public void setFog(Fog fog) {

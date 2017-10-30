@@ -18,44 +18,48 @@
 
 package org.adddxdx.engine;
 
-import java.util.*;
-import java.util.function.Supplier;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
 
-public class ServiceLocator {
-    private final Map<Class, Supplier> mLocator;
+class SettingImpl implements Setting {
+    private final Map<Class, Function> mLocator;
+    private final List<SystemInfo> mSystems;
 
-    public ServiceLocator() {
-        mLocator = new HashMap<>();
+    SettingImpl(Map<Class, Function> locator) {
+        mLocator = locator;
+        mSystems = new ArrayList<>();
     }
 
-    public <TService> void registerFactory(Class<TService> clazz, Supplier<TService> factory) {
-        mLocator.put(clazz, factory);
-    }
-
-    public <TService> void registerSingleton(Class<TService> clazz, TService singleton) {
-        mLocator.put(clazz, () -> singleton);
+    void addAll(Collection<SystemInfo> systems) {
+        mSystems.addAll(systems);
     }
 
     public <TService> TService get(Class<TService> clazz) {
-        if (mLocator.containsKey(clazz))
-            return (TService) mLocator.get(clazz).get();
-
-        for (Class inLocator : mLocator.keySet()) {
-            if (clazz.isAssignableFrom(inLocator))
-                return (TService) mLocator.get(inLocator).get();
+        if (mLocator.containsKey(clazz)) {
+            return (TService) mLocator.get(clazz).apply(this);
         }
-
-        throw new IllegalArgumentException("Class " + clazz + " is not found in locator.");
+        for (Class inLocator : mLocator.keySet()) {
+            if (clazz.isAssignableFrom(inLocator)) {
+                return (TService) mLocator.get(inLocator).apply(this);
+            }
+        }
+        throw new IllegalArgumentException("Class " + clazz + " is not found in setting.");
     }
 
     public <TService> Collection<TService> getAll(Class<TService> clazz) {
         List<TService> listOfMatchingServices = new ArrayList<>();
-
         for (Class inLocator : mLocator.keySet()) {
-            if (clazz.isAssignableFrom(inLocator))
-                listOfMatchingServices.add((TService) mLocator.get(inLocator).get());
+            if (clazz.isAssignableFrom(inLocator)) {
+                listOfMatchingServices.add((TService) mLocator.get(inLocator).apply(this));
+            }
         }
-
         return listOfMatchingServices;
+    }
+
+    public List<SystemInfo> describeInternals() {
+        return mSystems;
     }
 }

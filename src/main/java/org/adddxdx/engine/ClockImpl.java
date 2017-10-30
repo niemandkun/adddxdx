@@ -16,21 +16,18 @@
  * along with adddxdx.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.adddxdx.briefexample;
+package org.adddxdx.engine;
 
-import org.adddxdx.engine.Setting;
-import org.adddxdx.engine.Story;
-import org.adddxdx.io.Platform;
-import org.adddxdx.math.Size;
+class ClockImpl implements Clock, ClockHandle {
+    private long mTicks = 0;
 
-public class EntryPoint {
-    public static void main(String[] args) {
-        Platform myLaptop = Platform.tweaker()
-                .onWindow().setResizable(false).setMaximized(true)
-                .onVideoMode().setSize(new Size(1920, 1080)).setVsyncEnabled(false)
-                .onContext().setMajorVersion(3).setMinorVersion(3)
-                .andEverythingElseIsDefault();
+    @Override
+    public void tick() {
+        mTicks++;
+    }
 
-        Story.basedOn(Setting.preparedFor(myLaptop).withAttentionAndCare()).reveal(TestingScene.class);
+    @Override
+    public long getTime() {
+        return mTicks;
     }
 }

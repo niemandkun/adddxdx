@@ -29,7 +29,7 @@ public abstract class PlatformBuilder {
     public FramebufferSettingsBuilder onFramebuffer() { return mFramebufferSettings; }
     public ContextSettingsBuilder onContext() { return mContextSettings; }
 
-    public Platform build() {
+    public Platform andEverythingElseIsDefault() {
         return buildPlatform(
                 mWindowSettings.getTitle(),
                 mVideoMode.getVideoMode(),

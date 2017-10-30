@@ -32,7 +32,7 @@ public class ContextSettingsBuilder {
     public VideoModeBuilder onVideoMode() { return mBuilder.onVideoMode(); }
     public WindowSettingsBuilder onWindow() { return mBuilder.onWindow(); }
     public FramebufferSettingsBuilder onFramebuffer() { return mBuilder.onFramebuffer(); }
-    public Platform build() { return mBuilder.build(); }
+    public Platform andEverythingElseIsDefault() { return mBuilder.andEverythingElseIsDefault(); }
 
     ContextSettings getContextSettings() {
         return new ContextSettings(mMajorVersion, mMinorVersion, mProfile.getProfile());

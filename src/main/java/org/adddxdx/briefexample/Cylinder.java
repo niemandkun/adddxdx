@@ -33,8 +33,8 @@ public class Cylinder extends Actor {
     public void onCreate() {
         super.onCreate();
 
-        Mesh mesh = getScene().getPrimitivesFactory().create(PrimitiveType.CYLINDER);
-        DefaultMaterial material = getScene().getMaterialFactory().get(DefaultMaterial.class);
+        Mesh mesh = getResources().getPrimitive(PrimitiveType.CYLINDER);
+        DefaultMaterial material = getResources().getMaterial(DefaultMaterial.class);
         material.setColor(Color.TEAL);
         addComponent(new MeshSkin(mesh, material));
 
