@@ -40,23 +40,23 @@ public class Animator<T> extends TicksListener {
     }
 
     public static Builder<Double>.FromSyntax ofDouble(Consumer<Double> consumer) {
-        return new Builder<>(consumer).new InterpolatorSyntax().use(new DoubleInterpolator());
+        return new Builder<>(consumer).new InterpolatorSyntax().using(new DoubleInterpolator());
     }
 
     public static Builder<Float>.FromSyntax ofFloat(Consumer<Float> consumer) {
-        return new Builder<>(consumer).new InterpolatorSyntax().use(new FloatInterpolator());
+        return new Builder<>(consumer).new InterpolatorSyntax().using(new FloatInterpolator());
     }
 
     public static Builder<Vector2>.FromSyntax ofVector2(Consumer<Vector2> consumer) {
-        return new Builder<>(consumer).new InterpolatorSyntax().use(new Vector2Interpolator());
+        return new Builder<>(consumer).new InterpolatorSyntax().using(new Vector2Interpolator());
     }
 
     public static Builder<Vector3>.FromSyntax ofVector3(Consumer<Vector3> consumer) {
-        return new Builder<>(consumer).new InterpolatorSyntax().use(new Vector3Interpolator());
+        return new Builder<>(consumer).new InterpolatorSyntax().using(new Vector3Interpolator());
     }
 
     public static Builder<Vector4>.FromSyntax ofVector4(Consumer<Vector4> consumer) {
-        return new Builder<>(consumer).new InterpolatorSyntax().use(new Vector4Interpolator());
+        return new Builder<>(consumer).new InterpolatorSyntax().using(new Vector4Interpolator());
     }
 
     private final List<AnimatorState<T>> mStateList;
@@ -170,7 +170,7 @@ public class Animator<T> extends TicksListener {
         public class InterpolatorSyntax {
             private InterpolatorSyntax() { }
 
-            public FromSyntax use(Interpolator<T> interpolator) {
+            public FromSyntax using(Interpolator<T> interpolator) {
                 mInterpolator = interpolator;
                 return new FromSyntax();
             }
