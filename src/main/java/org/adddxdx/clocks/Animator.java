@@ -197,6 +197,10 @@ public class Animator<T> extends TicksListener {
         public class DurationSyntax {
             private DurationSyntax() { }
 
+            public BranchSyntax immediately() {
+                return in(Duration.ZERO);
+            }
+
             public BranchSyntax in(Duration duration) {
                 mAnimatorStates.add(new AnimatorState<>(mFrom, duration));
                 mFrom = mTo;

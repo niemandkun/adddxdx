@@ -49,6 +49,17 @@ public class Color implements Serializable {
     public byte getBlue() { return mBlue; }
     public byte getAlpha() { return mAlpha; }
 
+    public Color(float red, float green, float blue) {
+        this(red, green, blue, 1);
+    }
+
+    public Color(float red, float green, float blue, float alpha) {
+        mRed = (byte) (255 * red);
+        mGreen = (byte) (255 * green);
+        mBlue = (byte) (255 * blue);
+        mAlpha = (byte) (255 * alpha);
+    }
+
     public Color(int red, int green, int blue, int alpha) {
         mRed = (byte) red;
         mGreen = (byte) green;

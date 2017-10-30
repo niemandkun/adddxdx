@@ -41,18 +41,9 @@ public class PieceOfGlass extends Actor {
 
         addComponent(meshSkin);
 
-        Vector3[] wayPoints = {
-                new Vector3(2, 1, 1),
-                new Vector3(-2, 1, 1),
-                new Vector3(-2, 1, -1),
-                new Vector3(2, 1, -1),
-        };
-
-        addComponent(Animator.ofVector3(getTransform()::setLocation)
-                .from(wayPoints[0])
-                .to(wayPoints[1]).in(Duration.ofSeconds(1))
-                .to(wayPoints[2]).in(Duration.ofSeconds(1))
-                .to(wayPoints[3]).in(Duration.ofSeconds(1))
+        addComponent(Animator
+                .ofFloat(y -> getTransform().setLocation(2.5f, y, 2.5f))
+                .from(1f).to(1.2f).in(Duration.ofSeconds(1))
                 .repeatIn(Duration.ofSeconds(1))
                 .build());
 

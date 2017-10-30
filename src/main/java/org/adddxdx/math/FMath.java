@@ -37,4 +37,8 @@ public class FMath {
     public static float sin(float x) {
         return (float) Math.sin(x);
     }
+
+    public static float pow(float x, float exp) {
+        return (float) Math.pow(x, exp);
+    }
 }

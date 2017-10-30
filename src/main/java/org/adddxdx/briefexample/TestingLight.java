@@ -18,13 +18,13 @@
 
 package org.adddxdx.briefexample;
 
+import org.adddxdx.clocks.Animator;
 import org.adddxdx.engine.Actor;
-import org.adddxdx.graphics.Light;
 import org.adddxdx.graphics.support.components.DirectionalLight;
-import org.adddxdx.io.Mouse;
-import org.adddxdx.io.MouseController;
-import org.adddxdx.io.MouseEvent;
+import org.adddxdx.math.Color;
 import org.adddxdx.math.FMath;
+
+import java.time.Duration;
 
 public class TestingLight extends Actor {
     @Override
@@ -35,18 +35,33 @@ public class TestingLight extends Actor {
         light.setAmbientIntensity(0.5f);
 
         addComponent(light);
-        getTransform().setRotation(0.4f, 0, 0);
-        getTransform().rotate(0, FMath.PI, 0);
 
-        addComponent(new MouseController() {
-            float rotationY = FMath.PI;
+        Duration wholeDay = Duration.ofMinutes(1);
+        Duration halfDay = wholeDay.dividedBy(2);
+        Duration quarterDay = wholeDay.dividedBy(4);
 
-            @Override public void onPointerMoved(Mouse mouse, MouseEvent event) {
-                rotationY -= event.getPointerMovement().getX() / 200;
+        addComponent(Animator
+                .ofFloat(t -> {
+                    light.setColor(new Color(t, t, t));
+                    light.setAmbientIntensity(FMath.pow(1 - t / 2, 2));
+                })
+                .from(0.05f)
+                .to(1f).in(quarterDay)
+                .to(1f).in(quarterDay)
+                .to(0.05f).in(quarterDay)
+                .repeatIn(quarterDay)
+                .build());
 
-                getTransform().setRotation(0.4f, 0, 0);
-                getTransform().rotate(0, rotationY, 0);
-            }
-        });
+        addComponent(Animator
+                .ofFloat(x -> {
+                    getTransform().setRotation(FMath.HALF_PI, 0, x);
+                    getTransform().rotate(0, 0, 0);
+                })
+                .from(-FMath.HALF_PI)
+                .to(-FMath.PI).in(halfDay)
+                .to(FMath.PI).immediately()
+                .to(FMath.HALF_PI).in(halfDay)
+                .repeat()
+                .build());
     }
 }
