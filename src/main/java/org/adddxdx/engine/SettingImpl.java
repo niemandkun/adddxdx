@@ -41,9 +41,11 @@ class SettingImpl implements Setting {
         if (mLocator.containsKey(clazz)) {
             return (TService) mLocator.get(clazz).apply(this);
         }
-        for (Class inLocator : mLocator.keySet()) {
-            if (clazz.isAssignableFrom(inLocator)) {
-                return (TService) mLocator.get(inLocator).apply(this);
+        for (Class locatorKey : mLocator.keySet()) {
+            if (clazz.isAssignableFrom(locatorKey)) {
+                Function locatorValue = mLocator.get(locatorKey);
+                mLocator.put(clazz, locatorValue);
+                return  (TService) locatorValue.apply(this);
             }
         }
         throw new IllegalArgumentException("Class " + clazz + " is not found in setting.");
