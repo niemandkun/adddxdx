@@ -21,12 +21,8 @@ package org.adddxdx.clocks;
 import org.adddxdx.math.Vector2;
 import org.adddxdx.math.Vector3;
 import org.adddxdx.math.Vector4;
-import org.adddxdx.math.interpolators.DoubleInterpolator;
-import org.adddxdx.math.interpolators.FloatInterpolator;
 import org.adddxdx.math.interpolators.Interpolator;
-import org.adddxdx.math.interpolators.Vector2Interpolator;
-import org.adddxdx.math.interpolators.Vector3Interpolator;
-import org.adddxdx.math.interpolators.Vector4Interpolator;
+import org.adddxdx.math.interpolators.Interpolators;
 
 import java.time.Duration;
 import java.util.ArrayList;
@@ -39,24 +35,20 @@ public class Animator<T> extends TicksListener {
         return new Builder<>(consumer).new InterpolatorSyntax();
     }
 
-    public static Builder<Double>.FromSyntax ofDouble(Consumer<Double> consumer) {
-        return new Builder<>(consumer).new InterpolatorSyntax().using(new DoubleInterpolator());
-    }
-
     public static Builder<Float>.FromSyntax ofFloat(Consumer<Float> consumer) {
-        return new Builder<>(consumer).new InterpolatorSyntax().using(new FloatInterpolator());
+        return new Builder<>(consumer).new InterpolatorSyntax().using(Interpolators.linear());
     }
 
     public static Builder<Vector2>.FromSyntax ofVector2(Consumer<Vector2> consumer) {
-        return new Builder<>(consumer).new InterpolatorSyntax().using(new Vector2Interpolator());
+        return new Builder<>(consumer).new InterpolatorSyntax().using(Interpolators.linear2());
     }
 
     public static Builder<Vector3>.FromSyntax ofVector3(Consumer<Vector3> consumer) {
-        return new Builder<>(consumer).new InterpolatorSyntax().using(new Vector3Interpolator());
+        return new Builder<>(consumer).new InterpolatorSyntax().using(Interpolators.linear3());
     }
 
     public static Builder<Vector4>.FromSyntax ofVector4(Consumer<Vector4> consumer) {
-        return new Builder<>(consumer).new InterpolatorSyntax().using(new Vector4Interpolator());
+        return new Builder<>(consumer).new InterpolatorSyntax().using(Interpolators.linear4());
     }
 
     private final List<AnimatorState<T>> mStateList;
@@ -129,7 +121,7 @@ public class Animator<T> extends TicksListener {
         AnimatorState<T> currentState = getCurrentState();
         AnimatorState<T> nextState = getNextState();
         float proportion = (float) mCurrentStateDuration.toMillis() / currentState.mTransitionDuration.toMillis();
-        return mInterpolator.interpolate(nextState.mValue, currentState.mValue, proportion);
+        return mInterpolator.interpolate(currentState.mValue, nextState.mValue, proportion);
     }
 
     private static class AnimatorState<T> {
@@ -182,6 +174,11 @@ public class Animator<T> extends TicksListener {
             public ToSyntax from(T value) {
                 mFrom = value;
                 return new ToSyntax();
+            }
+
+            public FromSyntax using(Interpolator<T> interpolator) {
+                mInterpolator = interpolator;
+                return this;
             }
         }
 

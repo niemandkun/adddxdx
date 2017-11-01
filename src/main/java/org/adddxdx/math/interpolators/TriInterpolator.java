@@ -18,6 +18,6 @@
 
 package org.adddxdx.math.interpolators;
 
-public interface Interpolator<T> {
-    T interpolate(T first, T second, float proportion);
+public interface TriInterpolator<T> {
+    T interpolate(T start, T firstAnchor, T secondAnchor, T end, float proportion);
 }
