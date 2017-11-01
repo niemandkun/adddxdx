@@ -23,10 +23,10 @@ import org.adddxdx.engine.Actor;
 import org.adddxdx.graphics.Mesh;
 import org.adddxdx.graphics.support.components.MeshSkin;
 import org.adddxdx.graphics.support.materials.DefaultMaterial;
-import org.adddxdx.io.*;
 import org.adddxdx.math.Color;
 import org.adddxdx.math.FMath;
 import org.adddxdx.math.Vector3;
+import org.adddxdx.math.interpolators.Interpolators;
 
 import java.time.Duration;
 
@@ -74,6 +74,7 @@ public class Triangles extends Actor {
         addComponent(new MeshSkin(new Mesh(vertices, normals), material));
 
         addComponent(Animator.ofFloat(y -> getTransform().setRotation(0, y, 0))
+                .using(Interpolators.cubic(10 * FMath.PI, -10 * FMath.PI))
                 .from(0f).to(2 * FMath.PI).in(Duration.ofSeconds(4)).repeat().build());
 
         getTransform().translate(0, 1, -5);
