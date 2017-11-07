@@ -22,6 +22,7 @@ import org.adddxdx.engine.ActiveSystem;
 import org.adddxdx.engine.Clock;
 
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -42,9 +43,8 @@ public class TicksMeasureSystem extends ActiveSystem<TicksMeasureSystem.Componen
     @Override
     public void update(Duration timeSinceLastUpdate) {
         mTotalTicks++;
-        for (Component component : mComponents) {
-            component.onTick(timeSinceLastUpdate, mTotalTicks);
-        }
+        new ArrayList<>(mComponents)
+                .forEach(c -> c.onTick(timeSinceLastUpdate, mTotalTicks));
     }
 
     @Override

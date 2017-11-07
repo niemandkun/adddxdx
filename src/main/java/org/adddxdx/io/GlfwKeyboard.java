@@ -91,9 +91,8 @@ class GlfwKeyboard implements Keyboard, GLFWKeyCallbackI {
 
     void update(Duration timeSinceLastUpdate) {
         deliverEvents();
-        for (Observer observer : mKeyboardObservers) {
-            observer.checkKeyboardState(timeSinceLastUpdate, this);
-        }
+        new ArrayList<>(mKeyboardObservers)
+                .forEach(o -> o.checkKeyboardState(timeSinceLastUpdate, this));
     }
 
     private void deliverEvents() {
