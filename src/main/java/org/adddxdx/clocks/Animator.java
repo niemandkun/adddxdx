@@ -87,7 +87,6 @@ public class Animator<T> extends TicksListener {
         }
         moveToNextState(timeSinceLastTick);
         if (!mIsRepeated && mCurrentState == mStateList.size() - 1) {
-            System.out.println(getCurrentState().mValue);
             mConsumer.accept(getCurrentState().mValue);
             mIsEnded = true;
             getActor().removeComponent(this);
