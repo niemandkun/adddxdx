@@ -26,22 +26,23 @@ import org.adddxdx.graphics.MaterialFactory;
 import org.adddxdx.graphics.Mesh;
 import org.adddxdx.graphics.Shader;
 import org.adddxdx.graphics.ShaderDescription;
+import org.adddxdx.graphics.Texture;
 import org.adddxdx.graphics.support.primitives.PrimitiveType;
 import org.adddxdx.graphics.support.primitives.PrimitivesFactory;
-import org.adddxdx.graphics.support.textures.Texture;
+import org.adddxdx.graphics.ImageTexture;
 
 import java.io.File;
 import java.net.URL;
 
 class ResourcesImpl implements Resources, Destroyable {
 
-    private ResourceManager<Texture> mTextureManager;
+    private ResourceManager<Image> mImageManager;
     private ResourceManager<Mesh> mMeshManager;
     private PrimitivesFactory mPrimitivesFactory;
     private MaterialFactory mMaterialFactory;
 
     ResourcesImpl(Setting setting) {
-        mTextureManager = new ResourceManager<>(path -> new Texture(Image.load(open(path))));
+        mImageManager = new ResourceManager<>(path -> Image.load(open(path)));
         mMeshManager = new ResourceManager<>(path -> WavefrontObject.fromFile(open(path)).getMesh());
         mPrimitivesFactory = setting.get(PrimitivesFactory.class);
         mMaterialFactory = setting.get(MaterialFactory.class);
@@ -77,12 +78,17 @@ class ResourcesImpl implements Resources, Destroyable {
 
     @Override
     public Texture getTexture(String path) {
-        return mTextureManager.load(path);
+        return new ImageTexture(mImageManager.load(path));
+    }
+
+    @Override
+    public Texture getTexture(String path, ImageTexture.WrapMode wrapMode) {
+         return new ImageTexture(mImageManager.load(path), wrapMode);
     }
 
     @Override
     public void destroy() {
-        mTextureManager.destroy();
+        mImageManager.destroy();
         mMeshManager.destroy();
         mMaterialFactory.destroy();
     }

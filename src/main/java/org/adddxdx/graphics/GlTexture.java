@@ -25,51 +25,81 @@ import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL13.GL_TEXTURE0;
 import static org.lwjgl.opengl.GL13.glActiveTexture;
 
-public abstract class GlTexture implements Destroyable {
+public abstract class GlTexture implements Destroyable, Texture {
     private static final int NULL_HANDLE = -1;
+    private Texture.WrapMode mWrapMode;
     private final Size mSize;
     private int mHandle;
 
-    int getHandle() {
+    @Override
+    public void setWrapMode(WrapMode wrapMode) {
+        mWrapMode = wrapMode;
+    }
+
+    final int getHandle() {
         return mHandle;
+    }
+
+    public final Size getSize() {
+        return mSize;
+    }
+
+    public final int getWidth() {
+        return mSize.getWidth();
+    }
+
+    public final int getHeight() {
+        return mSize.getHeight();
     }
 
     protected abstract int getGlTextureFormat();
 
-    public Size getSize() {
-        return mSize;
-    }
-
-    protected GlTexture(Size size) {
+    GlTexture(Size size, WrapMode wrapMode) {
         mHandle = NULL_HANDLE;
+        mWrapMode = wrapMode;
         mSize = size;
     }
 
-    void init() {
-        if (isInitialized())
+    @Override
+    public final void init() {
+        if (isInitialized()) {
             throw new UnsupportedOperationException("Trying to init texture, but it is already initialized.");
-
-        mHandle = doInit(mSize);
+        }
+        mHandle = glGenTextures();
+        bindGlTexture();
+        onInit();
     }
 
-    protected abstract int doInit(Size size);
+    protected void onInit() { }
 
-    int bind(int textureUnit) {
-        if (!isInitialized())
+    @Override
+    public final int bind(int textureUnit) {
+        if (!isInitialized()) {
             throw new UnsupportedOperationException("Trying to bind not initialized texture. Expected init() call.");
-
+        }
         glActiveTexture(GL_TEXTURE0 + textureUnit);
-        glBindTexture(GL_TEXTURE_2D, mHandle);
+        bindGlTexture();
+        onBind();
         return textureUnit;
     }
 
-    @Override
-    public void destroy() {
-        if (isInitialized())
-            glDeleteTextures(mHandle);
+    protected void onBind() { }
+
+    private void bindGlTexture() {
+        glBindTexture(GL_TEXTURE_2D, mHandle);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, mWrapMode.getGlWrapMode());
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, mWrapMode.getGlWrapMode());
     }
 
-    boolean isInitialized() {
+    @Override
+    public final void destroy() {
+        if (isInitialized()) {
+            glDeleteTextures(mHandle);
+        }
+    }
+
+    @Override
+    public final boolean isInitialized() {
         return mHandle != NULL_HANDLE;
     }
 }

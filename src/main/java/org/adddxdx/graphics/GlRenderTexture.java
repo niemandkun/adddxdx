@@ -56,8 +56,9 @@ class GlRenderTexture implements RenderTarget {
 
         glDrawBuffer(textureAttachmentType == GL_DEPTH_ATTACHMENT ? GL_NONE : textureAttachmentType);
 
-        if(glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+        if(glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
             throw new IllegalStateException("Error initializing framebuffer for render texture.");
+        }
     }
 
     private int getTextureAttachmentType() {
