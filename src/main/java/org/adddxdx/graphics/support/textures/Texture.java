@@ -23,12 +23,34 @@ import org.adddxdx.graphics.GlTexture;
 import org.adddxdx.math.Size;
 
 import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL12.GL_CLAMP_TO_EDGE;
+import static org.lwjgl.opengl.GL13.GL_CLAMP_TO_BORDER;
+import static org.lwjgl.opengl.GL14.GL_MIRRORED_REPEAT;
 
 public class Texture extends GlTexture {
+    public enum WrapMode {
+        CLAMP_TO_EDGE(GL_CLAMP_TO_EDGE),
+        CLAMP_TO_BORDER(GL_CLAMP_TO_BORDER),
+        REPEAT(GL_REPEAT),
+        MIRRORED_REPEAT(GL_MIRRORED_REPEAT);
+
+        private int mGlWrapMode;
+
+        WrapMode(int glWrapMode) {
+            mGlWrapMode = glWrapMode;
+        }
+    }
+
     private final Image mImage;
+    private final WrapMode mWrapMode;
 
     public Texture(Image image) {
+        this(image, WrapMode.REPEAT);
+    }
+
+    public Texture(Image image, WrapMode wrapMode) {
         super(image.getSize());
+        mWrapMode = wrapMode;
         mImage = image;
     }
 
@@ -43,6 +65,9 @@ public class Texture extends GlTexture {
         int glTextureFormat = getGlTextureFormat();
 
         glBindTexture(GL_TEXTURE_2D, textureHandle);
+
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, mWrapMode.mGlWrapMode);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, mWrapMode.mGlWrapMode);
 
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
