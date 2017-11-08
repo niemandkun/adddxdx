@@ -22,8 +22,8 @@ import org.adddxdx.graphics.Material;
 import org.adddxdx.graphics.Mesh;
 import org.adddxdx.graphics.Shader;
 import org.adddxdx.graphics.ShaderDescription;
+import org.adddxdx.graphics.Texture;
 import org.adddxdx.graphics.support.primitives.PrimitiveType;
-import org.adddxdx.graphics.support.textures.Texture;
 
 public interface Resources {
     <TMaterial extends Material> TMaterial getMaterial(Class<TMaterial> clazz);
@@ -31,4 +31,5 @@ public interface Resources {
     Mesh getPrimitive(PrimitiveType primitiveType);
     Mesh getMesh(String path);
     Texture getTexture(String path);
+    Texture getTexture(String path, Texture.WrapMode wrapMode);
 }

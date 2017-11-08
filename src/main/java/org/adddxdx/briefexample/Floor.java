@@ -19,11 +19,9 @@
 package org.adddxdx.briefexample;
 
 import org.adddxdx.engine.Actor;
-import org.adddxdx.fio.Image;
 import org.adddxdx.graphics.Mesh;
 import org.adddxdx.graphics.support.components.MeshSkin;
 import org.adddxdx.graphics.support.materials.DefaultMaterial;
-import org.adddxdx.graphics.support.textures.Texture;
 import org.adddxdx.math.Vector2;
 import org.adddxdx.math.Vector3;
 

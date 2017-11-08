@@ -21,7 +21,6 @@ package org.adddxdx.graphics;
 import org.adddxdx.math.Size;
 
 import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.GL13.GL_CLAMP_TO_BORDER;
 import static org.lwjgl.opengl.GL14.*;
 
 class GlDepthTexture extends GlTexture {
@@ -31,22 +30,16 @@ class GlDepthTexture extends GlTexture {
     }
 
     GlDepthTexture(Size size) {
-        super(size);
+        super(size, WrapMode.CLAMP_TO_EDGE);
     }
 
     @Override
-    protected int doInit(Size size) {
-        int textureHandle = glGenTextures();
-        glBindTexture(GL_TEXTURE_2D, textureHandle);
-        glTexImage2D(GL_TEXTURE_2D, 0,  GL_DEPTH_COMPONENT16, size.getWidth(), size.getHeight(), 0, GL_DEPTH_COMPONENT, GL_FLOAT, 0);
+    protected void onInit() {
+        glTexImage2D(GL_TEXTURE_2D, 0,  GL_DEPTH_COMPONENT16, getWidth(), getHeight(), 0, GL_DEPTH_COMPONENT, GL_FLOAT, 0);
         glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, new float[] {1, 0, 0, 0});
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_FUNC, GL_LEQUAL);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE, GL_COMPARE_R_TO_TEXTURE);
-
-        return textureHandle;
     }
 }
