@@ -436,4 +436,8 @@ public class SyncFuture<T> implements Future<T>, CompletionStage<T> {
     public static <T> SyncFuture<T> completedFuture(T result) {
         return new SyncFuture<>(defaultDispatcher, result);
     }
+
+    public static SyncDispatcher getDefaultDispatcher() {
+        return defaultDispatcher;
+    }
 }
