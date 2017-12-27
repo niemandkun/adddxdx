@@ -22,9 +22,7 @@ import java.time.Duration;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-
 public class SyncDispatcher implements TaskQueueDispatcher {
-
     private final Queue<Runnable> mTasks = new ConcurrentLinkedQueue<>();
 
     public int dispatch(Duration timeSinceLastTick, long totalTicksCount) {

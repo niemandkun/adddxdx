@@ -21,7 +21,6 @@ package org.adddxdx.engine.futures;
 import java.time.Duration;
 
 public interface TaskQueueDispatcher {
-
     int dispatch(Duration timeSinceLastTick, long totalTicksCount);
 
     void enqueue(Runnable task);
