@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017
+ * Copyright (C) 2017 Ostanin Igor
  * This file is part of adddxdx.
  *
  * adddxdx is free software: you can redistribute it and/or modify
