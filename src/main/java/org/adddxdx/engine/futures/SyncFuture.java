@@ -21,11 +21,29 @@ package org.adddxdx.engine.futures;
 import java.util.concurrent.*;
 import java.util.function.*;
 
-
 public class SyncFuture<T> implements Future<T>, CompletionStage<T> {
+    static final SyncDispatcher DEFAULT_DISPATCHER = new SyncDispatcher();
 
     private final TaskQueueDispatcher mTaskQueue;
     private final CompletableFuture<T> mInnerFuture;
+
+    public static <T> SyncFuture<T> supply(Supplier<T> supplier) {
+        SyncFuture<T> future = new SyncFuture<>(DEFAULT_DISPATCHER);
+        DEFAULT_DISPATCHER.enqueue(() -> future.complete(supplier.get()));
+        return future;
+    }
+
+    public static <T> SyncFuture<T> supplyAsync(Supplier<T> supplier) {
+        return new SyncFuture<>(DEFAULT_DISPATCHER, CompletableFuture.supplyAsync(supplier));
+    }
+
+    public static <T> SyncFuture<T> completedFuture(T result) {
+        return new SyncFuture<>(DEFAULT_DISPATCHER, result);
+    }
+
+    public static SyncDispatcher getDefaultDispatcher() {
+        return DEFAULT_DISPATCHER;
+    }
 
     public SyncFuture(TaskQueueDispatcher taskDispatcher, T object) {
         this(taskDispatcher, CompletableFuture.completedFuture(object));
@@ -36,8 +54,8 @@ public class SyncFuture<T> implements Future<T>, CompletionStage<T> {
     }
 
     private SyncFuture(TaskQueueDispatcher taskDispatcher, CompletableFuture<T> toWrap) {
-        this.mTaskQueue = taskDispatcher;
-        this.mInnerFuture = toWrap;
+        mTaskQueue = taskDispatcher;
+        mInnerFuture = toWrap;
     }
 
     private <U> Runnable complete(SyncFuture<U> future, Runnable withAction) {
@@ -79,284 +97,216 @@ public class SyncFuture<T> implements Future<T>, CompletionStage<T> {
     }
 
     @Override
-    public <U> SyncFuture<U> thenApply
-            (Function<? super T, ? extends U> fn) {
-
+    public <U> SyncFuture<U> thenApply(Function<? super T, ? extends U> fn) {
         SyncFuture<U> future = new SyncFuture<>(mTaskQueue);
         mInnerFuture.thenAccept(res -> mTaskQueue.enqueue(complete(future, () -> fn.apply(res))));
         return new SyncFuture<>(mTaskQueue, mInnerFuture.thenCompose(t -> future));
     }
 
     @Override
-    public <U> SyncFuture<U> thenApplyAsync
-            (Function<? super T, ? extends U> fn) {
-
+    public <U> SyncFuture<U> thenApplyAsync(Function<? super T, ? extends U> fn) {
         return new SyncFuture<>(mTaskQueue, mInnerFuture.thenApplyAsync(fn));
     }
 
     @Override
-    public <U> SyncFuture<U> thenApplyAsync
-            (Function<? super T, ? extends U> fn, Executor executor) {
-
+    public <U> SyncFuture<U> thenApplyAsync(Function<? super T, ? extends U> fn, Executor executor) {
         return new SyncFuture<>(mTaskQueue, mInnerFuture.thenApplyAsync(fn, executor));
     }
 
     @Override
-    public SyncFuture<Void> thenAccept
-            (Consumer<? super T> action) {
-
+    public SyncFuture<Void> thenAccept(Consumer<? super T> action) {
         SyncFuture<Void> future = new SyncFuture<>(mTaskQueue);
         mInnerFuture.thenAccept(res -> mTaskQueue.enqueue(complete(future, () -> action.accept(res))));
         return new SyncFuture<>(mTaskQueue, mInnerFuture.thenCompose(t -> future));
     }
 
     @Override
-    public SyncFuture<Void> thenAcceptAsync
-            (Consumer<? super T> action) {
-
+    public SyncFuture<Void> thenAcceptAsync(Consumer<? super T> action) {
         return new SyncFuture<>(mTaskQueue, mInnerFuture.thenAcceptAsync(action));
     }
 
     @Override
-    public SyncFuture<Void> thenAcceptAsync
-            (Consumer<? super T> action, Executor executor) {
-
+    public SyncFuture<Void> thenAcceptAsync(Consumer<? super T> action, Executor executor) {
         return new SyncFuture<>(mTaskQueue, mInnerFuture.thenAcceptAsync(action, executor));
     }
 
     @Override
-    public SyncFuture<Void> thenRun
-            (Runnable action) {
-
+    public SyncFuture<Void> thenRun(Runnable action) {
         SyncFuture<Void> future = new SyncFuture<>(mTaskQueue);
         mInnerFuture.thenRun(() -> mTaskQueue.enqueue(complete(future, action)));
         return new SyncFuture<>(mTaskQueue, mInnerFuture.thenCompose(t -> future));
     }
 
     @Override
-    public SyncFuture<Void> thenRunAsync
-            (Runnable action) {
-
+    public SyncFuture<Void> thenRunAsync(Runnable action) {
         return new SyncFuture<>(mTaskQueue, mInnerFuture.thenRunAsync(action));
     }
 
     @Override
-    public SyncFuture<Void> thenRunAsync
-            (Runnable action, Executor executor) {
-
+    public SyncFuture<Void> thenRunAsync(Runnable action, Executor executor) {
         return new SyncFuture<>(mTaskQueue, mInnerFuture.thenRunAsync(action, executor));
     }
 
     @Override
-    public <U, V> SyncFuture<V> thenCombine
-            (CompletionStage<? extends U> other, BiFunction<? super T, ? super U, ? extends V> fn) {
-
+    public <U, V> SyncFuture<V> thenCombine(CompletionStage<? extends U> other, BiFunction<? super T, ? super U, ? extends V> fn) {
         SyncFuture<V> future = new SyncFuture<>(mTaskQueue);
         mInnerFuture.thenAcceptBoth(other, (t, u) -> mTaskQueue.enqueue(complete(future, () -> fn.apply(t, u))));
         return new SyncFuture<>(mTaskQueue, mInnerFuture.thenCompose(t -> future));
     }
 
     @Override
-    public <U, V> SyncFuture<V> thenCombineAsync
-            (CompletionStage<? extends U> other, BiFunction<? super T, ? super U, ? extends V> fn) {
-
+    public <U, V> SyncFuture<V> thenCombineAsync(CompletionStage<? extends U> other, BiFunction<? super T, ? super U, ? extends V> fn) {
         return new SyncFuture<>(mTaskQueue, mInnerFuture.thenCombineAsync(other, fn));
     }
 
     @Override
-    public <U, V> SyncFuture<V> thenCombineAsync
-            (CompletionStage<? extends U> other, BiFunction<? super T, ? super U, ? extends V> fn, Executor executor) {
-
+    public <U, V> SyncFuture<V> thenCombineAsync(CompletionStage<? extends U> other, BiFunction<? super T, ? super U, ? extends V> fn, Executor executor) {
         return new SyncFuture<>(mTaskQueue, mInnerFuture.thenCombineAsync(other, fn, executor));
     }
 
     @Override
-    public <U> SyncFuture<Void> thenAcceptBoth
-            (CompletionStage<? extends U> other, BiConsumer<? super T, ? super U> action) {
-
+    public <U> SyncFuture<Void> thenAcceptBoth(CompletionStage<? extends U> other, BiConsumer<? super T, ? super U> action) {
         SyncFuture<Void> future = new SyncFuture<>(mTaskQueue);
-        mInnerFuture
-                .thenAcceptBoth(other, (t, u) -> mTaskQueue.enqueue(complete(future, () -> action.accept(t, u))));
+        mInnerFuture.thenAcceptBoth(other, (t, u) -> mTaskQueue.enqueue(complete(future, () -> action.accept(t, u))));
         return new SyncFuture<>(mTaskQueue, mInnerFuture.thenCompose(t -> future));
     }
 
     @Override
-    public <U> SyncFuture<Void> thenAcceptBothAsync
-            (CompletionStage<? extends U> other, BiConsumer<? super T, ? super U> action) {
-
+    public <U> SyncFuture<Void> thenAcceptBothAsync(CompletionStage<? extends U> other, BiConsumer<? super T, ? super U> action) {
         return new SyncFuture<>(mTaskQueue, mInnerFuture.thenAcceptBothAsync(other, action));
     }
 
     @Override
-    public <U> SyncFuture<Void> thenAcceptBothAsync
-            (CompletionStage<? extends U> other, BiConsumer<? super T, ? super U> action, Executor executor) {
-
+    public <U> SyncFuture<Void> thenAcceptBothAsync(CompletionStage<? extends U> other, BiConsumer<? super T, ? super U> action, Executor executor) {
         return new SyncFuture<>(mTaskQueue, mInnerFuture.thenAcceptBothAsync(other, action, executor));
     }
 
     @Override
-    public SyncFuture<Void> runAfterBoth
-            (CompletionStage<?> other, Runnable action) {
-
+    public SyncFuture<Void> runAfterBoth(CompletionStage<?> other, Runnable action) {
         SyncFuture<Void> future = new SyncFuture<>(mTaskQueue);
         mInnerFuture.runAfterBoth(other, () -> mTaskQueue.enqueue(complete(future, action)));
         return new SyncFuture<>(mTaskQueue, mInnerFuture.thenCompose(t -> future));
     }
 
     @Override
-    public SyncFuture<Void> runAfterBothAsync
-            (CompletionStage<?> other, Runnable action) {
-
+    public SyncFuture<Void> runAfterBothAsync(CompletionStage<?> other, Runnable action) {
         return new SyncFuture<>(mTaskQueue, mInnerFuture.runAfterBothAsync(other, action));
     }
 
     @Override
-    public SyncFuture<Void> runAfterBothAsync
-            (CompletionStage<?> other, Runnable action, Executor executor) {
-
+    public SyncFuture<Void> runAfterBothAsync(CompletionStage<?> other, Runnable action, Executor executor) {
         return new SyncFuture<>(mTaskQueue, mInnerFuture.runAfterBothAsync(other, action, executor));
     }
 
     @Override
-    public <U> SyncFuture<U> applyToEither
-            (CompletionStage<? extends T> other, Function<? super T, U> fn) {
-
+    public <U> SyncFuture<U> applyToEither(CompletionStage<? extends T> other, Function<? super T, U> fn) {
         SyncFuture<U> future = new SyncFuture<>(mTaskQueue);
         mInnerFuture.acceptEither(other, (res) -> mTaskQueue.enqueue(complete(future, () -> fn.apply(res))));
         return new SyncFuture<>(mTaskQueue, mInnerFuture.thenCompose(t -> future));
     }
 
     @Override
-    public <U> SyncFuture<U> applyToEitherAsync
-            (CompletionStage<? extends T> other, Function<? super T, U> fn) {
-
+    public <U> SyncFuture<U> applyToEitherAsync(CompletionStage<? extends T> other, Function<? super T, U> fn) {
         return new SyncFuture<>(mTaskQueue, mInnerFuture.applyToEitherAsync(other, fn));
     }
 
     @Override
-    public <U> SyncFuture<U> applyToEitherAsync
-            (CompletionStage<? extends T> other, Function<? super T, U> fn, Executor executor) {
-
+    public <U> SyncFuture<U> applyToEitherAsync(CompletionStage<? extends T> other, Function<? super T, U> fn, Executor executor) {
         return new SyncFuture<>(mTaskQueue, mInnerFuture.applyToEitherAsync(other, fn, executor));
     }
 
     @Override
-    public SyncFuture<Void> acceptEither
-            (CompletionStage<? extends T> other, Consumer<? super T> action) {
-
+    public SyncFuture<Void> acceptEither(CompletionStage<? extends T> other, Consumer<? super T> action) {
         SyncFuture<Void> future = new SyncFuture<>(mTaskQueue);
         mInnerFuture.acceptEither(other, (res) -> mTaskQueue.enqueue(complete(future, () -> action.accept(res))));
         return new SyncFuture<>(mTaskQueue, mInnerFuture.thenCompose(t -> future));
     }
 
     @Override
-    public SyncFuture<Void> acceptEitherAsync
-            (CompletionStage<? extends T> other, Consumer<? super T> action) {
-
+    public SyncFuture<Void> acceptEitherAsync(CompletionStage<? extends T> other, Consumer<? super T> action) {
         return new SyncFuture<>(mTaskQueue, mInnerFuture.acceptEitherAsync(other, action));
     }
 
     @Override
-    public SyncFuture<Void> acceptEitherAsync
-            (CompletionStage<? extends T> other, Consumer<? super T> action, Executor executor) {
-
+    public SyncFuture<Void> acceptEitherAsync(CompletionStage<? extends T> other, Consumer<? super T> action, Executor executor) {
         return new SyncFuture<>(mTaskQueue, mInnerFuture.acceptEitherAsync(other, action, executor));
     }
 
     @Override
-    public SyncFuture<Void> runAfterEither
-            (CompletionStage<?> other, Runnable action) {
-
+    public SyncFuture<Void> runAfterEither(CompletionStage<?> other, Runnable action) {
         SyncFuture<Void> future = new SyncFuture<>(mTaskQueue);
         mInnerFuture.runAfterEither(other, () -> mTaskQueue.enqueue(complete(future, action)));
         return new SyncFuture<>(mTaskQueue, mInnerFuture.thenCompose(t -> future));
     }
 
     @Override
-    public SyncFuture<Void> runAfterEitherAsync
-            (CompletionStage<?> other, Runnable action) {
-
+    public SyncFuture<Void> runAfterEitherAsync(CompletionStage<?> other, Runnable action) {
         return new SyncFuture<>(mTaskQueue, mInnerFuture.runAfterEitherAsync(other, action));
     }
 
     @Override
-    public SyncFuture<Void> runAfterEitherAsync
-            (CompletionStage<?> other, Runnable action, Executor executor) {
-
+    public SyncFuture<Void> runAfterEitherAsync(CompletionStage<?> other, Runnable action, Executor executor) {
         return new SyncFuture<>(mTaskQueue, mInnerFuture.runAfterEitherAsync(other, action, executor));
     }
 
     @Override
-    public <U> SyncFuture<U> thenCompose
-            (Function<? super T, ? extends CompletionStage<U>> fn) {
-
+    public <U> SyncFuture<U> thenCompose(Function<? super T, ? extends CompletionStage<U>> fn) {
         CompletableFuture<CompletionStage<U>> dummy = new CompletableFuture<>();
         CompletableFuture<U> composed = dummy.thenCompose(nextFuture -> nextFuture);
-
         SyncFuture<U> future = new SyncFuture<>(mTaskQueue, composed);
-
         mInnerFuture.thenAccept(t -> mTaskQueue.enqueue(complete(dummy, () -> fn.apply(t))));
         return new SyncFuture<>(mTaskQueue, mInnerFuture.thenCompose(t -> future));
     }
 
     @Override
-    public <U> SyncFuture<U> thenComposeAsync
-            (Function<? super T, ? extends CompletionStage<U>> fn) {
-
+    public <U> SyncFuture<U> thenComposeAsync(Function<? super T, ? extends CompletionStage<U>> fn) {
         return new SyncFuture<>(mTaskQueue, mInnerFuture.thenComposeAsync(fn));
     }
 
     @Override
-    public <U> SyncFuture<U> thenComposeAsync
-            (Function<? super T, ? extends CompletionStage<U>> fn, Executor executor) {
-
+    public <U> SyncFuture<U> thenComposeAsync(Function<? super T, ? extends CompletionStage<U>> fn, Executor executor) {
         return new SyncFuture<>(mTaskQueue, mInnerFuture.thenComposeAsync(fn));
     }
 
     @Override
-    public SyncFuture<T> exceptionally
-            (Function<Throwable, ? extends T> fn) {
-
+    public SyncFuture<T> exceptionally(Function<Throwable, ? extends T> fn) {
         return new SyncFuture<>(mTaskQueue, mInnerFuture.exceptionally(fn));
     }
 
     @Override
-    public SyncFuture<T> whenComplete
-            (BiConsumer<? super T, ? super Throwable> action) {
-
+    public SyncFuture<T> whenComplete(BiConsumer<? super T, ? super Throwable> action) {
         SyncFuture<T> future = new SyncFuture<>(mTaskQueue);
         mInnerFuture.whenComplete((r, e) -> mTaskQueue.enqueue(() -> {
             try {
                 action.accept(r, e);
             }
             catch (Throwable t) {
-                if (e == null) future.completeExceptionally(t);
-                else future.completeExceptionally(e);
+                if (e == null) {
+                    future.completeExceptionally(t);
+                }
+                else {
+                    future.completeExceptionally(e);
+                }
             }
-            if (!future.isDone()) future.complete(r);
-
+            if (!future.isDone()) {
+                future.complete(r);
+            }
         }));
         return new SyncFuture<>(mTaskQueue, mInnerFuture.thenCompose(t -> future));
     }
 
     @Override
-    public SyncFuture<T> whenCompleteAsync
-            (BiConsumer<? super T, ? super Throwable> action) {
-
+    public SyncFuture<T> whenCompleteAsync(BiConsumer<? super T, ? super Throwable> action) {
         return new SyncFuture<>(mTaskQueue, mInnerFuture.whenCompleteAsync(action));
     }
 
     @Override
-    public SyncFuture<T> whenCompleteAsync
-            (BiConsumer<? super T, ? super Throwable> action, Executor executor) {
-
+    public SyncFuture<T> whenCompleteAsync(BiConsumer<? super T, ? super Throwable> action, Executor executor) {
         return new SyncFuture<>(mTaskQueue, mInnerFuture.whenCompleteAsync(action, executor));
     }
 
     @Override
-    public <U> SyncFuture<U> handle
-            (BiFunction<? super T, Throwable, ? extends U> fn) {
-
+    public <U> SyncFuture<U> handle(BiFunction<? super T, Throwable, ? extends U> fn) {
         SyncFuture<U> future = new SyncFuture<>(mTaskQueue);
         CompletableFuture<Void> handle = mInnerFuture.handle((r, e) -> {
             mTaskQueue.enqueue(() -> {
@@ -365,11 +315,16 @@ public class SyncFuture<T> implements Future<T>, CompletionStage<T> {
                     result = fn.apply(r, e);
                 }
                 catch (Throwable t) {
-                    if (e == null) future.completeExceptionally(t);
-                    else future.completeExceptionally(e);
+                    if (e == null) {
+                        future.completeExceptionally(t);
+                    }
+                    else {
+                        future.completeExceptionally(e);
+                    }
                 }
-                if (!future.isDone()) future.complete(result);
-
+                if (!future.isDone()) {
+                    future.complete(result);
+                }
             });
             return null;
         });
@@ -377,16 +332,12 @@ public class SyncFuture<T> implements Future<T>, CompletionStage<T> {
     }
 
     @Override
-    public <U> SyncFuture<U> handleAsync
-            (BiFunction<? super T, Throwable, ? extends U> fn) {
-
+    public <U> SyncFuture<U> handleAsync(BiFunction<? super T, Throwable, ? extends U> fn) {
         return new SyncFuture<>(mTaskQueue, mInnerFuture.handleAsync(fn));
     }
 
     @Override
-    public <U> SyncFuture<U> handleAsync
-            (BiFunction<? super T, Throwable, ? extends U> fn, Executor executor) {
-
+    public <U> SyncFuture<U> handleAsync(BiFunction<? super T, Throwable, ? extends U> fn, Executor executor) {
         return new SyncFuture<>(mTaskQueue, mInnerFuture.handleAsync(fn, executor));
     }
 
@@ -418,26 +369,5 @@ public class SyncFuture<T> implements Future<T>, CompletionStage<T> {
     @Override
     public T get(long timeout, TimeUnit unit) throws InterruptedException, ExecutionException, TimeoutException {
         return mInnerFuture.get(timeout, unit);
-    }
-
-
-    static final SyncDispatcher defaultDispatcher = new SyncDispatcher();
-
-    public static <T> SyncFuture<T> supply(Supplier<T> supplier) {
-        SyncFuture<T> future = new SyncFuture<>(defaultDispatcher);
-        defaultDispatcher.enqueue(() -> future.complete(supplier.get()));
-        return future;
-    }
-
-    public static <T> SyncFuture<T> supplyAsync(Supplier<T> supplier) {
-        return new SyncFuture<>(defaultDispatcher, CompletableFuture.supplyAsync(supplier));
-    }
-
-    public static <T> SyncFuture<T> completedFuture(T result) {
-        return new SyncFuture<>(defaultDispatcher, result);
-    }
-
-    public static SyncDispatcher getDefaultDispatcher() {
-        return defaultDispatcher;
     }
 }

@@ -32,16 +32,17 @@ import java.util.function.Consumer;
 import static org.junit.Assert.assertTrue;
 
 public class SyncFutureTest {
-
-    private boolean DEBUG = true;
+    private final static boolean DEBUG = true;
 
     private <T> T loopUntilNotDone(Future<T> future) throws ExecutionException, InterruptedException {
         int loopc = 0;
         int counter = 0;
         while (!(future.isDone() || future.isCancelled())) {
-            int executed = SyncFuture.defaultDispatcher.dispatch(Duration.ofSeconds(0), 10L);
+            int executed = SyncFuture.DEFAULT_DISPATCHER.dispatch(Duration.ofSeconds(0), 10L);
             counter += executed;
-            if (executed > 0) loopc++;
+            if (executed > 0) {
+                loopc++;
+            }
         }
 
         if (DEBUG) {
@@ -89,8 +90,9 @@ public class SyncFutureTest {
             @Override
             public void accept(Integer a) {
                 assert a == 1 || a == 2;
-                if (runCounter++ > 0)
+                if (runCounter++ > 0) {
                     Assert.fail();
+                }
             }
         });
 
@@ -100,8 +102,9 @@ public class SyncFutureTest {
             @Override
             public void run() {
                 System.out.println("runAfterEither");
-                if (runCounter++ > 0)
+                if (runCounter++ > 0) {
                     Assert.fail();
+                }
             }
         });
 
@@ -149,8 +152,12 @@ public class SyncFutureTest {
                 });
 
         SyncFuture<Integer> future1 = future.thenApply(i -> {
-            if (true) throw new TestException("woooooop");
-            else return i + 1;
+            if (true) {
+                throw new TestException("woooooop");
+            }
+            else {
+                return i + 1;
+            }
         }).whenComplete((o, throwable) -> {
             assertTrue(throwable != null);
             System.out.print("Completed exceptionaly ");
@@ -177,8 +184,12 @@ public class SyncFutureTest {
                 });
 
         SyncFuture<String> future1 = future.thenApply(i -> {
-            if (true) throw new TestException("woooooop");
-            else return i + 1;
+            if (true)  {
+                throw new TestException("woooooop");
+            }
+            else {
+                return i + 1;
+            }
         }).handle((o, throwable) -> {
             assertTrue(throwable != null);
             System.out.print("Completed exceptionaly ");
@@ -262,8 +273,9 @@ public class SyncFutureTest {
 
     private CompletableFuture<Integer> futureRecursion(CompletableFuture<Integer> cf) {
         return cf.thenComposeAsync(integer -> {
-            if (integer > 1000)
+            if (integer > 1000) {
                 return CompletableFuture.completedFuture(integer);
+            }
             return futureRecursion(cf.thenApplyAsync(r -> r + 1));
         });
     }
