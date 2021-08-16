@@ -18,7 +18,7 @@
 
 package org.adddxdx.math;
 
-import com.sun.istack.internal.NotNull;
+import org.jetbrains.annotations.NotNull;
 
 public class Projection {
     public static @NotNull Matrix4 ortho(float left, float right, float bottom, float top, float near, float far) {

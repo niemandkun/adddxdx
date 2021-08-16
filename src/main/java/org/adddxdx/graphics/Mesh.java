@@ -18,7 +18,7 @@
 
 package org.adddxdx.graphics;
 
-import com.sun.istack.internal.NotNull;
+import org.jetbrains.annotations.NotNull;
 import org.adddxdx.math.Vector2;
 import org.adddxdx.math.Vector3;
 

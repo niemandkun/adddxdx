@@ -26,8 +26,6 @@ import org.adddxdx.graphics.support.primitives.PrimitiveType;
 import org.adddxdx.math.Color;
 import org.adddxdx.math.FMath;
 
-import java.io.File;
-
 public class Cylinder extends Actor {
     @Override
     public void onCreate() {
@@ -40,9 +38,5 @@ public class Cylinder extends Actor {
 
         getTransform().scale(1, 1, 2);
         getTransform().rotate(FMath.HALF_PI, 0, 0);
-    }
-
-    private File open(String filename) {
-        return new File(getClass().getClassLoader().getResource(filename).getFile());
     }
 }

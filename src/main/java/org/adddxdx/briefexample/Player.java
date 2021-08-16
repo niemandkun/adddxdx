@@ -21,6 +21,7 @@ package org.adddxdx.briefexample;
 import org.adddxdx.engine.Actor;
 import org.adddxdx.graphics.support.components.Fog;
 import org.adddxdx.graphics.support.components.OrthoCamera;
+import org.adddxdx.graphics.support.components.PerspectiveCamera;
 import org.adddxdx.io.*;
 import org.adddxdx.math.*;
 
@@ -40,8 +41,7 @@ public class Player extends Actor {
     public void onCreate() {
         super.onCreate();
 
-        OrthoCamera camera = new OrthoCamera();
-        camera.setHeight(12);
+        PerspectiveCamera camera = new PerspectiveCamera();
         addComponent(camera);
 
         Fog fog = new Fog();
@@ -68,11 +68,10 @@ public class Player extends Actor {
                 if (keyboard.isPressed(Key.A)) transform.translate(left);
                 if (keyboard.isPressed(Key.D)) transform.translate(right);
 
-                if (keyboard.isPressed(Key.Q)) mCameraAngle += 0.001f;
-                if (keyboard.isPressed(Key.E)) mCameraAngle -= 0.001f;
+                if (keyboard.isPressed(Key.Q)) mCameraAngle += 0.001f * delta.toMillis();
+                if (keyboard.isPressed(Key.E)) mCameraAngle -= 0.001f * delta.toMillis();
 
-                float cameraDelta = FMath.sin(getScene().getClock().getTime() * 0.001f) * 0.001f;
-                transform.setRotation(CAMERA_X_ANGLE, mCameraAngle + cameraDelta, CAMERA_Z_ANGLE);
+                transform.setRotation(CAMERA_X_ANGLE, mCameraAngle, CAMERA_Z_ANGLE);
             }
         });
     }

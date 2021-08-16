@@ -21,19 +21,22 @@ package org.adddxdx.briefexample;
 import org.adddxdx.engine.Scene;
 
 public class TestingScene extends Scene {
+    private static final int CELL_SIZE = 5;
+
     @Override
     public void onCreate() {
         spawnActor(SkyFrame.class);
         spawnActor(Player.class);
         spawnActor(Floor.class);
-        spawnActor(Cylinder.class).getTransform().translate(5, 1, 0);
-        spawnActor(Cylinder.class).getTransform().translate(5, 1, 5);
-        spawnActor(Cylinder.class).getTransform().translate(0, 1, 5);
-        spawnActor(Cylinder.class).getTransform().translate(0, 1, 0);
-        spawnActor(PieceOfGlass.class);
-        spawnActor(Triangles.class);
-        spawnActor(House.class);
         spawnActor(TestingLight.class);
         spawnActor(DebugGui.class);
+
+        spawnActor(Triangles.class).getTransform().translate(-CELL_SIZE, 1, 0);
+        spawnActor(House.class).getTransform().translate(0, 0, 0);
+        spawnActor(PieceOfGlass.class).getTransform().translate(CELL_SIZE, 0, 0);
+
+        for (int x = -CELL_SIZE; x <= CELL_SIZE; x += CELL_SIZE) {
+            spawnActor(Cylinder.class).getTransform().translate(x, 1, CELL_SIZE);
+        }
     }
 }

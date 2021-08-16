@@ -18,9 +18,8 @@
 
 package org.adddxdx.engine;
 
-import com.sun.istack.internal.NotNull;
+import org.jetbrains.annotations.NotNull;
 
-import org.adddxdx.fio.WavefrontObject;
 import org.adddxdx.math.Transform;
 
 import java.util.*;
