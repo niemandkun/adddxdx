@@ -18,7 +18,7 @@
 
 package org.adddxdx.math;
 
-import com.sun.istack.internal.NotNull;
+import org.jetbrains.annotations.NotNull;
 
 public class Transform {
     private Vector3 mLocation;

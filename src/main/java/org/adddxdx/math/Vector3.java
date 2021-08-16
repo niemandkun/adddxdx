@@ -18,7 +18,7 @@
 
 package org.adddxdx.math;
 
-import com.sun.istack.internal.NotNull;
+import org.jetbrains.annotations.NotNull;
 
 public class Vector3 implements Vector<Vector3> {
     public static final Vector3 ORT_X = new Vector3(1, 0, 0);
@@ -44,6 +44,10 @@ public class Vector3 implements Vector<Vector3> {
         this.x = x;
         this.y = y;
         this.z = z;
+    }
+
+    public @NotNull Vector3 copy() {
+        return new Vector3(x, y, z);
     }
 
     @Override

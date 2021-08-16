@@ -36,6 +36,5 @@ public class House extends Actor {
         addComponent(new MeshSkin(mesh, material));
 
         getTransform().rotate(FMath.HALF_PI, FMath.PI, 0);
-        getTransform().translate(-5, 0, 3);
     }
 }

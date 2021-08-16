@@ -29,8 +29,8 @@ class GlDepthTexture extends GlTexture {
         return GL_DEPTH_COMPONENT16;
     }
 
-    GlDepthTexture(Size size) {
-        super(size, WrapMode.CLAMP_TO_EDGE);
+    GlDepthTexture(Size size, WrapMode wrapMode) {
+        super(size, wrapMode);
     }
 
     @Override

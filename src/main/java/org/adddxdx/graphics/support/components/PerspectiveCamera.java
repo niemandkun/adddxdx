@@ -25,7 +25,7 @@ public class PerspectiveCamera extends Camera {
     private static final float DEFAULT_NEAR_PLANE = 0.3f;
     private static final float DEFAULT_FAR_PLANE = 1000f;
     private static final float DEFAULT_ASPECT_RATIO = 16 / 9f;
-    private static final float DEFAULT_FIELD_OF_VIEW = FMath.PI / 3;
+    private static final float DEFAULT_FIELD_OF_VIEW = FMath.PI / 4;
 
     private float mNearPlane;
     private float mFarPlane;

@@ -18,8 +18,8 @@
 
 package org.adddxdx.graphics;
 
-import com.sun.istack.internal.NotNull;
-import com.sun.istack.internal.Nullable;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.adddxdx.math.Vector2;
 import org.adddxdx.math.Vector3;
 

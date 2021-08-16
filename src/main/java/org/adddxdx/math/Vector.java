@@ -18,7 +18,7 @@
 
 package org.adddxdx.math;
 
-import com.sun.istack.internal.NotNull;
+import org.jetbrains.annotations.NotNull;
 
 public interface Vector<TVector extends Vector<TVector>> {
     @NotNull TVector add(@NotNull TVector other);

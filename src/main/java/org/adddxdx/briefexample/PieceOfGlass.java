@@ -24,7 +24,6 @@ import org.adddxdx.graphics.support.components.MeshSkin;
 import org.adddxdx.graphics.support.materials.DefaultMaterial;
 import org.adddxdx.graphics.support.primitives.PrimitiveType;
 import org.adddxdx.math.FMath;
-import org.adddxdx.math.Vector3;
 
 import java.time.Duration;
 
@@ -42,7 +41,11 @@ public class PieceOfGlass extends Actor {
         addComponent(meshSkin);
 
         addComponent(Animator
-                .ofFloat(y -> getTransform().setLocation(2.5f, y, 2.5f))
+                .ofFloat(y -> getTransform().setLocation(
+                        getTransform().getLocation().getX(),
+                        y,
+                        getTransform().getLocation().getZ())
+                )
                 .from(1f).to(1.2f).in(Duration.ofSeconds(1))
                 .repeatIn(Duration.ofSeconds(1))
                 .build());

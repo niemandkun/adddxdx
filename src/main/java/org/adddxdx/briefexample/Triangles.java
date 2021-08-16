@@ -76,7 +76,5 @@ public class Triangles extends Actor {
         addComponent(Animator.ofFloat(y -> getTransform().setRotation(0, y, 0))
                 .using(Interpolators.cubic(10 * FMath.PI, -10 * FMath.PI))
                 .from(0f).to(2 * FMath.PI).in(Duration.ofSeconds(4)).repeat().build());
-
-        getTransform().translate(0, 1, -5);
     }
 }

@@ -32,13 +32,13 @@ class GlRenderer implements Renderer {
     private final static String SCREEN_SHADER_NAME = "screen";
     private final static String SCREEN_SHADER_TEXTURE = "screenTexture";
 
-    private final static Size INTERNAL_RESOLUTION = new Size(320, 200);
-    private final static float INTERNAL_ASPECT_RATIO = 4 / 3; // used only to calculate aspect ratio of virtual pixels
+    private final static Size INTERNAL_RESOLUTION = new Size(480, 360);
+    private final static float INTERNAL_ASPECT_RATIO = 4 / 3.0f; // used only to calculate aspect ratio of virtual pixels
 
     private final Shader mScreenShader;
     private final GlVertexBufferObject mScreenObject;
 
-    private class VboDescriptor {
+    private static class VboDescriptor {
         final GlVertexBufferObject vbo;
         boolean dirty;
 
@@ -64,7 +64,7 @@ class GlRenderer implements Renderer {
         mOutputRenderTarget = renderTarget;
         mOutputRenderTarget.init();
 
-        mShadowMap = new GlRenderTexture(new GlDepthTexture(Size.square(2048)));
+        mShadowMap = new GlRenderTexture(new GlDepthTexture(Size.square(2048), Texture.WrapMode.CLAMP_TO_BORDER));
         mShadowMap.init();
 
         float pixelRatio = INTERNAL_ASPECT_RATIO * INTERNAL_RESOLUTION.getHeight() / INTERNAL_RESOLUTION.getWidth();

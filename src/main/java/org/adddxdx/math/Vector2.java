@@ -18,7 +18,7 @@
 
 package org.adddxdx.math;
 
-import com.sun.istack.internal.NotNull;
+import org.jetbrains.annotations.NotNull;
 
 public class Vector2 implements Vector<Vector2> {
     public static final Vector2 ORT_X = new Vector2(1, 0);

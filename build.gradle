@@ -20,6 +20,11 @@ group 'adddxdx'
 version '1.0'
 
 apply plugin: 'java'
+apply plugin: 'application'
+
+application {
+    mainClass = 'org.adddxdx.briefexample.EntryPoint'
+}
 
 sourceCompatibility = 1.8
 
@@ -41,19 +46,22 @@ if(Os.isFamily(Os.FAMILY_MAC))
 project.ext.lwjglVersion = "3.1.2"
 
 dependencies {
-    compile "org.lwjgl:lwjgl:${lwjglVersion}"
-    compile "org.lwjgl:lwjgl-glfw:${lwjglVersion}"
-    compile "org.lwjgl:lwjgl-jemalloc:${lwjglVersion}"
-    compile "org.lwjgl:lwjgl-openal:${lwjglVersion}"
-    compile "org.lwjgl:lwjgl-opengl:${lwjglVersion}"
-    compile "org.lwjgl:lwjgl-stb:${lwjglVersion}"
-    runtime "org.lwjgl:lwjgl:${lwjglVersion}:${lwjglNatives}"
-    runtime "org.lwjgl:lwjgl-glfw:${lwjglVersion}:${lwjglNatives}"
-    runtime "org.lwjgl:lwjgl-jemalloc:${lwjglVersion}:${lwjglNatives}"
-    runtime "org.lwjgl:lwjgl-openal:${lwjglVersion}:${lwjglNatives}"
-    runtime "org.lwjgl:lwjgl-opengl:${lwjglVersion}:${lwjglNatives}"
-    runtime "org.lwjgl:lwjgl-stb:${lwjglVersion}:${lwjglNatives}"
+    implementation 'org.jetbrains:annotations:16.0.2'
 
-    testCompile group: 'junit', name: 'junit', version: '4.12'
-    testCompile 'org.assertj:assertj-core:3.8.0'
+    implementation "org.lwjgl:lwjgl:${lwjglVersion}"
+    implementation "org.lwjgl:lwjgl-glfw:${lwjglVersion}"
+    implementation "org.lwjgl:lwjgl-jemalloc:${lwjglVersion}"
+    implementation "org.lwjgl:lwjgl-openal:${lwjglVersion}"
+    implementation "org.lwjgl:lwjgl-opengl:${lwjglVersion}"
+    implementation "org.lwjgl:lwjgl-stb:${lwjglVersion}"
+
+    runtimeOnly "org.lwjgl:lwjgl:${lwjglVersion}:${lwjglNatives}"
+    runtimeOnly "org.lwjgl:lwjgl-glfw:${lwjglVersion}:${lwjglNatives}"
+    runtimeOnly "org.lwjgl:lwjgl-jemalloc:${lwjglVersion}:${lwjglNatives}"
+    runtimeOnly "org.lwjgl:lwjgl-openal:${lwjglVersion}:${lwjglNatives}"
+    runtimeOnly "org.lwjgl:lwjgl-opengl:${lwjglVersion}:${lwjglNatives}"
+    runtimeOnly "org.lwjgl:lwjgl-stb:${lwjglVersion}:${lwjglNatives}"
+
+    testImplementation 'junit:junit:4.12'
+    testImplementation 'org.assertj:assertj-core:3.8.0'
 }
